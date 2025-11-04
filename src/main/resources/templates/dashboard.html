@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — MyRabbitry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/images/logo.png">
+</head>
+
+<body>
+    <div class="parent-content-box">
+        <div class="dashboard">
+            <aside class="sidebar">
+                <div class="brand">
+                    <img src="/images/logo.png" alt="MyRabbitry logo" class="logo">
+                    <span class="brand-name">MyRabbitry</span>
+                </div>
+                <ul class="nav-list">
+                    <li><a href="./dashboard.html" class="active">Profile</a></li>
+                <li><a href="./my-rabbits.html">My Rabbits</a></li>
+                <li><a href="./overview.html">Overview</a></li>
+                <li><a href="./maternity-ward.html">Maternity Ward</a></li>
+                <li><a href="./pregnancy-details.html">Pregnancy Reports</a></li>
+                <li><a href="./family-tree.html">Family Tree</a></li>
+                <li><a href="./subscription.html">Subscription</a></li>
+                <li><a href="./index.html" id="logoutBtn">Log out</a></li>
+                </ul>
+            </aside>
+        </div>
+
+        <div class="dashboard-content">
+
+            <div class="profile-box">
+                <div class="profile-header">
+                    <img src="/images/Windows_10_Default_Profile_Picture.svg.png"
+                        th:src="${#strings.isEmpty(user.profilePicture) ? './assets/Windows_10_Default_Profile_Picture.svg.png' : user.profilePicture}"
+                        alt="Profile Picture" class="profile-picture">
+                    <div class="profile-status-username">
+                        <h2 class="profile-username" th:text="${user.username}">Hello Monika123</h2>
+                        <p th:if="${user.isActive()}" class="profile-status-active">ACTIVE</p>
+                        <!-- <p th:if="${!user.isActive()}" class="inactive-profile">INACTIVE</p> -->
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-details-container">
+                        <strong>First Name: </strong>
+                        <p>Jhon</p>
+                    </div>
+                    <div class="profile-details-container">
+                        <strong>User id: </strong>
+                        <p th:text="${user.id}">1234567adfsfdf4-cggtybr34-t434y</p>
+                    </div>
+                    <div class="profile-details-container">
+                        <strong>Last Name: </strong>
+                        <p>Hills</p>
+                    </div>
+                    <div class="profile-details-container">
+                        <strong>Joined on: </strong>
+                        <p th:text="${#temporals.format(user.createdOn, 'dd MMM YYYY HH:mm')}">12 NOV 1980 09:27</p>
+                    </div>
+                </div>
+                <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="btn profile-btn">
+                    <p>Edit Profile</p>
+                </a>
+            </div>
+
+            <h3 class="align-rabbit-box">Latest added rabbit</h3>
+
+            <div class="rabbit-box">
+                <div class="rabbit-main-info">
+                    <img src="/images/logo.png" alt="Rabbit Picture" class="rabbit-picture">
+                    <div class="code-name-box">
+                        <p>code: 91-ga</p>
+                        <p>Name: Tricky</p>
+                    </div>
+                </div>
+                <div class="rabbit-secondary-info">
+                    <div class="rabbit-lable">
+                        <strong>id:</strong>
+                        <strong>birthdate:</strong>
+                        <strong>sex:</strong>
+                        <strong>status:</strong>
+                    </div>
+
+                    <div class="rabbit-data">
+                        <p>3dx4c5vbc-vb3245fvddf3rtg-sdf657sdcsd</p>
+                        <p>27 Nov 2024</p>
+                        <p>Male</p>
+                        <p>For Breeding</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pregnancy-box">
+                <div class="pregnancy-headder">
+                    <div class="date-box">
+                        <h2>Up coming babies on:</h2>
+                        <strong>12 NOV 2025</strong>
+                    </div>
+                    <a th:href="@{'/pregnancies/' + ${pregnancy.id} + '/details'}" class="btn view-pregnancy-button">
+                        <p>More Info</p>
+                    </a>
+                </div>
+                <div class="rabbit-parents">
+                    <div class="parent-box">
+                        <h3>Mother: </h3>
+                        <p>code: 23-fr</p>
+                        <p>name: Bella</p>
+                        <p>id: 45vbdf-dghj5vbsvfd-s5f67dfhgf56df</p>
+                    </div>
+                    <div class="parent-box">
+                        <h3>Father: </h3>
+                        <p>code: 28-ed</p>
+                        <p>name: Max</p>
+                        <p>id: lp235dvss-456hjvbsvfd-3xcf6567vbn56b67n</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="align-subscription-box">Subsription</h3>
+
+            <div class="subscription-box">
+                <strong>family hobby farm</strong>
+                <div class="subscription-info">
+                    <p>valid from: 17 OCT 2025</p>
+                    <p>valid untill: --</p>
+                </div>
+                <a th:href="@{'/subscription'}" class="btn change-subscription-button">
+                    <p>Change Subsription</p>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

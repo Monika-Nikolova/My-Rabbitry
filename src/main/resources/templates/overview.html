@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Rabbits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/overview.css">
+    <link rel="icon" href="/images/logo.png">
+</head>
+
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="/images/logo.png" alt="MyRabbitry logo" class="logo">
+                <span class="brand-name">MyRabbitry</span>
+            </div>
+            <ul class="nav-list">
+                <li><a href="./dashboard.html">Profile</a></li>
+                <li><a href="./my-rabbits.html">My Rabbits</a></li>
+                <li><a href="./overview.html" class="active">Overview</a></li>
+                <li><a href="./maternity-ward.html">Maternity Ward</a></li>
+                <li><a href="./pregnancy-details.html">Pregnancy Reports</a></li>
+                <li><a href="./family-tree.html">Family Tree</a></li>
+                <li><a href="./subscription.html">Subscription</a></li>
+                <li><a href="./index.html" id="logoutBtn">Log out</a></li>
+            </ul>
+        </aside>
+        <main class="stats-content">
+            <h2>Statistics</h2>
+            <div class="double-col">
+                <div class="column first-column dashboard-content">
+                    <div class="top-row-box dashboard-content">
+                        <div class="rabbit-count">
+                            <svg viewBox="0 0 72 72" id="emoji" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <g id="color">
+                                        <path fill="#FFFFFF" stroke="none"
+                                            d="M25.9899,27.3286l-2.496,8.7105l-9.6982,1.4448c0,0-0.0205,3.1489,0.2295,3.6802 s2.7634,4.3159,2.7634,4.3159l4.3616,2.8091l1.5625,1.6562l-1.3125,2.1875c0,0-3.1009,2.3394-2.9375,2.5625 c0.1634,0.2231,0.9193,1.8738,0.9193,1.8738L23.4627,57c0,0,3.2812-1.1484,3.3125-1.2421s2.9688-4.8125,2.9688-4.8125 s3.939-1.0638,5.3438,1.6562l4.2188-3.6875l2.25-11.6562c0,0-1.8438-3.625-1.875-3.75s-5.284-5.0518-5.284-5.0518l-5.9035,1.8643 L25.9899,27.3286z">
+                                        </path>
+                                        <path fill="#FFFFFF" stroke="none"
+                                            d="M19.2752,22.7266l-6.2269,3.6503l-3.9338,6.1468c0,0,0.8481,4.1092,0.9419,4.0779 s7.875,1.6315,7.875,1.6315l6.5312-2.6003L19.2752,22.7266z">
+                                        </path>
+                                        <path fill="#3F3F3F" stroke="none"
+                                            d="M27.6303,22.0205l1.8557-5.3811l-0.815-5.3491l-3.4166,1.4572l-1.9167,1.3333 c0,0-1.1652-2.8309-2.9993-2.7905l-3.2566,3.838l-0.7857,4.7025l-0.8751,0.9167c0,0,0.2626,3.0269,0.8751,3.1667 c0.2308,0.0527,0.6721,0.0043,1.1324-0.0764l-3.4191,1.91c0,0-2.4218,8.3974,5.2054,12.3349 c2.3502,0.1295,3.1521,0.6518,5.4978-1.4832c0,0,3.4489-4.3574,0.5786-10.4797l0,0c-0.028-0.2242-0.0581-0.3881-0.0581-0.3881 L27.6303,22.0205z">
+                                        </path>
+                                        <path fill="#3F3F3F" stroke="none"
+                                            d="M31.7581,29.0103c0,0,13.4042,8.9663,4.2419,21.5913l-1.0373,2.9375l1.6686,1.9443l6.2064,1.8057 l7.5-0.625l5.0625-3.6875l0.4316-3.8946l-0.9941-5.8554l-3.2855-5.6251l-4.5973-5.4061l-4.7366-2.8584L31.7581,29.0103z">
+                                        </path>
+                                        <path fill="#FFFFFF" stroke="none"
+                                            d="M55.566,47.5168l3.2404-0.5402l3.6875,1.8438c0,0,0.1038,3.3438,0.1769,3.4375 c0.0731,0.0938-3.0519,3.1698-3.1456,3.2255c-0.0938,0.0557-2.375,0.962-2.375,0.962s-3.2812,0.3261-4.8438-0.962l2.9375-2.6318 L55.566,47.5168z">
+                                        </path>
+                                    </g>
+                                    <g id="hair"></g>
+                                    <g id="skin"></g>
+                                    <g id="skin-shadow"></g>
+                                    <g id="line">
+                                        <path fill="none" stroke="#000000" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"
+                                            d="M23.886,35.5323c-2.3651,5.1127-13.2378,1.0229-13.2378,1.0229c-0.5968-0.2704-1.0232-0.816-1.1416-1.4603l-0.3697-2.0127 c-0.0882-0.4801,0.0022-0.976,0.2543-1.394l1.9397-3.2171c0.9308-1.5438,2.2842-2.7888,3.9002-3.5877l3.7161-1.8372 c0,0,3.5476-10.8515,9.3212-11.7558c0,0,4.591,4.6606-3.478,15.0252c0,0,2.0247,1.3871,3.6172,4.0345 c0,0,15.2559-8.8797,24.9028,10.3646c8.946,17.8462-8.3356,16.735-14.2114,15.8977c-1.4891-0.2122-2.836-1.1028-3.4651-2.4691 c-0.6568-1.4264-0.5172-3.1231,3.347-3.6205">
+                                        </path>
+                                        <path fill="none" stroke="#000000" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"
+                                            d="M15,41.1641c0.3333,2.9167,2.0746,6.1553,6.6667,6.8193c0,0,1.4608,1.8086,0,3.3389c0,0-1.351,1.1679-2.4473,2.2562 C17.9523,54.8362,18.8443,57,20.6295,57h3.8928c0.6864,0,1.3249-0.352,1.6913-0.9325l3.7193-5.8926l1.2571-3.965">
+                                        </path>
+                                        <path fill="none" stroke="#000000" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"
+                                            d="M59,47.9834c0,0,4.9053-0.1041,3.375,3.8609s-5.0417,3.6322-5.0417,3.6322">
+                                        </path>
+                                        <path fill="none" stroke="#000000" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"
+                                            d="M16.3125,20.2041c-0.1542-3.0543,0.75-7.2275,4.0259-8.9138c0,0,1.9372-0.233,3.1598,3.1876">
+                                        </path>
+                                    </g>
+                                </g>
+                            </svg>
+                            <div class="count-info">
+                                <strong>Rabbits in rabbitry</strong>
+                                <p>39</p>
+                            </div>
+                        </div>
+                        <div class="rabbit-count" style="background-color: #438c4e;">
+                            <svg style="width: 35px; height: 35px;" fill="#000000" version="1.1" id="Capa_1"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 509.058 509.058" xml:space="preserve">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                </g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <g>
+                                        <g id="Layer_8_10_">
+                                            <path
+                                                d="M354.024,466.595c-38.668,12.329-79.86,13.878-119.149,4.486l15.764-65.982c27.261,6.525,55.88,5.432,82.78-3.139 c81.32-25.906,126.366-113.126,100.453-194.432c-25.889-81.291-113.114-126.354-194.411-100.441 c-78.365,24.967-122.867,106.875-102.806,185.548l10.084,31.628l58.907-48.096c1.98-1.625,4.788-1.702,6.868-0.236 c2.086,1.46,2.926,4.149,2.069,6.549l-59.599,164.834c-0.614,1.648-1.927,2.926-3.617,3.47c-1.679,0.538-3.511,0.26-4.947-0.745 L2.435,350.069c-1.07-0.721-1.797-1.75-2.157-2.92c-0.373-1.152-0.378-2.399,0.035-3.617c0.846-2.4,3.192-3.937,5.733-3.76 l75.883,5.143l-7.56-22.804c-2.613-8.187-8.517-36.232-8.89-41.044C52.954,177.156,115.537,75.364,218.857,42.45 c116.933-37.273,242.4,27.547,279.668,144.483C535.799,303.877,470.981,429.333,354.024,466.595z M286.399,119.668 c-6.478,0-11.732,5.249-11.732,11.732v157.085c0,4.362,2.417,8.369,6.283,10.391c1.702,0.887,3.576,1.348,5.438,1.348 c2.341,0,4.664-0.691,6.667-2.08l106.246-73.406c5.326-3.673,6.674-10.979,2.985-16.313c-3.665-5.308-10.971-6.644-16.308-2.976 l-87.869,60.689V131.395C298.109,124.917,292.866,119.668,286.399,119.668z">
+                                            </path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                            <div class="count-info">
+                                <strong>Total rabbits</strong>
+                                <p>137</p>
+                            </div>
+                        </div>
+                        <div class="rabbit-count" style="background-color: #30a864;">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M9 18H15M12 13V21M12 13C14.7614 13 17 10.7614 17 8C17 5.23858 14.7614 3 12 3C9.23858 3 7 5.23858 7 8C7 10.7614 9.23858 13 12 13Z"
+                                        stroke="#000000" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                    </path>
+                                </g>
+                            </svg>
+                            <div class="count-info">
+                                <strong>Does</strong>
+                                <p>5</p>
+                            </div>
+                        </div>
+                        <div class="rabbit-count" style="background-color: #31a262;">
+                            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path fill="#000000"
+                                        d="M399.5 849.5a225 225 0 1 0 0-450 225 225 0 0 0 0 450zm0 56.25a281.25 281.25 0 1 1 0-562.5 281.25 281.25 0 0 1 0 562.5zm253.125-787.5h225q28.125 0 28.125 28.125T877.625 174.5h-225q-28.125 0-28.125-28.125t28.125-28.125z">
+                                    </path>
+                                    <path fill="#000000"
+                                        d="M877.625 118.25q28.125 0 28.125 28.125v225q0 28.125-28.125 28.125T849.5 371.375v-225q0-28.125 28.125-28.125z">
+                                    </path>
+                                    <path fill="#000000"
+                                        d="M604.813 458.9 565.1 419.131l292.613-292.668 39.825 39.824z">
+                                    </path>
+                                </g>
+                            </svg>
+                            <div class="count-info">
+                                <strong>Bucks</strong>
+                                <p>2</p>
+                            </div>
+                        </div>
+                        <div class="rabbit-count" style="background-color: #3fae59;">
+                            <svg style="width: 35px; height: 35px;" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M10 13.0002C10.5523 13.0002 11 12.5525 11 12.0002C11 11.448 10.5523 11.0002 10 11.0002C9.44771 11.0002 9 11.448 9 12.0002C9 12.5525 9.44771 13.0002 10 13.0002Z"
+                                        fill="#0F0F0F"></path>
+                                    <path
+                                        d="M15 12.0002C15 12.5525 14.5523 13.0002 14 13.0002C13.4477 13.0002 13 12.5525 13 12.0002C13 11.448 13.4477 11.0002 14 11.0002C14.5523 11.0002 15 11.448 15 12.0002Z"
+                                        fill="#0F0F0F"></path>
+                                    <path
+                                        d="M8.29289 15.2931C8.68006 14.906 9.30573 14.9026 9.69699 15.2832C9.8449 15.415 10.021 15.5177 10.1972 15.6058C10.5749 15.7947 11.1728 16.0002 12 16.0002C12.8272 16.0002 13.4251 15.7947 13.8028 15.6058C13.979 15.5177 14.1551 15.415 14.303 15.2832C14.6943 14.9026 15.3199 14.906 15.7071 15.2931C16.0976 15.6837 16.0976 16.3168 15.7071 16.7074C15.6303 16.784 15.5522 16.8517 15.4125 16.9565C15.245 17.0821 15.0067 17.2399 14.6972 17.3947C14.0749 17.7058 13.1728 18.0002 12 18.0002C10.8272 18.0002 9.92507 17.7058 9.30278 17.3947C8.99327 17.2399 8.75496 17.0821 8.58749 16.9565C8.44826 16.8521 8.37026 16.7843 8.29359 16.7081C7.90307 16.3175 7.90236 15.6837 8.29289 15.2931Z"
+                                        fill="#0F0F0F"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M13.1296 2.80381C13.295 3.09712 13.4047 3.51797 13.1972 4.07117C12.8047 4.02434 12.4051 4.00024 12 4.00024C7.59784 4.00024 3.86005 6.84476 2.52438 10.796C1.07592 11.1461 0 12.4508 0 14.0068C0 15.5645 1.0783 16.8703 2.52918 17.2186C3.86899 21.1625 7.6031 24.0002 12 24.0002C16.3969 24.0002 20.131 21.1625 21.4708 17.2186C22.9217 16.8703 24 15.5645 24 14.0068C24 12.4508 22.9241 11.1461 21.4756 10.796C20.4747 7.83506 18.1249 5.4956 15.1574 4.50892C15.4491 3.53208 15.3113 2.60099 14.8718 1.82153C14.2627 0.741235 13.079 0.000244141 12 0.000244141C11.0671 0.000244141 10.3617 0.35319 9.89902 0.700448C9.66924 0.872899 9.49579 1.04612 9.37674 1.18029C9.31687 1.24776 9.2697 1.30655 9.23506 1.35211C8.88381 1.81421 8.94196 2.49769 9.44638 2.83302C9.9818 3.18895 10.4984 2.92957 10.8727 2.5077C10.92 2.45437 10.9962 2.37759 11.0996 2.30004C11.3031 2.1473 11.5976 2.00024 12 2.00024C12.2562 2.00024 12.8225 2.25915 13.1296 2.80381ZM19.9318 15.5313L21.004 15.2739C21.5763 15.1365 22 14.6186 22 14.0068C22 13.3956 21.5773 12.8782 21.0058 12.7401L19.934 12.4811L19.5809 11.4365C18.5116 8.27312 15.5186 6.00024 12 6.00024C8.48136 6.00024 5.48839 8.27312 4.41906 11.4365L4.06595 12.4811L2.99417 12.7401C2.42271 12.8782 2 13.3956 2 14.0068C2 14.6186 2.42366 15.1365 2.99604 15.2739L4.06821 15.5313L4.42289 16.5753C5.49555 19.7328 8.48558 22.0002 12 22.0002C15.5144 22.0002 18.5044 19.7328 19.5771 16.5753L19.9318 15.5313Z"
+                                        fill="#0F0F0F"></path>
+                                </g>
+                            </svg>
+                            <div class="count-info">
+                                <strong>Born in rabbitry</strong>
+                                <p>120</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="best-parent" style="background-color: #FFC77D; color: #3B2F2F;">
+                        <h3>The best mother is: <span class="celebration-text">35-ft</span></h3>
+                        <div class="best-parent-info double-col">
+                            <div class="column first-column">
+                                <p>name: Loretta</p>
+                                <p>id: hg234vb3h-bv243bn4-bv233nb3vb3nb</p>
+                                <p>birthdate: 7 Jan 2021</p>
+                            </div>
+                            <div class="column">
+                                <p>count of litters: 6</p>
+                                <p>born kids: 43</p>
+                                <p>weaned kids: 40</p>
+                                <p>death percentage: 7%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="best-parent" style="background-color: #3B2F2F; color: #FFC77D;">
+                        <h3>The best father is: <span class="celebration-text">15-hd</span></h3>
+                        <div class="best-parent-info double-col">
+                            <div class="column" style="color: #FFC77D;">
+                                <p>name: Dorm</p>
+                                <p>id: ha93b8b3h-7c8d243bbs7-0msj13nbvb820s</p>
+                                <p>birthdate: 12 Aug 2023</p>
+                                <p>father to: 80</p>
+                            </div>
+                            <div class="column first-column">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                    xml:space="preserve" fill="#000000">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path style="fill:#F6D76F;"
+                                            d="M434.087,0c-30.736,0-55.652,24.917-55.652,55.652V215.56l55.652-0.742V0z">
+                                        </path>
+                                        <g>
+                                            <path style="fill:#FAEAB6;"
+                                                d="M356.174,155.826V0c-30.736,0-55.652,24.917-55.652,55.652v166.957l-100.174,66.783 c20.405,53.055,63.81,162.504,76.8,191.814l21.832-13.727c79.809-50.397,133.266-138.738,135.041-239.685 c23.196-10.492,39.022-33.775,39.022-60.837v-11.13H356.174z">
+                                            </path>
+                                            <path style="fill:#FAEAB6;"
+                                                d="M90.261,417.044c-5.178-3.299-11.32-5.218-17.913-5.218c-18.442,0-33.391,14.949-33.391,33.391 c0,36.883,29.9,66.783,66.783,66.783c1.879,0,3.734-0.097,5.574-0.249c0-3.536,23.362-55.032,23.365-55.032 C122.064,444.847,104.255,430.005,90.261,417.044z">
+                                            </path>
+                                        </g>
+                                        <path style="fill:#F6D76F;"
+                                            d="M111.313,512h233.73c0-24.588-19.933-44.522-44.522-44.522h-11.126 c13.974-18.602,22.256-41.725,22.256-66.783c0-61.471-49.832-111.304-111.304-111.304S89.043,339.224,89.043,400.696 c0,5.556,0.43,11.01,1.218,16.348c2.763,18.736,10.177,35.956,21.055,50.435c-0.003,0-0.003,40.736-0.003,44.272 C111.313,511.911,111.313,512,111.313,512z">
+                                        </path>
+                                        <g>
+                                            <rect x="122.435" y="400.696" style="fill:#FAE8AC;" width="33.391"
+                                                height="33.391"></rect>
+                                            <rect x="166.957" y="445.217" style="fill:#FAE8AC;" width="33.391"
+                                                height="33.391"></rect>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column second-column dashboard-content">
+                    <div class="pie-chart-container">
+                        <div class="pie"></div>
+                        <div class="legend">
+                            <div class="legend-lable">
+                                <div class="rectangle" style="background-color: #FF7518;"></div>
+                                <strong>processed 40%</strong>
+                            </div>
+                            <div class="legend-lable">
+                                <div class="rectangle" style="background-color: #CC5500;"></div>
+                                <strong>sold 20%</strong>
+                            </div>
+                            <div class="legend-lable">
+                                <div class="rectangle" style="background-color: #B7410E;"></div>
+                                <strong>for meat 15%</strong>
+                            </div>
+                            <div class="legend-lable">
+                                <div class="rectangle" style="background-color: #FFC77D;"></div>
+                                <strong>inactive 15%</strong>
+                            </div>
+                            <div class="legend-lable">
+                                <div class="rectangle" style="background-color: #F8B88B;"></div>
+                                <strong>for breeding 10%</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rabbits-born-per-year">
+                        <h3>Rabbits born per year</h3>
+                        <div class="year-container">
+                            <strong>2025</strong>
+                            <div class="progress-bar"></div>
+                            <p>55</p>
+                        </div>
+                        <div class="year-container">
+                            <strong>2024</strong>
+                            <div class="progress-bar"></div>
+                            <p>62</p>
+                        </div>
+                        <div class="year-container">
+                            <strong>2023</strong>
+                            <div class="progress-bar"></div>
+                            <p>37</p>
+                        </div>
+                        <div class="year-container">
+                            <strong>2022</strong>
+                            <div class="progress-bar"></div>
+                            <p>70</p>
+                        </div>
+                        <div class="year-container">
+                            <strong>2021</strong>
+                            <div class="progress-bar"></div>
+                            <p>31</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

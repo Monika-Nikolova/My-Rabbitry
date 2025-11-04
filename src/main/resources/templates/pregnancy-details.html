@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Rabbits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/pregnancy-details.css">
+    <link rel="icon" href="/images/logo.png">
+</head>
+
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="/images/logo.png" alt="MyRabbitry logo" class="logo">
+                <span class="brand-name">MyRabbitry</span>
+            </div>
+            <ul class="nav-list">
+                <li><a href="./dashboard.html">Profile</a></li>
+                <li><a href="./my-rabbits.html">My Rabbits</a></li>
+                <li><a href="./overview.html">Overview</a></li>
+                <li><a href="./maternity-ward.html">Maternity Ward</a></li>
+                <li><a href="./pregnancy-details.html" class="active">Pregnancy Reports</a></li>
+                <li><a href="./family-tree.html">Family Tree</a></li>
+                <li><a href="./subscription.html">Subscription</a></li>
+                <li><a href="./index.html" id="logoutBtn">Log out</a></li>
+            </ul>
+        </aside>
+        <main class="dashboard-content">
+            <div class="form-wrapper">
+                <form id="pregnancy-details-form" class="header-form">
+                    <input id="doe-code" name="code" type="text" placeholder="enter doe code">
+                    <input id="buck-code" name="code" type="text" placeholder="enter buck code">
+                    <button type="submit" class="btn btn-primary"><svg height="20px" width="20px" version="1.1"
+                            id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <style type="text/css">
+                                    .st0 {
+                                        fill: #000000;
+                                    }
+                                </style>
+                                <g>
+                                    <path class="st0"
+                                        d="M312.069,53.445c-71.26-71.26-187.194-71.26-258.454,0c-71.261,71.26-71.261,187.206,0,258.466 c71.26,71.26,187.194,71.26,258.454,0S383.329,124.705,312.069,53.445z M286.694,286.536 c-57.351,57.34-150.353,57.34-207.704-0.011s-57.351-150.353,0-207.693c57.351-57.351,150.342-57.351,207.693,0 S344.045,229.174,286.694,286.536z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M101.911,112.531c-29.357,37.725-31.801,89.631-7.321,129.702c1.877,3.087,5.902,4.048,8.978,2.182 c3.065-1.888,4.037-5.903,2.16-8.978c-21.666-35.456-19.506-81.538,6.469-114.876c2.226-2.837,1.713-6.938-1.135-9.154 C108.227,109.193,104.125,109.695,101.911,112.531z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M498.544,447.722l-132.637-129.2c-7.255-7.07-18.84-6.982-26.008,0.174l-21.033,21.033 c-7.156,7.156-7.234,18.742-0.153,25.986l129.19,132.636c14.346,17.324,35.542,18.35,51.917,1.964 C516.216,483.951,515.857,462.068,498.544,447.722z">
+                                    </path>
+                                </g>
+                            </g>
+                        </svg>
+                        search</button>
+                </form>
+                <a class="btn btn-add-rabbit">＋ Create Pregnancy Report</a>
+                <form id="order-criteria-form" class="header-form">
+                    <label>Order</label>
+                    <select id="order-criteria" name="criteria">
+                        <option value="" selected>None</option>
+                        <option>Day of fertilization desc</option>
+                        <option>Day of fertilization acs</option>
+                        <option>Amount born kids desc</option>
+                        <option>Amount born kids acs</option>
+                    </select>
+                </form>
+            </div>
+            <div class="pregnancy-details-main">
+                <div class="pregnancy-card">
+                    <div class="mother-personal-info">
+                        <img src="/images/logo.png" alt="Rabbit Photo">
+                        <h2>Sisi</h2>
+                        <p>37-ko</p>
+                    </div>
+                    <div class="three-col">
+                        <div class="column pregnancy-info">
+                            <p>Date of fertilization: 16 Oct 2025</p>
+                            <p>Earliest due date: 14 Nov 2025</p>
+                            <p>Latest due date: 19 Nov 2025</p>
+                            <p>Buck: 79-nq</p>
+                            <p>Date of birth: 16 Nov 2025</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Amount born kids: 9</p>
+                            <p>Amount weaned kids: 7</p>
+                            <p>Total weight of live kids day 1: 300g</p>
+                            <p>Total weight of live kids day 20: 1200g</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Lactating aount: 3</p>
+                            <p>Has abort: no</p>
+                            <p>Is false pregnancy: no</p>
+                            <p>Canibalism present: no</p>
+                            <p>Was pregnant: yes</p>
+                        </div>
+                    </div>
+                    <a class="btn profile-btn">
+                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
+                                    fill="#0F0F0F"></path>
+                            </g>
+                        </svg></p>
+                    </a>
+                </div>
+                <div class="pregnancy-card">
+                    <div class="mother-personal-info">
+                        <img src="/images/logo.png" alt="Rabbit Photo">
+                        <h2>Sisi</h2>
+                        <p>37-ko</p>
+                    </div>
+                    <div class="three-col">
+                        <div class="column pregnancy-info">
+                            <p>Date of fertilization: 16 Oct 2025</p>
+                            <p>Earliest due date: 14 Nov 2025</p>
+                            <p>Latest due date: 19 Nov 2025</p>
+                            <p>Buck: 79-nq</p>
+                            <p>Date of birth: 16 Nov 2025</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Amount born kids: 9</p>
+                            <p>Amount weaned kids: 7</p>
+                            <p>Total weight of live kids day 1: 300g</p>
+                            <p>Total weight of live kids day 20: 1200g</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Lactating aount: 3</p>
+                            <p>Has abort: no</p>
+                            <p>Is false pregnancy: no</p>
+                            <p>Canibalism present: no</p>
+                            <p>Was pregnant: yes</p>
+                        </div>
+                    </div>
+                    <a class="btn profile-btn">
+                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
+                                    fill="#0F0F0F"></path>
+                            </g>
+                        </svg></p>
+                    </a>
+                </div>
+                <div class="pregnancy-card">
+                    <div class="mother-personal-info">
+                        <img src="/images/logo.png" alt="Rabbit Photo">
+                        <h2>Sisi</h2>
+                        <p>37-ko</p>
+                    </div>
+                    <div class="three-col">
+                        <div class="column pregnancy-info">
+                            <p>Date of fertilization: 16 Oct 2025</p>
+                            <p>Earliest due date: 14 Nov 2025</p>
+                            <p>Latest due date: 19 Nov 2025</p>
+                            <p>Buck: 79-nq</p>
+                            <p>Date of birth: 16 Nov 2025</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Amount born kids: 9</p>
+                            <p>Amount weaned kids: 7</p>
+                            <p>Total weight of live kids day 1: 300g</p>
+                            <p>Total weight of live kids day 20: 1200g</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Lactating aount: 3</p>
+                            <p>Has abort: no</p>
+                            <p>Is false pregnancy: no</p>
+                            <p>Canibalism present: no</p>
+                            <p>Was pregnant: yes</p>
+                        </div>
+                    </div>
+                    <a class="btn profile-btn">
+                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
+                                    fill="#0F0F0F"></path>
+                            </g>
+                        </svg></p>
+                    </a>
+                </div>
+                <div class="pregnancy-card">
+                    <div class="mother-personal-info">
+                        <img src="/images/logo.png" alt="Rabbit Photo">
+                        <h2>Sisi</h2>
+                        <p>37-ko</p>
+                    </div>
+                    <div class="three-col">
+                        <div class="column pregnancy-info">
+                            <p>Date of fertilization: 16 Oct 2025</p>
+                            <p>Earliest due date: 14 Nov 2025</p>
+                            <p>Latest due date: 19 Nov 2025</p>
+                            <p>Buck: 79-nq</p>
+                            <p>Date of birth: 16 Nov 2025</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Amount born kids: 9</p>
+                            <p>Amount weaned kids: 7</p>
+                            <p>Total weight of live kids day 1: 300g</p>
+                            <p>Total weight of live kids day 20: 1200g</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Lactating aount: 3</p>
+                            <p>Has abort: no</p>
+                            <p>Is false pregnancy: no</p>
+                            <p>Canibalism present: no</p>
+                            <p>Was pregnant: yes</p>
+                        </div>
+                    </div>
+                    <a class="btn profile-btn">
+                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
+                                    fill="#0F0F0F"></path>
+                            </g>
+                        </svg></p>
+                    </a>
+                </div>
+                <div class="pregnancy-card">
+                    <div class="mother-personal-info">
+                        <img src="/images/logo.png" alt="Rabbit Photo">
+                        <h2>Sisi</h2>
+                        <p>37-ko</p>
+                    </div>
+                    <div class="three-col">
+                        <div class="column pregnancy-info">
+                            <p>Date of fertilization: 16 Oct 2025</p>
+                            <p>Earliest due date: 14 Nov 2025</p>
+                            <p>Latest due date: 19 Nov 2025</p>
+                            <p>Buck: 79-nq</p>
+                            <p>Date of birth: 16 Nov 2025</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Amount born kids: 9</p>
+                            <p>Amount weaned kids: 7</p>
+                            <p>Total weight of live kids day 1: 300g</p>
+                            <p>Total weight of live kids day 20: 1200g</p>
+                        </div>
+                        <div class="column pregnancy-info">
+                            <p>Lactating aount: 3</p>
+                            <p>Has abort: no</p>
+                            <p>Is false pregnancy: no</p>
+                            <p>Canibalism present: no</p>
+                            <p>Was pregnant: yes</p>
+                        </div>
+                    </div>
+                    <a class="btn profile-btn">
+                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
+                                    fill="#0F0F0F"></path>
+                            </g>
+                        </svg></p>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

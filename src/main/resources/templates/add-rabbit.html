@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Rabbit — MyRabbitry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/images/logo.png">
+    <style>
+        .page-form {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .form-container {
+            padding: 24px;
+            overflow: auto;
+        }
+
+        .form-card {
+            background: var(--paper);
+            border: 1px solid rgba(47, 143, 78, 0.18);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-form">
+        <main class="form-container">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2 style="margin:0;">Add Rabbit</h2>
+                    <a href="./my-rabbits.html" class="btn btn-ghost">Cancel</a>
+                </div>
+                <p class="helper">Fields marked with * are mandatory.</p>
+                <form id="rabbitForm" class="form-grid">
+                    <div class="form-row">
+                        <label for="r-photo">Photo</label>
+                        <input id="r-photo" name="photo" type="file" accept="image/*">
+
+                    </div>
+                    <div class="form-row">
+                        <label for="r-name">Name</label>
+                        <input id="r-name" name="name" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-id">ID *</label>
+                        <input id="r-id" name="id" type="text" required placeholder="Unique identifier">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-desc">Short description</label>
+                        <input id="r-desc" name="desc" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-mother">Mother</label>
+                        <input id="r-mother" name="mother" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-father">Father</label>
+                        <input id="r-father" name="father" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-birthdate">Birthdate</label>
+                        <input id="r-birthdate" name="birthdate" type="date">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-sex">Sex *</label>
+                        <select id="r-sex" name="sex" required>
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="r-colours">Colour/s</label>
+                        <input id="r-colours" name="colours" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-vaccinated">Vaccinated on</label>
+                        <input id="r-vaccinated" name="vaccinatedOn" type="date">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-good">Good traits</label>
+                        <input id="r-good" name="goodTraits" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-bad">Bad traits</label>
+                        <input id="r-bad" name="badTraits" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="r-status">Status *</label>
+                        <select id="r-status" name="status" required>
+                            <option value="">Select</option>
+                            <option value="for meat">For meat</option>
+                            <option value="for breeding">For breeding</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="processed">Processed</option>
+                            <option value="sold">Sold</option>
+                        </select>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary">Add Rabbit</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

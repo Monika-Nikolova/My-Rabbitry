@@ -1,0 +1,85 @@
+.dashboard main.dashboard-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-content .form-wrapper {
+    background: none;
+    box-shadow: none;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-form {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.dashboard-content .pregnancy-details-main {
+    background-color: rgb(186, 222, 175);
+    max-height: 620px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pregnancy-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 3px solid #355E3B;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: #fbfefc;
+}
+
+.mother-personal-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.mother-personal-info img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.mother-personal-info h2 {
+    text-transform: uppercase;
+    font-size: 25px;
+}
+
+.pregnancy-details-main .mother-personal-info p {
+    font-size: 18px;
+}
+
+
+.three-col {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pregnancy-info p {
+    font-size: 15px;
+}
+
+.profile-btn svg {
+    height: 15px;
+    width: 15px;
+}
+
+.pregnancy-card > a {
+    align-self: center;
+}
+
+.pregnancy-card .btn.profile-btn p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
