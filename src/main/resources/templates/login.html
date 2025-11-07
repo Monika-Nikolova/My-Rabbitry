@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in — MyRabbitry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/images/logo.png">
+</head>
+<body>
+    <div id="leaves-container"></div>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="brand" style="justify-content: center;">
+                <img src="/images/logo.png" alt="MyRabbitry logo" class="logo">
+                <span class="brand-name">MyRabbitry</span>
+            </div>
+            <h1 style="text-align: center;">Welcome back</h1>
+            <form id="loginForm" class="form-grid" th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
+                <div class="form-row">
+                    <p class="red-text" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error message</p>
+                    <label for="username">Username <span aria-hidden="true" style="color:#b63;">*</span></label>
+                    <input id="username" name="username" type="text" placeholder="Enter your username" th:field="*{username}">
+                </div>
+                <div class="form-row">
+                    <p class="red-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error message</p>
+                    <label for="password">Password <span aria-hidden="true" style="color:#b63;">*</span></label>
+                    <input id="password" name="password" type="password" placeholder="Enter your password" th:field="*{password}">
+                </div>
+                <button type="submit" class="btn btn-primary">Log in</button>
+                <div class="helper">No account? <a href="/register">Register</a></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/leaves.js"></script>
+</body>
+</html>
+
+

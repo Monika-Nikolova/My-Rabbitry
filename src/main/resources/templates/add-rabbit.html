@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Rabbit — MyRabbitry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/images/logo.png">
+    <style>
+        .page-form {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .form-container {
+            padding: 24px;
+            overflow: auto;
+        }
+
+        .form-card {
+            background: var(--paper);
+            border: 1px solid rgba(47, 143, 78, 0.18);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-form">
+        <main class="form-container">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2 style="margin:0;">Add Rabbit</h2>
+                    <a href="/my-rabbits" class="btn btn-ghost">Cancel</a>
+                </div>
+                <p class="helper">Fields marked with * are mandatory.</p>
+                <form id="rabbitForm" class="form-grid" th:action="@{'/my-rabbits/new'}" th:method="POST" th:object="${rabbitRequest}">
+                    <div class="form-row">
+                        <label for="photo">Photo url</label>
+                        <input th:feild="*{photoUrl}" id="photo" name="photoUrl" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="name">Name</label>
+                        <input th:feild="*{name}" id="name" name="name" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="code">Code *</label>
+                        <input th:field="*{code}" id="code" name="code" type="text" placeholder="Unique identifier">
+                    </div>
+                    <div class="form-row">
+                        <label for="desc">Short description</label>
+                        <input th:field="*{description}" id="desc" name="desc" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="mother">Mother code</label>
+                        <input th:field="*{motherCode}" id="mother" name="motherCode" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="father">Father code</label>
+                        <input th:feild="*{fatherCode}" id="father" name="fatherCode" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="birthdate">Birthdate</label>
+                        <input th:feild="*{birthDate}" id="birthdate" name="birthDate" type="date">
+                    </div>
+                    <div class="form-row">
+                        <label for="sex">Sex *</label>
+                        <select th:feild="*{sex}" id="sex" name="sex">
+                            <option value="" selected>Select</option>
+                            <option th:each="sex : ${T(bg.softuni.myrabbitry.rabbit.model.Sex).values()}" th:value="${sex}" th:text="${sex.getDisplayName()}">Male</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="colour">Colour/s *</label>
+                        <input th:field="*{colour}" id="colour" name="colour" type="text" placeholder="Colour/s">
+                    </div>
+                    <div class="form-row">
+                        <label for="pattern">Fur pattern/s *</label>
+                        <input th:feild="*{pattern}" id="pattern" name="pattern" type="text" placeholder="Fur pattern/s">
+                    </div>
+                    <div class="form-row">
+                        <label for="eye-colour">Eye colour *</label>
+                        <select th:feild="*{eyeColour}" id="eye-colour" name="eyeColour">
+                            <option value="" selected>Select</option>
+                            <option th:each="eyeColour : ${T(bg.softuni.myrabbitry.rabbit.model.EyeColour).values()}" th:value="${eyeColour}" th:text="${eyeColour.getDisplayName()}">Blue</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="ear-shape">Ear shape *</label>
+                        <select th:field="*{earShape}" id="ear-shape" name="earShape">
+                            <option value="" selected>Select</option>
+                            <option th:each="earShape : ${T(bg.softuni.myrabbitry.rabbit.model.EarShape).values()}" th:value="${earShape}" th:text="${earShape.getDisplayName()}">Lop</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="coat-length">Coat length *</label>
+                        <select th:feild="*{coatLength}" id="coat-length" name="coatLength">
+                            <option value="" selected>Select</option>
+                            <option th:each="coatLength : ${T(bg.softuni.myrabbitry.rabbit.model.CoatLength).values()}" th:value="${coatLength}" th:text="${coatLength.getDisplayName()}">Long</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="breed">Breed</label>
+                        <input th:feild="*{breed}" id="breed" name="breed" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="vaccinated">Vaccinated on</label>
+                        <input th:feild="*{vaccinatedOn}" id="vaccinated" name="vaccinatedOn" type="date">
+                    </div>
+                    <div class="form-row">
+                        <label for="status">Status *</label>
+                        <select th:feild="*{status}" id="status" name="status">
+                            <option value="" selected>Select</option>
+                            <option th:each="status : ${T(bg.softuni.myrabbitry.rabbit.model.Status).values()}" th:value="${status}" th:text="${status.getDisplayName()}">For Breeding</option>
+                        </select>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary">Add Rabbit</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

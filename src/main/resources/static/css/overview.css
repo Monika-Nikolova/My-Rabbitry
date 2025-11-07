@@ -1,0 +1,159 @@
+
+body {
+    max-height: 100dvh;
+    overflow: hidden;
+}
+
+.rabbit-count svg {
+    height: 50px;
+    width: 50px;
+}
+
+.best-parent-info .first-column svg {
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    left: 750px;
+    z-index: 2;
+}
+
+.stats-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-content h2 {
+    align-self: flex-start;
+    margin-left: 15px;
+    margin-bottom: 0;
+}
+
+.double-col {
+    display: flex;
+}
+
+.column {
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+main.stats-content .double-col .first-column {
+    min-width: 70%;
+}
+
+.double-col .first-column .top-row-box {
+    padding: 0;
+    background: none;
+    max-height: 100px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    justify-content: space-between;
+}
+
+.first-column .top-row-box .rabbit-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 7px 23px rgba(20, 48, 28, 0.079);
+    background-color: #355E3B;
+    color: rgb(255, 255, 255);
+}
+
+.celebration-text {
+    background: linear-gradient(120deg, rgb(34, 72, 24), #4dbc21, #40c70b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.best-parent h3 {
+    text-align: center;
+}
+
+.best-parent .best-parent-info p {
+    font-size: 15px;
+}
+
+.double-col .second-column .pie-chart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fef2e8;
+}
+
+.pie {
+    position: relative;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: conic-gradient(#FF7518 0% 40%,
+            #CC5500 40% 60%,
+            #B7410E 60% 75%,
+            #FFC77D 75% 90%,
+            #F8B88B 90% 100%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.legend {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.legend-lable {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    color: #000000;
+}
+
+.legend-lable strong {
+    font-size: 12px;
+}
+
+.rectangle {
+    width: 10px;
+    height: 10px;
+}
+
+.double-col .second-column .rabbits-born-per-year {
+    padding-bottom: 0;
+    padding-top: 0;
+    background-color: #355E3B;
+    color: white;
+}
+
+.rabbits-born-per-year h3 {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    margin-top: 5px;
+    font-size: 15px;
+}
+
+.year-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+}
+
+.progress-bar {
+    background-color: #b1f0b8;
+    border-radius: 5px;
+    width: 90%;
+    height: 15px;
+}
