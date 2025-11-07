@@ -41,6 +41,6 @@ public class Subscription {
     private LocalDateTime expirationOn;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(nullable = false)
     private User owner;
 }

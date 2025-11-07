@@ -24,19 +24,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name = "profile_picture")
     private String profilePicture;
 
     @Column(unique = true)
@@ -51,12 +47,12 @@ public class User {
 
     private String country;
 
-    private boolean active;
+    private boolean isActive;
 
-    @Column(nullable = false, name = "created_on")
+    @Column(nullable = false)
     private LocalDateTime createdOn;
 
-    @Column(nullable = false, name = "updated_on")
+    @Column(nullable = false)
     private LocalDateTime updatedOn;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
@@ -64,6 +60,6 @@ public class User {
     private List<Subscription> subscriptions = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
-    @OrderBy("birthDate ASC")
+    @OrderBy("createdOn DESC")
     private List<Rabbit> rabbits = new ArrayList<>();
 }

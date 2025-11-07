@@ -23,8 +23,8 @@
                 <span class="brand-name">MyRabbitry</span>
             </div>
             <ul class="nav-list">
-                <li><a href="./dashboard.html">Profile</a></li>
-                <li><a href="./my-rabbits.html" class="active">My Rabbits</a></li>
+                <li><a href="/dashboard">Profile</a></li>
+                <li><a href="/my-rabbits" class="active">My Rabbits</a></li>
                 <li><a href="./overview.html">Overview</a></li>
                 <li><a href="./maternity-ward.html">Maternity Ward</a></li>
                 <li><a href="./pregnancy-details.html">Pregnancy Reports</a></li>
@@ -37,162 +37,33 @@
             <div class="info-box">
                 <div class="info-box-header">
                     <h2>My Rabbits</h2>
-                    <a href="./add-rabbit.html" class="btn btn-add-rabbit">＋ Add Rabbit</a>
+                    <a href="/my-rabbits/new" class="btn btn-add-rabbit">＋ Add Rabbit</a>
                 </div>
 
-                <div class="rabbits-grid" id="rabbitsGrid">
-                    <div class="rabbit-card">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdslk08tFYSpfcy_xA-k2t_9Dh3BH5w2Wa6A&s" alt="Rabbit Photo">
+                <div th:class="${rabbits.isEmpty()} ? '' : 'rabbits-grid'" id="rabbitsGrid">
+                    <div class="rabbit-card" th:each="rabbit : ${rabbits}">
+                        <img th:src="${#strings.isEmpty(rabbit.photoUrl) ? '/images/logo.png' : rabbit.photoUrl}" alt="Rabbit Photo">
                         <div class="rabbit-card-content">
-                            <h3 class="rabbit-name">Snowball</h3>
-                            <div class="rabbit-details">Code: 37-dj • Breed: n/a</div>
-                            <div class="rabbit-details">This rabbit is from an old man from Romania and he told me that it was his best rebbit ever. The rabbit is a good mother and verry gentle with humans. She has never been sick and I hope she never will.</div>
-                            <div class="rabbit-details">Birth date: 27 Oct 2021</div>
-                            <div class="rabbit-details">Colour: Brown, White</div>
-                            <div class="rabbit-details">Pattern: Brocken, Aguti</div>
-                            <div class="rabbit-details">Vaccinated on: 26 Sept 2025</div>
-                            <div class="rabbit-details">Mother: 32-sp • Father: 92-ls</div>
-                            <div class="rabbit-details">Id: g143vb2-vb3v2jkp123kmsx8-7dc4hjvh3olsv56</div>
+                            <h3 class="rabbit-name" th:text="${#strings.isEmpty(rabbit.name) ? 'n/a' : rabbit.name}">Snowball</h3>
+                            <div class="rabbit-details" th:text="'Code: ' + ${rabbit.code} + ' • Breed: ' + ${#strings.isEmpty(rabbit.breed) ? 'n/a' : rabbit.breed}">Code: 37-dj • Breed: n/a</div>
+                            <div class="rabbit-details" th:text="${#strings.isEmpty(rabbit.description) ? 'n/a' : rabbit.description}">description</div>
+                            <div class="rabbit-details" th:text="'Birth date: ' + ${#strings.isEmpty(rabbit.birthDate) ? 'n/a' : #temporals.format(rabbit.birthDate, 'dd MMM yyyy')}">Birth date: 27 Oct 2021</div>
+                            <div class="rabbit-details" th:text="'Colour: ' + ${rabbit.colour}">Colour: Brown, White</div>
+                            <div class="rabbit-details" th:text="'Pattern: ' + ${rabbit.pattern}">Pattern: Brocken, Aguti</div>
+                            <div class="rabbit-details" th:text="'Vaccinated on: ' + ${#strings.isEmpty(rabbit.vaccinatedOn) ? 'n/a' : #temporals.format(rabbit.vaccinatedOn, 'dd MMM yyyy')}">Vaccinated on: 26 Sept 2025</div>
+                            <div class="rabbit-details" th:text="'Mother: ' + ${rabbit.mother == null ? 'n/a' : rabbit.mother.code} + ' • Father: ' + ${rabbit.father == null ? 'n/a' : rabbit.father.code}">Mother: 32-sp • Father: 92-ls</div>
+                            <div class="rabbit-details" th:text="'Id: ' + ${rabbit.id}">Id: g143vb2-vb3v2jkp123kmsx8-7dc4hjvh3olsv56</div>
                             <div class="rabbit-tags">
-                                <span class="rabbit-tag">Female</span>
-                                <span class="rabbit-tag">Blue eyes</span>
-                                <span class="rabbit-tag">Half-Lop ears</span>
-                                <span class="rabbit-tag">short coat</span>
-                                <span class="rabbit-tag">For Breeding</span>
+                                <span class="rabbit-tag" th:text="${rabbit.sex.getDisplayName()}">Female</span>
+                                <span class="rabbit-tag" th:text="${rabbit.eyeColour.getDisplayName()}">Blue eyes</span>
+                                <span class="rabbit-tag" th:text="${rabbit.earShape.getDisplayName()}">Half-Lop ears</span>
+                                <span class="rabbit-tag" th:text="${rabbit.coatLength.getDisplayName()}">short coat</span>
+                                <span class="rabbit-tag" th:text="${rabbit.status.getDisplayName()}">For Breeding</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="rabbit-card">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJQOVQUyo5xAfdcbMlImPpzdByFUkvC8su0Q&s" alt="Rabbit Photo">
-                        <div class="rabbit-card-content">
-                            <h3 class="rabbit-name">Snowball</h3>
-                            <div class="rabbit-details">Code: 37-dj • Breed: n/a</div>
-                            <div class="rabbit-details">This rabbit is from an old man from Romania and he told me that it was his best rebbit ever. The rabbit is a good mother and verry gentle with humans. She has never been sick and I hope she never will.</div>
-                            <div class="rabbit-details">Birth date: 27 Oct 2021</div>
-                            <div class="rabbit-details">Colour: Brown, White</div>
-                            <div class="rabbit-details">Pattern: Brocken, Aguti</div>
-                            <div class="rabbit-details">Vaccinated on: 26 Sept 2025</div>
-                            <div class="rabbit-details">Mother: 32-sp • Father: 92-ls</div>
-                            <div class="rabbit-details">Id: g143vb2-vb3v2jkp123kmsx8-7dc4hjvh3olsv56</div>
-                            <div class="rabbit-tags">
-                                <span class="rabbit-tag">Female</span>
-                                <span class="rabbit-tag">Blue eyes</span>
-                                <span class="rabbit-tag">Half-Lop ears</span>
-                                <span class="rabbit-tag">short coat</span>
-                                <span class="rabbit-tag">For Breeding</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="rabbit-card">
-                        <img src="https://lafeber.com/vet/wp-content/uploads/european-rabbit.jpg" alt="Rabbit Photo">
-                        <div class="rabbit-card-content">
-                            <h3 class="rabbit-name">Snowball</h3>
-                            <div class="rabbit-details">Code: 37-dj • Breed: n/a</div>
-                            <div class="rabbit-details">This rabbit is from an old man from Romania and he told me that it was his best rebbit ever. The rabbit is a good mother and verry gentle with humans. She has never been sick and I hope she never will.</div>
-                            <div class="rabbit-details">Birth date: 27 Oct 2021</div>
-                            <div class="rabbit-details">Colour: Brown, White</div>
-                            <div class="rabbit-details">Pattern: Brocken, Aguti</div>
-                            <div class="rabbit-details">Vaccinated on: 26 Sept 2025</div>
-                            <div class="rabbit-details">Mother: 32-sp • Father: 92-ls</div>
-                            <div class="rabbit-details">Id: g143vb2-vb3v2jkp123kmsx8-7dc4hjvh3olsv56</div>
-                            <div class="rabbit-tags">
-                                <span class="rabbit-tag">Female</span>
-                                <span class="rabbit-tag">Blue eyes</span>
-                                <span class="rabbit-tag">Half-Lop ears</span>
-                                <span class="rabbit-tag">short coat</span>
-                                <span class="rabbit-tag">For Breeding</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="rabbit-card">
-                        <img src="https://vetsonbalwyn.com.au/wp-content/uploads/2015/04/Rabbit-Facts.jpg" alt="Rabbit Photo">
-                        <div class="rabbit-card-content">
-                            <h3 class="rabbit-name">Snowball</h3>
-                            <div class="rabbit-details">Code: 37-dj • Breed: n/a</div>
-                            <div class="rabbit-details">This rabbit is from an old man from Romania and he told me that it was his best rebbit ever. The rabbit is a good mother and verry gentle with humans. She has never been sick and I hope she never will.</div>
-                            <div class="rabbit-details">Birth date: 27 Oct 2021</div>
-                            <div class="rabbit-details">Colour: Brown, White</div>
-                            <div class="rabbit-details">Pattern: Brocken, Aguti</div>
-                            <div class="rabbit-details">Vaccinated on: 26 Sept 2025</div>
-                            <div class="rabbit-details">Mother: 32-sp • Father: 92-ls</div>
-                            <div class="rabbit-details">Id: g143vb2-vb3v2jkp123kmsx8-7dc4hjvh3olsv56</div>
-                            <div class="rabbit-tags">
-                                <span class="rabbit-tag">Female</span>
-                                <span class="rabbit-tag">Blue eyes</span>
-                                <span class="rabbit-tag">Half-Lop ears</span>
-                                <span class="rabbit-tag">short coat</span>
-                                <span class="rabbit-tag">For Breeding</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="rabbit-card">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhpwtQUAVk7bV9ZDHI3xS0s8s9MH7C8_RgoA&s" alt="Rabbit Photo">
-                        <div class="rabbit-card-content">
-                            <h3 class="rabbit-name">Snowball</h3>
-                            <div class="rabbit-details">Code: 37-dj • Breed: n/a</div>
-                            <div class="rabbit-details">This rabbit is from an old man from Romania and he told me that it was his best rebbit ever. The rabbit is a good mother and verry gentle with humans. She has never been sick and I hope she never will.</div>
-                            <div class="rabbit-details">Birth date: 27 Oct 2021</div>
-                            <div class="rabbit-details">Colour: Brown, White</div>
-                            <div class="rabbit-details">Pattern: Brocken, Aguti</div>
-                            <div class="rabbit-details">Vaccinated on: 26 Sept 2025</div>
-                            <div class="rabbit-details">Mother: 32-sp • Father: 92-ls</div>
-                            <div class="rabbit-details">Id: g143vb2-vb3v2jkp123kmsx8-7dc4hjvh3olsv56</div>
-                            <div class="rabbit-tags">
-                                <span class="rabbit-tag">Female</span>
-                                <span class="rabbit-tag">Blue eyes</span>
-                                <span class="rabbit-tag">Half-Lop ears</span>
-                                <span class="rabbit-tag">short coat</span>
-                                <span class="rabbit-tag">For Breeding</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="rabbit-card">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNtubWRUkGVrci9-70FEf6jkBlBG2qCPxZhg&s" alt="Rabbit Photo">
-                        <div class="rabbit-card-content">
-                            <h3 class="rabbit-name">Snowball</h3>
-                            <div class="rabbit-details">Code: 37-dj • Breed: n/a</div>
-                            <div class="rabbit-details">This rabbit is from an old man from Romania and he told me that it was his best rebbit ever. The rabbit is a good mother and verry gentle with humans. She has never been sick and I hope she never will.</div>
-                            <div class="rabbit-details">Birth date: 27 Oct 2021</div>
-                            <div class="rabbit-details">Colour: Brown, White</div>
-                            <div class="rabbit-details">Pattern: Brocken, Aguti</div>
-                            <div class="rabbit-details">Vaccinated on: 26 Sept 2025</div>
-                            <div class="rabbit-details">Mother: 32-sp • Father: 92-ls</div>
-                            <div class="rabbit-details">Id: g143vb2-vb3v2jkp123kmsx8-7dc4hjvh3olsv56</div>
-                            <div class="rabbit-tags">
-                                <span class="rabbit-tag">Female</span>
-                                <span class="rabbit-tag">Blue eyes</span>
-                                <span class="rabbit-tag">Half-Lop ears</span>
-                                <span class="rabbit-tag">short coat</span>
-                                <span class="rabbit-tag">For Breeding</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="rabbit-card">
-                        <img src="https://www.tampavet.com/wp-content/uploads/2018/02/young-rabbit-1.jpg" alt="Rabbit Photo">
-                        <div class="rabbit-card-content">
-                            <h3 class="rabbit-name">Snowball</h3>
-                            <div class="rabbit-details">Code: 37-dj • Breed: n/a</div>
-                            <div class="rabbit-details">This rabbit is from an old man from Romania and he told me that it was his best rebbit ever. The rabbit is a good mother and verry gentle with humans. She has never been sick and I hope she never will.</div>
-                            <div class="rabbit-details">Birth date: 27 Oct 2021</div>
-                            <div class="rabbit-details">Colour: Brown, White</div>
-                            <div class="rabbit-details">Pattern: Brocken, Aguti</div>
-                            <div class="rabbit-details">Vaccinated on: 26 Sept 2025</div>
-                            <div class="rabbit-details">Mother: 32-sp • Father: 92-ls</div>
-                            <div class="rabbit-details">Id: g143vb2-vb3v2jkp123kmsx8-7dc4hjvh3olsv56</div>
-                            <div class="rabbit-tags">
-                                <span class="rabbit-tag">Female</span>
-                                <span class="rabbit-tag">Blue eyes</span>
-                                <span class="rabbit-tag">Half-Lop ears</span>
-                                <span class="rabbit-tag">short coat</span>
-                                <span class="rabbit-tag">For Breeding</span>
-                            </div>
-                        </div>
+                    <div th:if="${rabbits.isEmpty()}" class="empty-rabbit-grid">
+                        <p>You have no rabbits at the moment. To create one click ＋ Add Rabbit</p>
                     </div>
                 </div>
             </div>

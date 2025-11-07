@@ -21,11 +21,10 @@ public class PregnancyReport {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(nullable = false)
     private Rabbit mother;
 
     @ManyToOne
-    @JoinColumn(name = "id")
     private Rabbit father;
 
     private LocalDate dayOfFertilization;
@@ -44,16 +43,16 @@ public class PregnancyReport {
 
     private Double totalWeightKidsDay20;
 
-    @Column(nullable = false, name = "is_false_pregnancy")
+    @Column(nullable = false)
     private boolean isFalsePregnancy;
 
-    @Column(nullable = false, name = "is_cannibalism_present")
+    @Column(nullable = false)
     private boolean isCannibalismPresent;
 
-    @Column(nullable = false, name = "has_abort")
+    @Column(nullable = false)
     private boolean hasAbort;
 
-    @Column(nullable = false, name = "was_pregnant")
+    @Column(nullable = false)
     private boolean wasPregnant;
 
     private Double lactatingQuantity;

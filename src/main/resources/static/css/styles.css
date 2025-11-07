@@ -92,6 +92,12 @@ body {
     box-shadow: var(--shadow);
 }
 
+.red-text {
+    color: red;
+    font-size: 11px;
+    margin: 0;
+}
+
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(47, 143, 78, 0.28);
@@ -472,6 +478,15 @@ select:focus {
     box-shadow: 0 2px 4px rgba(74, 124, 89, 0.5);
 }
 
+.profile-status-inactive {
+    border: 2px solid rgba(160, 55, 55, 0.5);
+    border-radius: 10px;
+    background-color: rgba(252, 92, 92, 0.33);
+    padding: 4px 10px;
+    color: #7c4a4a;
+    box-shadow: 0 2px 4px rgba(124, 74, 74, 0.5);
+}
+
 .profile-btn {
     align-self: flex-end;
     text-align: center;
@@ -548,12 +563,11 @@ select:focus {
     flex-direction: column;
     justify-content: space-between;
     min-width: 30%;
-    height: 350px;
+    height: 360px;
     align-self: flex-end;
     margin-left: 30px;
     align-items: flex-start;
     background-color: rgb(66, 141, 63);
-    /* rgb(66, 141, 63) */
 }
 
 .rabbit-box .rabbit-main-info {
@@ -569,7 +583,7 @@ select:focus {
     width: 100%;
 }
 
-.rabbit-box .rabbit-secondary-info .rabbit-lable strong {
+.rabbit-box .rabbit-secondary-info .rabbit-label strong {
     display: block;
     padding-bottom: 9px;
     color: white;
@@ -597,10 +611,35 @@ select:focus {
     width: 150px;
 }
 
+.empty-rabbit-box {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.12);
+    outline: 3px solid white;
+}
+
+.empty-rabbit-grid {
+    height: 100%;
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #174317;
+    font-size: 18px;
+    background: rgba(40, 110, 22, 0.12);
+    outline: 3px solid #324030;
+}
+
 .dashboard-content .pregnancy-box {
     flex-grow: 2;
     background-color: #2E5E4E;
     color: white;
+    min-width: 500px;
 }
 
 .pregnancy-box .pregnancy-headder {
@@ -642,7 +681,7 @@ select:focus {
 
 .align-subscription-box {
     position: absolute;
-    top: 430px;
+    top: 440px;
     right: 185px;
 }
 
@@ -684,8 +723,7 @@ select:focus {
 /* My Rabbits */
 .dash-main {
     flex: 1;
-    padding: 2rem;
-    padding-top: 0;
+    padding: 0 2rem 2rem;
 }
 
 .info-box-header {

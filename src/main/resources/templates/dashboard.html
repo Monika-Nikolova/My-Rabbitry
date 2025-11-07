@@ -22,8 +22,8 @@
                     <span class="brand-name">MyRabbitry</span>
                 </div>
                 <ul class="nav-list">
-                    <li><a href="./dashboard.html" class="active">Profile</a></li>
-                <li><a href="./my-rabbits.html">My Rabbits</a></li>
+                    <li><a href="/dashboard" class="active">Profile</a></li>
+                <li><a href="/my-rabbits">My Rabbits</a></li>
                 <li><a href="./overview.html">Overview</a></li>
                 <li><a href="./maternity-ward.html">Maternity Ward</a></li>
                 <li><a href="./pregnancy-details.html">Pregnancy Reports</a></li>
@@ -38,19 +38,18 @@
 
             <div class="profile-box">
                 <div class="profile-header">
-                    <img src="/images/Windows_10_Default_Profile_Picture.svg.png"
-                        th:src="${#strings.isEmpty(user.profilePicture) ? './assets/Windows_10_Default_Profile_Picture.svg.png' : user.profilePicture}"
+                    <img th:src="${#strings.isEmpty(user.profilePicture) ? '/images/Windows_10_Default_Profile_Picture.svg.png' : user.profilePicture}"
                         alt="Profile Picture" class="profile-picture">
                     <div class="profile-status-username">
                         <h2 class="profile-username" th:text="${user.username}">Hello Monika123</h2>
-                        <p th:if="${user.isActive()}" class="profile-status-active">ACTIVE</p>
-                        <!-- <p th:if="${!user.isActive()}" class="inactive-profile">INACTIVE</p> -->
+                        <p th:if="${user.isActive}" class="profile-status-active">ACTIVE</p>
+                         <p th:if="${!user.isActive}" class="profile-status-inactive">INACTIVE</p>
                     </div>
                 </div>
                 <div class="profile-info">
                     <div class="profile-details-container">
                         <strong>First Name: </strong>
-                        <p>Jhon</p>
+                        <p th:text="${#strings.isEmpty(user.firstName) ? 'n/a' : user.firstName}">Jhon</p>
                     </div>
                     <div class="profile-details-container">
                         <strong>User id: </strong>
@@ -58,7 +57,7 @@
                     </div>
                     <div class="profile-details-container">
                         <strong>Last Name: </strong>
-                        <p>Hills</p>
+                        <p th:text="${#strings.isEmpty(user.lastName) ? 'n/a' : user.lastName}">Hills</p>
                     </div>
                     <div class="profile-details-container">
                         <strong>Joined on: </strong>
@@ -73,15 +72,15 @@
             <h3 class="align-rabbit-box">Latest added rabbit</h3>
 
             <div class="rabbit-box">
-                <div class="rabbit-main-info">
-                    <img src="/images/logo.png" alt="Rabbit Picture" class="rabbit-picture">
+                <div class="rabbit-main-info" th:unless="${latestRabbit == null}">
+                    <img th:src="${#strings.isEmpty(latestRabbit.photoUrl) ? '/images/logo.png' : latestRabbit.photoUrl}" alt="Rabbit Picture" class="rabbit-picture">
                     <div class="code-name-box">
-                        <p>code: 91-ga</p>
-                        <p>Name: Tricky</p>
+                        <p th:text="'code: ' + ${latestRabbit.code}">code: 91-ga</p>
+                        <p th:text="'Name: ' + ${#strings.isEmpty(latestRabbit.name) ? 'n/a' : latestRabbit.name}">Name: Tricky</p>
                     </div>
                 </div>
-                <div class="rabbit-secondary-info">
-                    <div class="rabbit-lable">
+                <div class="rabbit-secondary-info" th:unless="${latestRabbit == null}">
+                    <div class="rabbit-label">
                         <strong>id:</strong>
                         <strong>birthdate:</strong>
                         <strong>sex:</strong>
@@ -89,50 +88,56 @@
                     </div>
 
                     <div class="rabbit-data">
-                        <p>3dx4c5vbc-vb3245fvddf3rtg-sdf657sdcsd</p>
-                        <p>27 Nov 2024</p>
-                        <p>Male</p>
-                        <p>For Breeding</p>
+                        <p th:text="${latestRabbit.id}">3dx4c5vbc-vb3245fvddf3rtg-sdf657sdcsd</p>
+                        <p th:text="${#strings.isEmpty(latestRabbit.birthDate) ? 'n/a' : #temporals.format(latestRabbit.birthDate, 'dd MMM YYYY')}">27 Nov 2024</p>
+                        <p th:text="${latestRabbit.sex.getDisplayName()}">Male</p>
+                        <p th:text="${latestRabbit.status.getDisplayName()}">For Breeding</p>
                     </div>
+                </div>
+                <div class="empty-rabbit-box" th:if="${latestRabbit == null}">
+                    <p>No rabbits yet!</p>
                 </div>
             </div>
 
             <div class="pregnancy-box">
-                <div class="pregnancy-headder">
+                <div class="pregnancy-headder" th:unless="${pregnancyReport == null}">
                     <div class="date-box">
-                        <h2>Up coming babies on:</h2>
-                        <strong>12 NOV 2025</strong>
+                        <h2>Upcoming babies on:</h2>
+                        <strong th:text="${#temporals.format(pregnancyReport.earliestDueDate, 'dd MMM yyyy')}">12 NOV 2025</strong>
                     </div>
-                    <a th:href="@{'/pregnancies/' + ${pregnancy.id} + '/details'}" class="btn view-pregnancy-button">
+                    <a th:href="@{'/pregnancies/' + ${pregnancyReport.id} + '/details'}" class="btn view-pregnancy-button">
                         <p>More Info</p>
                     </a>
                 </div>
-                <div class="rabbit-parents">
+                <div class="rabbit-parents" th:unless="${pregnancyReport == null}">
                     <div class="parent-box">
                         <h3>Mother: </h3>
-                        <p>code: 23-fr</p>
-                        <p>name: Bella</p>
-                        <p>id: 45vbdf-dghj5vbsvfd-s5f67dfhgf56df</p>
+                        <p th:text="'code: ' + ${pregnancyReport.mother.code}">code: 23-fr</p>
+                        <p th:text="'name: ' + ${pregnancyReport.mother.name}">name: Bella</p>
+                        <p th:text="'id: ' + ${pregnancyReport.mother.id}">id: 45vbdf-dghj5vbsvfd-s5f67dfhgf56df</p>
                     </div>
                     <div class="parent-box">
                         <h3>Father: </h3>
-                        <p>code: 28-ed</p>
-                        <p>name: Max</p>
-                        <p>id: lp235dvss-456hjvbsvfd-3xcf6567vbn56b67n</p>
+                        <p th:text="'code: ' + ${pregnancyReport.father.code}">code: 28-ed</p>
+                        <p th:text="'id: ' + ${pregnancyReport.father.name}">name: Max</p>
+                        <p th:text="'id: ' + ${pregnancyReport.father.id}">id: lp235dvss-456hjvbsvfd-3xcf6567vbn56b67n</p>
                     </div>
+                </div>
+                <div class="empty-rabbit-box" th:if="${pregnancyReport == null}">
+                    <p>No Pregnancy reports yet!</p>
                 </div>
             </div>
 
             <h3 class="align-subscription-box">Subsription</h3>
 
             <div class="subscription-box">
-                <strong>family hobby farm</strong>
+                <strong th:text="${user.subscriptions.get(0).type.getDisplayName()}">family hobby farm</strong>
                 <div class="subscription-info">
-                    <p>valid from: 17 OCT 2025</p>
-                    <p>valid untill: --</p>
+                    <p th:text="'valid from: ' + ${#temporals.format(user.subscriptions.get(0).createdOn, 'dd MMM yyyy')}">valid from: 17 OCT 2025</p>
+                    <p th:text="'valid until: ' + ${#temporals.format(user.subscriptions.get(0).expirationOn, 'dd MMM yyyy')}">valid until: --</p>
                 </div>
                 <a th:href="@{'/subscription'}" class="btn change-subscription-button">
-                    <p>Change Subsription</p>
+                    <p>Change Subscription</p>
                 </a>
             </div>
 

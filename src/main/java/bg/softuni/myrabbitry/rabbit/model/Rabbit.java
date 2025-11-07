@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,23 +24,21 @@ public class Rabbit {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "photo_url")
     private String photoUrl;
 
     private String name;
 
-    @Column(nullable = false, name = "custom_id")
+    @Column(nullable = false, unique = true)
     private String code;
 
     private String description;
 
-    @Column(name = "mother_id")
-    private String motherId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Rabbit mother;
 
-    @Column(name = "father_id")
-    private String fatherId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Rabbit father;
 
-    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Column(nullable = false)
@@ -52,31 +51,33 @@ public class Rabbit {
     @Column(nullable = false)
     private String pattern;
 
-    @Column(nullable = false, name = "eye_colour")
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EyeColour eyeColour;
 
-    @Column(nullable = false, name = "ear_shape")
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EarShape earShape;
 
-    @Column(nullable = false, name = "coat_length")
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CoatLength coatLength;
 
     private String breed;
 
-    @Column(name = "vaccinate_on")
     private LocalDate vaccinatedOn;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    private User owner;
+    @Column(nullable = false)
+    private LocalDateTime createdOn;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "mother")
-    private List<PregnancyReport> pregnancyReports = new ArrayList<>();
+    @Column(nullable = false)
+    private LocalDateTime updatedOn;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User owner;
 }
