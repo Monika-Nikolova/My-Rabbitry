@@ -74,6 +74,10 @@ main.stats-content .double-col .first-column {
     font-weight: 800;
 }
 
+.best-parent {
+    min-height: 250px;
+}
+
 .best-parent h3 {
     text-align: center;
 }
@@ -95,11 +99,6 @@ main.stats-content .double-col .first-column {
     width: 170px;
     height: 170px;
     border-radius: 50%;
-    background: conic-gradient(#FF7518 0% 40%,
-            #CC5500 40% 60%,
-            #B7410E 60% 75%,
-            #FFC77D 75% 90%,
-            #F8B88B 90% 100%);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -133,6 +132,7 @@ main.stats-content .double-col .first-column {
     padding-top: 0;
     background-color: #355E3B;
     color: white;
+    min-height: 330px;
 }
 
 .rabbits-born-per-year h3 {

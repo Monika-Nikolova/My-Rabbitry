@@ -12,4 +12,8 @@ import java.util.UUID;
 @Repository
 public interface PregnancyRepository extends JpaRepository<PregnancyReport, UUID> {
     List<PregnancyReport> getAllByMotherInOrderByDayOfFertilizationDesc(Collection<Rabbit> mother);
+
+    List<PregnancyReport> getAllByMother(Rabbit doe);
+
+    List<PregnancyReport> getAllByFather(Rabbit buck);
 }

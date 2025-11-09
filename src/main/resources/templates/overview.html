@@ -22,12 +22,12 @@
                 <span class="brand-name">MyRabbitry</span>
             </div>
             <ul class="nav-list">
-                <li><a href="./dashboard.html">Profile</a></li>
-                <li><a href="./my-rabbits.html">My Rabbits</a></li>
-                <li><a href="./overview.html" class="active">Overview</a></li>
+                <li><a href="/dashboard">Profile</a></li>
+                <li><a href="/my-rabbits">My Rabbits</a></li>
+                <li><a href="/overview" class="active">Overview</a></li>
                 <li><a href="./maternity-ward.html">Maternity Ward</a></li>
                 <li><a href="./pregnancy-details.html">Pregnancy Reports</a></li>
-                <li><a href="./family-tree.html">Family Tree</a></li>
+                <li><a href="/family-tree">Family Tree</a></li>
                 <li><a href="./subscription.html">Subscription</a></li>
                 <li><a href="./index.html" id="logoutBtn">Log out</a></li>
             </ul>
@@ -84,7 +84,7 @@
                             </svg>
                             <div class="count-info">
                                 <strong>Rabbits in rabbitry</strong>
-                                <p>39</p>
+                                <p th:text="${stats.rabbitsInRabbitry}">39</p>
                             </div>
                         </div>
                         <div class="rabbit-count" style="background-color: #438c4e;">
@@ -106,7 +106,7 @@
                             </svg>
                             <div class="count-info">
                                 <strong>Total rabbits</strong>
-                                <p>137</p>
+                                <p th:text="${stats.totalRabbits}">137</p>
                             </div>
                         </div>
                         <div class="rabbit-count" style="background-color: #30a864;">
@@ -123,7 +123,7 @@
                             </svg>
                             <div class="count-info">
                                 <strong>Does</strong>
-                                <p>5</p>
+                                <p th:text="${stats.does}">5</p>
                             </div>
                         </div>
                         <div class="rabbit-count" style="background-color: #31a262;">
@@ -144,7 +144,7 @@
                             </svg>
                             <div class="count-info">
                                 <strong>Bucks</strong>
-                                <p>2</p>
+                                <p th:text="${stats.bucks}">2</p>
                             </div>
                         </div>
                         <div class="rabbit-count" style="background-color: #3fae59;">
@@ -169,120 +169,166 @@
                             </svg>
                             <div class="count-info">
                                 <strong>Born in rabbitry</strong>
-                                <p>120</p>
+                                <p th:text="${stats.bornInRabbitry}">120</p>
                             </div>
                         </div>
                     </div>
                     <div class="best-parent" style="background-color: #FFC77D; color: #3B2F2F;">
-                        <h3>The best mother is: <span class="celebration-text">35-ft</span></h3>
-                        <div class="best-parent-info double-col">
-                            <div class="column first-column">
-                                <p>name: Loretta</p>
-                                <p>id: hg234vb3h-bv243bn4-bv233nb3vb3nb</p>
-                                <p>birthdate: 7 Jan 2021</p>
+                        <div th:unless="${bestMother == null}">
+                            <h3>The best mother is: <span class="celebration-text" th:text="${bestMother.code}">35-ft</span></h3>
+                            <div class="best-parent-info double-col">
+                                <div class="column first-column">
+                                    <p th:text="'name: ' + ${#strings.isEmpty(bestMother.name) ? 'n/a' : bestMother.name}">name: Loretta</p>
+                                    <p th:text="'id: ' + ${bestMother.id}">id: hg234vb3h-bv243bn4-bv233nb3vb3nb</p>
+                                    <p th:text="'birthdate: ' + ${#strings.isEmpty(bestMother.birthDate) ? 'n/a' : #temporals.format(bestMother.birthDate, 'dd MMM yyyy')}">birthdate: 7 Jan 2021</p>
+                                </div>
+                                <div class="column">
+                                    <p th:text="'count of litters: ' + ${bestMother.countLiters}">count of litters: 6</p>
+                                    <p th:text="'born kids: ' + ${bestMother.bornKids}">born kids: 43</p>
+                                    <p th:text="'weaned kids: ' + ${bestMother.weanedKids}">weaned kids: 40</p>
+                                    <p th:text="'death percentage: ' + ${#numbers.formatDecimal(bestMother.deathPercentage, 1, 0)} + '%'">death percentage: 7%</p>
+                                    <p th:text="'lactating quantity: ' + ${#numbers.formatDecimal(bestMother.lactatingQuantity, 1, 2)}">lactating quantity: 100</p>
+                                </div>
                             </div>
-                            <div class="column">
-                                <p>count of litters: 6</p>
-                                <p>born kids: 43</p>
-                                <p>weaned kids: 40</p>
-                                <p>death percentage: 7%</p>
-                            </div>
+                        </div>
+                        <div class="empty-rabbit-box" th:if="${bestMother == null}">
+                            <p>No mothers in your rabbitry or no pregnancy reports!</p>
                         </div>
                     </div>
                     <div class="best-parent" style="background-color: #3B2F2F; color: #FFC77D;">
-                        <h3>The best father is: <span class="celebration-text">15-hd</span></h3>
-                        <div class="best-parent-info double-col">
-                            <div class="column" style="color: #FFC77D;">
-                                <p>name: Dorm</p>
-                                <p>id: ha93b8b3h-7c8d243bbs7-0msj13nbvb820s</p>
-                                <p>birthdate: 12 Aug 2023</p>
-                                <p>father to: 80</p>
-                            </div>
-                            <div class="column first-column">
-                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                    xml:space="preserve" fill="#000000">
+                        <div th:unless="${bestFather == null}">
+                            <h3>The best father is: <span class="celebration-text" th:text="${bestFather.code}">15-hd</span></h3>
+                            <div class="best-parent-info double-col">
+                                <div class="column" style="color: #FFC77D;">
+                                    <p th:text="'name: ' + ${#strings.isEmpty(bestFather.name) ? 'n/a' : bestFather.name}">name: Dorm</p>
+                                    <p th:text="'id: ' + ${bestFather.id}">id: ha93b8b3h-7c8d243bbs7-0msj13nbvb820s</p>
+                                    <p th:text="'birthdate: ' + ${#strings.isEmpty(bestFather.birthDate) ? 'n/a' : #temporals.format(bestFather.birthDate, 'dd MMM yyyy')}">birthdate: 12 Aug 2023</p>
+                                    <p th:text="'father to: ' + ${bestFather.bornKids}">father to: 80</p>
+                                </div>
+                                <div class="column first-column">
+                                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+                                         xml:space="preserve" fill="#000000">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
                                         <path style="fill:#F6D76F;"
-                                            d="M434.087,0c-30.736,0-55.652,24.917-55.652,55.652V215.56l55.652-0.742V0z">
+                                              d="M434.087,0c-30.736,0-55.652,24.917-55.652,55.652V215.56l55.652-0.742V0z">
                                         </path>
-                                        <g>
+                                            <g>
                                             <path style="fill:#FAEAB6;"
-                                                d="M356.174,155.826V0c-30.736,0-55.652,24.917-55.652,55.652v166.957l-100.174,66.783 c20.405,53.055,63.81,162.504,76.8,191.814l21.832-13.727c79.809-50.397,133.266-138.738,135.041-239.685 c23.196-10.492,39.022-33.775,39.022-60.837v-11.13H356.174z">
+                                                  d="M356.174,155.826V0c-30.736,0-55.652,24.917-55.652,55.652v166.957l-100.174,66.783 c20.405,53.055,63.81,162.504,76.8,191.814l21.832-13.727c79.809-50.397,133.266-138.738,135.041-239.685 c23.196-10.492,39.022-33.775,39.022-60.837v-11.13H356.174z">
                                             </path>
-                                            <path style="fill:#FAEAB6;"
-                                                d="M90.261,417.044c-5.178-3.299-11.32-5.218-17.913-5.218c-18.442,0-33.391,14.949-33.391,33.391 c0,36.883,29.9,66.783,66.783,66.783c1.879,0,3.734-0.097,5.574-0.249c0-3.536,23.362-55.032,23.365-55.032 C122.064,444.847,104.255,430.005,90.261,417.044z">
+                                                <path style="fill:#FAEAB6;"
+                                                      d="M90.261,417.044c-5.178-3.299-11.32-5.218-17.913-5.218c-18.442,0-33.391,14.949-33.391,33.391 c0,36.883,29.9,66.783,66.783,66.783c1.879,0,3.734-0.097,5.574-0.249c0-3.536,23.362-55.032,23.365-55.032 C122.064,444.847,104.255,430.005,90.261,417.044z">
                                             </path>
                                         </g>
-                                        <path style="fill:#F6D76F;"
-                                            d="M111.313,512h233.73c0-24.588-19.933-44.522-44.522-44.522h-11.126 c13.974-18.602,22.256-41.725,22.256-66.783c0-61.471-49.832-111.304-111.304-111.304S89.043,339.224,89.043,400.696 c0,5.556,0.43,11.01,1.218,16.348c2.763,18.736,10.177,35.956,21.055,50.435c-0.003,0-0.003,40.736-0.003,44.272 C111.313,511.911,111.313,512,111.313,512z">
+                                            <path style="fill:#F6D76F;"
+                                                  d="M111.313,512h233.73c0-24.588-19.933-44.522-44.522-44.522h-11.126 c13.974-18.602,22.256-41.725,22.256-66.783c0-61.471-49.832-111.304-111.304-111.304S89.043,339.224,89.043,400.696 c0,5.556,0.43,11.01,1.218,16.348c2.763,18.736,10.177,35.956,21.055,50.435c-0.003,0-0.003,40.736-0.003,44.272 C111.313,511.911,111.313,512,111.313,512z">
                                         </path>
-                                        <g>
+                                            <g>
                                             <rect x="122.435" y="400.696" style="fill:#FAE8AC;" width="33.391"
-                                                height="33.391"></rect>
-                                            <rect x="166.957" y="445.217" style="fill:#FAE8AC;" width="33.391"
-                                                height="33.391"></rect>
+                                                  height="33.391"></rect>
+                                                <rect x="166.957" y="445.217" style="fill:#FAE8AC;" width="33.391"
+                                                      height="33.391"></rect>
                                         </g>
                                     </g>
                                 </svg>
+                                </div>
                             </div>
+                        </div>
+                        <div class="empty-rabbit-box" th:if="${bestFather == null}">
+                            <p>No fathers in your rabbitry or no pregnancy reports!</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="column second-column dashboard-content">
                     <div class="pie-chart-container">
-                        <div class="pie"></div>
+                        <svg class="pie" viewBox="0 0 36 36">
+                            <circle cx="18" cy="18" r="16" fill="none" stroke="#eee" stroke-width="32"/>
+                            <th:block>
+                                <th:block >
+                                    <circle
+                                            cx="18" cy="18" r="16"
+                                            fill="none"
+                                            stroke-width="32"
+                                            th:stroke="'#FF7518'"
+                                            th:stroke-dasharray="${processed} + ' ' + ${100 - processed}"
+                                            th:stroke-dashoffset="${processed}"
+                                    />
+                                </th:block>
+                                <th:block>
+                                    <circle
+                                            cx="18" cy="18" r="16"
+                                            fill="none"
+                                            stroke-width="32"
+                                            th:stroke="'#CC5500'"
+                                            th:stroke-dasharray="${sold} + ' ' + ${100 - sold}"
+                                            th:stroke-dashoffset="${processed + sold}"
+                                    />
+                                </th:block>
+                                <th:block>
+                                    <circle
+                                            cx="18" cy="18" r="16"
+                                            fill="none"
+                                            stroke-width="32"
+                                            th:stroke="'#B7410E'"
+                                            th:stroke-dasharray="${forMeat} + ' ' + ${100 - forMeat}"
+                                            th:stroke-dashoffset="${processed + sold + forMeat}"
+                                    />
+                                </th:block>
+                                <th:block>
+                                    <circle
+                                            cx="18" cy="18" r="16"
+                                            fill="none"
+                                            stroke-width="32"
+                                            th:stroke="'#FFC77D'"
+                                            th:stroke-dasharray="${inactive} + ' ' + ${100 - inactive}"
+                                            th:stroke-dashoffset="${processed + sold + forMeat + inactive}"
+                                    />
+                                </th:block>
+                                <th:block>
+                                    <circle
+                                            cx="18" cy="18" r="16"
+                                            fill="none"
+                                            stroke-width="32"
+                                            th:stroke="'#F8B88B'"
+                                            th:stroke-dasharray="${forBreeding} + ' ' + ${100 - forBreeding}"
+                                            th:stroke-dashoffset="${processed + sold + forMeat + inactive + forBreeding}"
+                                    />
+                                </th:block>
+                            </th:block>
+                        </svg>
+
                         <div class="legend">
                             <div class="legend-lable">
                                 <div class="rectangle" style="background-color: #FF7518;"></div>
-                                <strong>processed 40%</strong>
+                                <strong th:text="'processed ' + ${#numbers.formatDecimal(processed, 1, 1)} + '%'">processed 40%</strong>
                             </div>
                             <div class="legend-lable">
                                 <div class="rectangle" style="background-color: #CC5500;"></div>
-                                <strong>sold 20%</strong>
+                                <strong th:text="'sold ' + ${#numbers.formatDecimal(sold, 1, 1)} + '%'">sold 20%</strong>
                             </div>
                             <div class="legend-lable">
                                 <div class="rectangle" style="background-color: #B7410E;"></div>
-                                <strong>for meat 15%</strong>
+                                <strong th:text="'for meat ' + ${#numbers.formatDecimal(forMeat, 1, 1)} + '%'">for meat 15%</strong>
                             </div>
                             <div class="legend-lable">
                                 <div class="rectangle" style="background-color: #FFC77D;"></div>
-                                <strong>inactive 15%</strong>
+                                <strong th:text="'inactive ' + ${#numbers.formatDecimal(inactive, 1, 1)} + '%'">inactive 15%</strong>
                             </div>
                             <div class="legend-lable">
                                 <div class="rectangle" style="background-color: #F8B88B;"></div>
-                                <strong>for breeding 10%</strong>
+                                <strong th:text="'for breeding ' + ${#numbers.formatDecimal(forBreeding, 1, 1)} + '%'">for breeding 10%</strong>
                             </div>
                         </div>
                     </div>
                     <div class="rabbits-born-per-year">
                         <h3>Rabbits born per year</h3>
-                        <div class="year-container">
-                            <strong>2025</strong>
-                            <div class="progress-bar"></div>
-                            <p>55</p>
-                        </div>
-                        <div class="year-container">
-                            <strong>2024</strong>
-                            <div class="progress-bar"></div>
-                            <p>62</p>
-                        </div>
-                        <div class="year-container">
-                            <strong>2023</strong>
-                            <div class="progress-bar"></div>
-                            <p>37</p>
-                        </div>
-                        <div class="year-container">
-                            <strong>2022</strong>
-                            <div class="progress-bar"></div>
-                            <p>70</p>
-                        </div>
-                        <div class="year-container">
-                            <strong>2021</strong>
-                            <div class="progress-bar"></div>
-                            <p>31</p>
+                        <div class="year-container" th:each="entry : ${stats.countRabbitsByYear.entrySet()}">
+                            <strong th:text="${entry.getKey()}">2025</strong>
+                            <div class="progress-bar" th:style="'width: ' + ${entry.getValue() / stats.mostRabbitsInYear * 100} + '%'"></div>
+                            <p th:text="${entry.getValue()}">55</p>
                         </div>
                     </div>
                 </div>

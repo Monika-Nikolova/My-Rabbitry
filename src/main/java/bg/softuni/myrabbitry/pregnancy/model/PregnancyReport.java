@@ -39,6 +39,8 @@ public class PregnancyReport {
 
     private Integer countWeanedKids;
 
+    private Double deathPercentage;
+
     private Double totalWeightKidsDay1;
 
     private Double totalWeightKidsDay20;
