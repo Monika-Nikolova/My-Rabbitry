@@ -6,11 +6,10 @@
 .family-tree-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-end;
     padding: 40px 20px;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
     font-size: 13px;
 }
 
@@ -21,6 +20,12 @@
     align-self: flex-start;
     gap: 1.5rem;
     margin-bottom: -30px;
+}
+
+.form-line p {
+    margin-left: 35px;
+    color: #1f6f3b;
+    font-size: 0.7rem;
 }
 
 .tree {
@@ -119,16 +124,16 @@
 }
 
 .tree li a:hover,
-.tree li a:hover+ul li a {
+.tree li div:has(a:hover)+ul li a {
     background: #c8f8c8;
     color: #000;
     border: 1px solid #99b494;
 }
 
-.tree li a:hover+ul li::after,
-.tree li a:hover+ul li::before,
-.tree li a:hover+ul::before,
-.tree li a:hover+ul ul::before {
+.tree li div:has(a:hover)+ul li::after,
+.tree li div:has(a:hover)+ul li::before,
+.tree li div:has(a:hover)+ul::before,
+.tree li div:has(a:hover)+ul ul::before {
     border-color: #99b494;
 }
 

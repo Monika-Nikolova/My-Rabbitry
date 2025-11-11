@@ -4,8 +4,10 @@ import bg.softuni.myrabbitry.rabbit.model.Rabbit;
 import bg.softuni.myrabbitry.rabbit.repository.RabbitRepository;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.service.UserService;
+import bg.softuni.myrabbitry.web.dto.FamilyTreeDto;
 import bg.softuni.myrabbitry.web.dto.RabbitRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +82,22 @@ public class RabbitService {
         log.info(String.format("Rabbit with id [%s] and code [%s] has been created", rabbit.getId(), rabbitRequest.getCode()));
     }
 
-    private Rabbit findByCode(String code) {
+    public Rabbit findByCode(String code) {
         return rabbitRepository.findByCode(code).orElseThrow(() -> new RuntimeException(String.format("Rabbit with code %s not found", code)));
+    }
+
+    public FamilyTreeDto createFamilyTree(Rabbit rabbit) {
+        return buildTree(rabbit, 4);
+    }
+
+    private FamilyTreeDto buildTree(Rabbit rabbit, int generations) {
+        if (rabbit == null || generations == 0) {
+            return null;
+        }
+        return FamilyTreeDto.builder()
+                .child(rabbit)
+                .mother(buildTree(rabbit.getMother(), generations - 1))
+                .father(buildTree(rabbit.getFather(), generations - 1))
+                .build();
     }
 }

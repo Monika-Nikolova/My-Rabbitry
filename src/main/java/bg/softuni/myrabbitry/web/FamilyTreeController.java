@@ -1,19 +1,48 @@
 package bg.softuni.myrabbitry.web;
 
+import bg.softuni.myrabbitry.rabbit.service.RabbitService;
+import bg.softuni.myrabbitry.web.dto.FamilyTreeDto;
+import bg.softuni.myrabbitry.web.dto.FamilyTreeRequest;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/family-tree")
 public class FamilyTreeController {
 
+
+    private final RabbitService rabbitService;
+
+    public FamilyTreeController(RabbitService rabbitService) {
+        this.rabbitService = rabbitService;
+    }
+
     @GetMapping
     public ModelAndView getFamilyTreePage() {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("family-tree");
+        modelAndView.addObject("familyTreeRequest", new FamilyTreeRequest());
 
         return modelAndView;
+    }
+
+    @PostMapping
+    public ModelAndView makeFamilyTree(@Valid FamilyTreeRequest familyTreeRequest, RedirectAttributes redirectAttributes,  BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("family-tree");
+        }
+
+        FamilyTreeDto familyTree = rabbitService.createFamilyTree(rabbitService.findByCode(familyTreeRequest.getCode()));
+        redirectAttributes.addFlashAttribute("familyTree", familyTree);
+
+        return new ModelAndView("redirect:/family-tree");
     }
 }
