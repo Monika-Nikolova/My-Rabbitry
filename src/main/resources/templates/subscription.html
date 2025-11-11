@@ -49,7 +49,7 @@
                                 <td>Store up to 50 rabbits</td>
                             </tr>
                             <tr>
-                                <td>Access to function pregnancy reports</td>
+                                <td>Create pregnancy reports</td>
                             </tr>
                         </tbody>
                     </table>
@@ -60,24 +60,23 @@
                     <p>0.00</p>
                     <p>yearly price</p>
                 </div>
-                <form class="subscription-form" method="POST">
-                    <label>Choose period</label>
-                    <select name="subscriptionPeriod">
-                        <option>Monthly</option>
+                <form class="subscription-form" th:action="@{'/subscriptions?subscriptionType=FAMILY_HOBBY_FARM'}" th:method="POST" th:object="${subscriptionRequest}">
+                    <label>Period</label>
+                    <select name="period" th:feild="*{period}">
+                        <option th:value="${T(bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod).YEARLY}" th:text="${T(bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod).YEARLY.getDisplayName()}" selected>Yearly</option>
                     </select>
-                    <label>Choose payment method</label>
-                    <select name="paymentMethod">
-                        <option>Debit Card</option>
-                    </select>
-                    <div class="current-sub-label">
+                    <div class="current-sub-label" th:if="${currentSubscription.getType().name().equals('FAMILY_HOBBY_FARM')}">
                         <p>Your current subscription</p>
                     </div>
+                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" th:unless="${currentSubscription.getType().name().equals('FAMILY_HOBBY_FARM')}">
+                        <strong>Get Now</strong>
+                    </button>
                 </form>
             </div>
 
              <div class="subscription-box" style="background-color: rgb(255, 241, 214);">
                 <div class="subscription-box-header large">
-                    <h2>family hobby farm</h2>
+                    <h2>large farm</h2>
                 </div>
                 <div class="subscription-dividends">
                     <table class="styled-table large-dividends">
@@ -88,10 +87,10 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Store up to 200 rabbits</td>
+                                <td>Store up to 250 rabbits</td>
                             </tr>
                             <tr>
-                                <td>Access to function overview</td>
+                                <td>Access to family tree</td>
                             </tr>
                         </tbody>
                     </table>
@@ -102,17 +101,21 @@
                     <p>55.00</p>
                     <p>yearly price</p>
                 </div>
-                <form class="subscription-form" method="POST">
+                <form class="subscription-form" th:action="@{'/subscriptions?subscriptionType=LARGE_FARM'}" th:method="POST" th:object="${subscriptionRequest}">
                     <label class="large-label">Choose period</label>
-                    <select name="subscriptionPeriod">
-                        <option>Monthly</option>
+                    <select name="period" th:feild="*{period}">
+                        <option value="" selected>Select</option>
+                        <option th:each="period : ${T(bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod).values()}" th:value="${period}" th:text="${period.getDisplayName()}">Monthly</option>
                     </select>
                     <label class="large-label">Choose payment method</label>
-                    <select name="paymentMethod">
-                        <option>Debit Card</option>
+                    <select name="paymentMethod" th:field="*{paymentMethod}">
+                        <option value="" selected>Select</option>
+                        <option th:each="paymentMethod : ${T(bg.softuni.myrabbitry.subscription.model.PaymentMethod).values()}" th:value="${paymentMethod}" th:text="${paymentMethod.getDisplayName()}">Debit Card</option>
                     </select>
-                    <button
-                        class="btn subscription-buy-button" type="submit" name="subscriptionType">
+                    <div class="current-sub-label" th:if="${currentSubscription.getType().name().equals('LARGE_FARM')}">
+                        <p>Your current subscription</p>
+                    </div>
+                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" th:unless="${currentSubscription.getType().name().equals('LARGE_FARM')}">
                         <strong>Buy</strong>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -126,7 +129,7 @@
             
              <div class="subscription-box" style="background-color: rgb(252, 220, 220);">
                 <div class="subscription-box-header industrial">
-                    <h2>family hobby farm</h2>
+                    <h2>industrial farm</h2>
                 </div>
                 <div class="subscription-dividends">
                     <table class="styled-table industrial-dividends">
@@ -140,7 +143,7 @@
                                 <td>Store unlimited rabbits</td>
                             </tr>
                             <tr>
-                                <td>Access to all functions</td>
+                                <td>Access to all features</td>
                             </tr>
                         </tbody>
                     </table>
@@ -151,17 +154,21 @@
                     <p>450.00</p>
                     <p>yearly price</p>
                 </div>
-                <form class="subscription-form" method="POST">
+                <form class="subscription-form" th:action="@{'/subscriptions?subscriptionType=INDUSTRIAL_FARM'}" th:method="POST" th:object="${subscriptionRequest}">
                     <label class="industrial-label">Choose period</label>
-                    <select name="subscriptionPeriod">
-                        <option>Monthly</option>
+                    <select name="period" th:feild="*{period}">
+                        <option value="" selected>Select</option>
+                        <option th:each="period : ${T(bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod).values()}" th:value="${period}" th:text="${period.getDisplayName()}">Monthly</option>
                     </select>
                     <label class="industrial-label">Choose payment method</label>
-                    <select name="paymentMethod">
-                        <option>Debit Card</option>
+                    <select name="paymentMethod" th:field="*{paymentMethod}">
+                        <option value="" selected>Select</option>
+                        <option th:each="paymentMethod : ${T(bg.softuni.myrabbitry.subscription.model.PaymentMethod).values()}" th:value="${paymentMethod}" th:text="${paymentMethod.getDisplayName()}">Debit Card</option>
                     </select>
-                    <button
-                        class="btn subscription-buy-button" type="submit" name="subscriptionType">
+                    <div class="current-sub-label" th:if="${currentSubscription.getType().name().equals('INDUSTRIAL_FARM')}">
+                        <p>Your current subscription</p>
+                    </div>
+                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" th:unless="${currentSubscription.getType().name().equals('INDUSTRIAL_FARM')}">
                         <strong>Buy</strong>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path

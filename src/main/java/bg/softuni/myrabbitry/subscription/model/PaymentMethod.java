@@ -3,13 +3,13 @@ package bg.softuni.myrabbitry.subscription.model;
 import lombok.Getter;
 
 @Getter
-public enum SubscriptionPeriod {
-    MONTHLY("Monthly"),
-    YEARLY("Yearly");
+public enum PaymentMethod {
+    CREDIT_CARD("Debit Card"),
+    DEBIT_CARD("Credit Card");
 
     private final String displayName;
 
-    SubscriptionPeriod(String displayName) {
+    PaymentMethod(String displayName) {
         this.displayName = displayName;
     }
 }

@@ -34,6 +34,10 @@
     padding-inline: 20px;
 }
 
+.styled-table {
+    min-width: 100%;
+}
+
 .styled-table thead th{
     display: block;
     margin-top: 15px;
@@ -41,14 +45,18 @@
 }
 
 .styled-table tbody {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 30px 0;
+    min-width: 100%;
 }
 
 .styled-table tbody tr td{
     display: block;
     margin-bottom: 10px;
     text-align: center;
+    min-width: 100%;
 }
 
 .subscription-price {

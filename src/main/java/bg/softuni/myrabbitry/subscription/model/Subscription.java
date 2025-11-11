@@ -40,6 +40,8 @@ public class Subscription {
     @Column(nullable = false)
     private LocalDateTime expirationOn;
 
+    private PaymentMethod paymentMethod;
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private User owner;
