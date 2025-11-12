@@ -25,11 +25,11 @@
                     <li><a href="/dashboard" class="active">Profile</a></li>
                 <li><a href="/my-rabbits">My Rabbits</a></li>
                 <li><a href="/overview">Overview</a></li>
-                <li><a href="./maternity-ward.html">Maternity Ward</a></li>
-                <li><a href="./pregnancy-details.html">Pregnancy Reports</a></li>
+                <li><a href="/pregnancies">Maternity Ward</a></li>
+                <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
                 <li><a href="/family-tree">Family Tree</a></li>
                 <li><a href="/subscriptions">Subscription</a></li>
-                <li><a href="./index.html" id="logoutBtn">Log out</a></li>
+                <li><a href="/logout" id="logoutBtn">Log out</a></li>
                 </ul>
             </aside>
         </div>
@@ -102,10 +102,10 @@
             <div class="pregnancy-box">
                 <div class="pregnancy-headder" th:unless="${pregnancyReport == null}">
                     <div class="date-box">
-                        <h2>Upcoming babies on:</h2>
-                        <strong th:text="${#temporals.format(pregnancyReport.earliestDueDate, 'dd MMM yyyy')}">12 NOV 2025</strong>
+                        <h2>Latest pregnancy report due date:</h2>
+                        <strong th:text="${#strings.isEmpty(pregnancyReport.earliestDueDate) ? 'n/a' : #temporals.format(pregnancyReport.earliestDueDate, 'dd MMM yyyy')}">12 NOV 2025</strong>
                     </div>
-                    <a th:href="@{'/pregnancies/' + ${pregnancyReport.id} + '/details'}" class="btn view-pregnancy-button">
+                    <a th:href="@{'/pregnancies/details' + ${pregnancyReport.id}}" class="btn view-pregnancy-button">
                         <p>More Info</p>
                     </a>
                 </div>
@@ -113,13 +113,13 @@
                     <div class="parent-box">
                         <h3>Mother: </h3>
                         <p th:text="'code: ' + ${pregnancyReport.mother.code}">code: 23-fr</p>
-                        <p th:text="'name: ' + ${pregnancyReport.mother.name}">name: Bella</p>
+                        <p th:text="'name: ' + ${#strings.isEmpty(pregnancyReport.mother.name) ? 'n/a' : pregnancyReport.mother.name}">name: Bella</p>
                         <p th:text="'id: ' + ${pregnancyReport.mother.id}">id: 45vbdf-dghj5vbsvfd-s5f67dfhgf56df</p>
                     </div>
                     <div class="parent-box">
                         <h3>Father: </h3>
                         <p th:text="'code: ' + ${pregnancyReport.father.code}">code: 28-ed</p>
-                        <p th:text="'id: ' + ${pregnancyReport.father.name}">name: Max</p>
+                        <p th:text="'name: ' + ${#strings.isEmpty(pregnancyReport.father.name) ? 'n/a' : pregnancyReport.father.name}">name: Max</p>
                         <p th:text="'id: ' + ${pregnancyReport.father.id}">id: lp235dvss-456hjvbsvfd-3xcf6567vbn56b67n</p>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                     <p th:text="'valid from: ' + ${#temporals.format(user.subscriptions.get(0).createdOn, 'dd MMM yyyy')}">valid from: 17 OCT 2025</p>
                     <p th:text="'valid until: ' + ${#temporals.format(user.subscriptions.get(0).expirationOn, 'dd MMM yyyy')}">valid until: --</p>
                 </div>
-                <a th:href="@{'/subscription'}" class="btn change-subscription-button">
+                <a th:href="@{'/subscriptions'}" class="btn change-subscription-button">
                     <p>Change Subscription</p>
                 </a>
             </div>

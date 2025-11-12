@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Rabbit — MyRabbitry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/images/logo.png">
+    <style>
+        .page-form {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .form-container {
+            padding: 24px;
+            overflow: auto;
+        }
+
+        .form-card {
+            background: var(--paper);
+            border: 1px solid rgba(47, 143, 78, 0.18);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-form">
+        <main class="form-container">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2 style="margin:0;">Add Pregnancy Report</h2>
+                    <a href="/my-rabbits" class="btn btn-ghost">Cancel</a>
+                </div>
+                <p class="helper">Fields marked with * are mandatory.</p>
+                <form id="rabbitForm" class="form-grid" th:action="@{'/pregnancies/new'}" th:method="POST" th:object="${pregnancyRequest}">
+                    <div class="form-row">
+                        <label for="mother">Mother code *</label>
+                        <input th:feild="*{mother}" id="mother" name="mother" type="text" placeholder="Mother code">
+                    </div>
+                    <div class="form-row">
+                        <label for="father">Father code</label>
+                        <input th:feild="*{father}" id="father" name="father" type="text" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="fertilization">Day of fertilization</label>
+                        <input th:feild="*{dayOfFertilization}" id="fertilization" name="dayOfFertilization" type="date">
+                    </div>
+                    <div class="form-row">
+                        <label for="birth">Date of birth</label>
+                        <input th:feild="*{dateOfBirth}" id="birth" name="dateOfBirth" type="date">
+                    </div>
+                    <div class="form-row">
+                        <label for="bornKids">Number of born kits</label>
+                        <input th:feild="*{countBornKids}" id="bornKids" name="countBornKids" type="number" min="0" max="25" step="1" value="null" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="weanedKids">Number of weaned kits</label>
+                        <input th:feild="*{countWeanedKids}" id="weanedKids" name="countWeanedKids" type="number" min="0" max="25" step="1" value="null" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="weightDay1">Total weight of live kits on the day of birth in grams</label>
+                        <input th:feild="*{totalWeightKidsDay1}" id="weightDay1" name="totalWeightKidsDay1" type="number" value="null" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="weightDay20">Total weight of live kits on day 20 in grams</label>
+                        <input th:feild="*{totalWeightKidsDay20}" id="weightDay20" name="totalWeightKidsDay20" type="number" value="null" placeholder="Optional">
+                    </div>
+                    <div class="form-row">
+                        <label for="falsePregnancy">Is it a false pregnancy *</label>
+                        <select th:feild="*{isFalsePregnancy}" id="falsePregnancy" name="isFalsePregnancy">
+                            <option th:value="false" selected>No</option>
+                            <option th:value="true">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="cannibalism">Is cannibalism present *</label>
+                        <select th:field="*{cannibalismPresent}" id="cannibalism" name="isCannibalismPresent">
+                            <option th:value="false" selected>No</option>
+                            <option th:value="true">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="abort">Are there signs of abort *</label>
+                        <select th:field="*{hasAbort}" id="abort" name="hasAbort">
+                            <option th:value="false" selected>No</option>
+                            <option th:value="true">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="pregnant">Was the doe pregnant *</label>
+                        <select th:field="*{wasPregnant}" id="pregnant" name="wasPregnant">
+                            <option th:value="true" selected>Yes</option>
+                            <option th:value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary">Add Pregnancy Report</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -9,14 +9,6 @@ body {
     width: 50px;
 }
 
-.best-parent-info .first-column svg {
-    position: absolute;
-    height: 200px;
-    width: 200px;
-    left: 750px;
-    z-index: 2;
-}
-
 .stats-content {
     display: flex;
     flex-direction: column;
@@ -76,6 +68,7 @@ main.stats-content .double-col .first-column {
 
 .best-parent {
     min-height: 250px;
+    max-height: 270px;
 }
 
 .best-parent h3 {
@@ -84,6 +77,15 @@ main.stats-content .double-col .first-column {
 
 .best-parent .best-parent-info p {
     font-size: 15px;
+}
+
+.best-parent-info .first-column svg {
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    left: 750px;
+    bottom: 90px;
+    z-index: 2;
 }
 
 .double-col .second-column .pie-chart-container {
@@ -110,7 +112,7 @@ main.stats-content .double-col .first-column {
     margin-top: 10px;
 }
 
-.legend-lable {
+.legend-label {
     display: flex;
     align-items: center;
     text-align: center;
@@ -118,7 +120,7 @@ main.stats-content .double-col .first-column {
     color: #000000;
 }
 
-.legend-lable strong {
+.legend-label strong {
     font-size: 12px;
 }
 

@@ -25,18 +25,26 @@
                 <li><a href="/dashboard">Profile</a></li>
                 <li><a href="/my-rabbits">My Rabbits</a></li>
                 <li><a href="/overview">Overview</a></li>
-                <li><a href="./maternity-ward.html">Maternity Ward</a></li>
-                <li><a href="./pregnancy-details.html" class="active">Pregnancy Reports</a></li>
+                <li><a href="/pregnancies">Maternity Ward</a></li>
+                <li><a href="/pregnancies/details" class="active">Pregnancy Reports</a></li>
                 <li><a href="/family-tree">Family Tree</a></li>
                 <li><a href="/subscriptions">Subscription</a></li>
-                <li><a href="./index.html" id="logoutBtn">Log out</a></li>
+                <li><a href="/logout" id="logoutBtn">Log out</a></li>
             </ul>
         </aside>
         <main class="dashboard-content">
             <div class="form-wrapper">
-                <form id="pregnancy-details-form" class="header-form">
-                    <input id="doe-code" name="code" type="text" placeholder="enter doe code">
-                    <input id="buck-code" name="code" type="text" placeholder="enter buck code">
+                <form id="pregnancy-details-form" class="header-form" th:action="@{/pregnancies/details/group}" th:method="GET" th:object="${pregnancyFilterRequest}">
+                    <input id="doe-code" name="code" type="text" placeholder="enter doe code" th:field="*{mother}">
+                    <input id="buck-code" name="code" type="text" placeholder="enter buck code" th:field="*{father}">
+                    <label>Order</label>
+                    <select id="order-criteria" name="criteria" th:field="*{sortCriteria}">
+                        <option value="" selected>None</option>
+                        <option value="DFD">Day of fertilization desc</option>
+                        <option value="DFA">Day of fertilization acs</option>
+                        <option value="BKD">Amount born kids desc</option>
+                        <option value="BKA">Amount born kids acs</option>
+                    </select>
                     <button type="submit" class="btn btn-primary"><svg height="20px" width="20px" version="1.1"
                             id="_x32_" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
@@ -63,45 +71,36 @@
                         </svg>
                         search</button>
                 </form>
-                <a class="btn btn-add-rabbit">＋ Create Pregnancy Report</a>
-                <form id="order-criteria-form" class="header-form">
-                    <label>Order</label>
-                    <select id="order-criteria" name="criteria">
-                        <option value="" selected>None</option>
-                        <option>Day of fertilization desc</option>
-                        <option>Day of fertilization acs</option>
-                        <option>Amount born kids desc</option>
-                        <option>Amount born kids acs</option>
-                    </select>
-                </form>
+                <a th:href="@{/pregnancies/new}" class="btn btn-add-rabbit">＋ Create Pregnancy Report</a>
             </div>
             <div class="pregnancy-details-main">
-                <div class="pregnancy-card">
+                <div class="pregnancy-card" th:each="pregnancy : ${pregnancyReports}">
                     <div class="mother-personal-info">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <h2>Sisi</h2>
-                        <p>37-ko</p>
+                        <img th:src="${pregnancy.mother == null or #strings.isEmpty(pregnancy.mother.photoUrl) ? '/images/logo.png' : pregnancy.mother.photoUrl}" alt="Rabbit Photo">
+                        <h2 th:text="${pregnancy.mother == null or #strings.isEmpty(pregnancy.mother.name) ? 'n/a' : pregnancy.mother.name}">Sisi</h2>
+                        <p th:text="${pregnancy.mother == null ? 'n/a' : pregnancy.mother.code}">37-ko</p>
                     </div>
                     <div class="three-col">
                         <div class="column pregnancy-info">
-                            <p>Date of fertilization: 16 Oct 2025</p>
-                            <p>Earliest due date: 14 Nov 2025</p>
-                            <p>Latest due date: 19 Nov 2025</p>
-                            <p>Buck: 79-nq</p>
-                            <p>Date of birth: 16 Nov 2025</p>
+                            <p>Date of fertilization: <span th:text="${#strings.isEmpty(pregnancy.dayOfFertilization) ? 'n/a' : #temporals.format(pregnancy.dayOfFertilization, 'dd MMM yyyy')}">16 Oct 2025</span></p>
+                            <p>Earliest due date: <span th:text="${#strings.isEmpty(pregnancy.earliestDueDate) ? 'n/a' : #temporals.format(pregnancy.earliestDueDate, 'dd MMM yyyy')}">14 Nov 2025</span></p>
+                            <p>Latest due date: <span th:text="${#strings.isEmpty(pregnancy.latestDueDate) ? 'n/a' : #temporals.format(pregnancy.latestDueDate, 'dd MMM yyyy')}">19 Nov 2025</span></p>
+                            <p>Buck: <span th:text="${pregnancy.father == null ? 'n/a' : pregnancy.father.code}">79-nq</span></p>
+                            <p>Date of birth: <span th:text="${#strings.isEmpty(pregnancy.dateOfBirth) ? 'n/a' : #temporals.format(pregnancy.dateOfBirth, 'dd MMM yyyy')}">16 Nov 2025</span></p>
                         </div>
                         <div class="column pregnancy-info">
-                            <p>Amount born kids: 9</p>
-                            <p>Amount weaned kids: 7</p>
-                            <p>Total weight of live kids day 1: 300g</p>
-                            <p>Total weight of live kids day 20: 1200g</p>
+                            <p>Amount born kids: <span th:text="${#strings.isEmpty(pregnancy.countBornKids) ? 'n/a' : pregnancy.countBornKids}">9</span></p>
+                            <p>Amount weaned kids: <span th:text="${#strings.isEmpty(pregnancy.countWeanedKids) ? 'n/a' : pregnancy.countWeanedKids}">7</span></p>
+                            <p>Death percentage: <span th:text="${#strings.isEmpty(pregnancy.deathPercentage) ? 'n/a' : #numbers.formatDecimal(pregnancy.deathPercentage, 1, 0) + '%'}">2</span></p>
+                            <p>Total weight of live kids day 1: <span th:text="${#strings.isEmpty(pregnancy.totalWeightKidsDay1) ? 'n/a' : #numbers.formatDecimal(pregnancy.totalWeightKidsDay1, 1, 0) + 'g'}">300</span></p>
+                            <p>Total weight of live kids day 20: <span th:text="${#strings.isEmpty(pregnancy.totalWeightKidsDay20) ? 'n/a' : #numbers.formatDecimal(pregnancy.totalWeightKidsDay20, 1, 0) + 'g'}">1200</span></p>
                         </div>
                         <div class="column pregnancy-info">
-                            <p>Lactating aount: 3</p>
-                            <p>Has abort: no</p>
-                            <p>Is false pregnancy: no</p>
-                            <p>Canibalism present: no</p>
-                            <p>Was pregnant: yes</p>
+                            <p>Lactating yield coefficient: <span th:text="${#strings.isEmpty(pregnancy.lactatingQuantity) ? 'n/a' : pregnancy.lactatingQuantity}">3</span></p>
+                            <p>Has abort: <span th:text="${pregnancy.hasAbort == true ? 'yes' : 'no'}">no</span></p>
+                            <p>Is false pregnancy: <span th:text="${pregnancy.isFalsePregnancy() == true ? 'yes' : 'no'}">no</span></p>
+                            <p>Cannibalism present: <span th:text="${pregnancy.isCannibalismPresent() == true ? 'yes' : 'no'}">no</span></p>
+                            <p>Was pregnant: <span th:text="${pregnancy.wasPregnant == true ? 'yes' : 'no'}">yes</span></p>
                         </div>
                     </div>
                     <a class="btn profile-btn">
@@ -116,165 +115,8 @@
                         </svg></p>
                     </a>
                 </div>
-                <div class="pregnancy-card">
-                    <div class="mother-personal-info">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <h2>Sisi</h2>
-                        <p>37-ko</p>
-                    </div>
-                    <div class="three-col">
-                        <div class="column pregnancy-info">
-                            <p>Date of fertilization: 16 Oct 2025</p>
-                            <p>Earliest due date: 14 Nov 2025</p>
-                            <p>Latest due date: 19 Nov 2025</p>
-                            <p>Buck: 79-nq</p>
-                            <p>Date of birth: 16 Nov 2025</p>
-                        </div>
-                        <div class="column pregnancy-info">
-                            <p>Amount born kids: 9</p>
-                            <p>Amount weaned kids: 7</p>
-                            <p>Total weight of live kids day 1: 300g</p>
-                            <p>Total weight of live kids day 20: 1200g</p>
-                        </div>
-                        <div class="column pregnancy-info">
-                            <p>Lactating aount: 3</p>
-                            <p>Has abort: no</p>
-                            <p>Is false pregnancy: no</p>
-                            <p>Canibalism present: no</p>
-                            <p>Was pregnant: yes</p>
-                        </div>
-                    </div>
-                    <a class="btn profile-btn">
-                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
-                                    fill="#0F0F0F"></path>
-                            </g>
-                        </svg></p>
-                    </a>
-                </div>
-                <div class="pregnancy-card">
-                    <div class="mother-personal-info">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <h2>Sisi</h2>
-                        <p>37-ko</p>
-                    </div>
-                    <div class="three-col">
-                        <div class="column pregnancy-info">
-                            <p>Date of fertilization: 16 Oct 2025</p>
-                            <p>Earliest due date: 14 Nov 2025</p>
-                            <p>Latest due date: 19 Nov 2025</p>
-                            <p>Buck: 79-nq</p>
-                            <p>Date of birth: 16 Nov 2025</p>
-                        </div>
-                        <div class="column pregnancy-info">
-                            <p>Amount born kids: 9</p>
-                            <p>Amount weaned kids: 7</p>
-                            <p>Total weight of live kids day 1: 300g</p>
-                            <p>Total weight of live kids day 20: 1200g</p>
-                        </div>
-                        <div class="column pregnancy-info">
-                            <p>Lactating aount: 3</p>
-                            <p>Has abort: no</p>
-                            <p>Is false pregnancy: no</p>
-                            <p>Canibalism present: no</p>
-                            <p>Was pregnant: yes</p>
-                        </div>
-                    </div>
-                    <a class="btn profile-btn">
-                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
-                                    fill="#0F0F0F"></path>
-                            </g>
-                        </svg></p>
-                    </a>
-                </div>
-                <div class="pregnancy-card">
-                    <div class="mother-personal-info">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <h2>Sisi</h2>
-                        <p>37-ko</p>
-                    </div>
-                    <div class="three-col">
-                        <div class="column pregnancy-info">
-                            <p>Date of fertilization: 16 Oct 2025</p>
-                            <p>Earliest due date: 14 Nov 2025</p>
-                            <p>Latest due date: 19 Nov 2025</p>
-                            <p>Buck: 79-nq</p>
-                            <p>Date of birth: 16 Nov 2025</p>
-                        </div>
-                        <div class="column pregnancy-info">
-                            <p>Amount born kids: 9</p>
-                            <p>Amount weaned kids: 7</p>
-                            <p>Total weight of live kids day 1: 300g</p>
-                            <p>Total weight of live kids day 20: 1200g</p>
-                        </div>
-                        <div class="column pregnancy-info">
-                            <p>Lactating aount: 3</p>
-                            <p>Has abort: no</p>
-                            <p>Is false pregnancy: no</p>
-                            <p>Canibalism present: no</p>
-                            <p>Was pregnant: yes</p>
-                        </div>
-                    </div>
-                    <a class="btn profile-btn">
-                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
-                                    fill="#0F0F0F"></path>
-                            </g>
-                        </svg></p>
-                    </a>
-                </div>
-                <div class="pregnancy-card">
-                    <div class="mother-personal-info">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <h2>Sisi</h2>
-                        <p>37-ko</p>
-                    </div>
-                    <div class="three-col">
-                        <div class="column pregnancy-info">
-                            <p>Date of fertilization: 16 Oct 2025</p>
-                            <p>Earliest due date: 14 Nov 2025</p>
-                            <p>Latest due date: 19 Nov 2025</p>
-                            <p>Buck: 79-nq</p>
-                            <p>Date of birth: 16 Nov 2025</p>
-                        </div>
-                        <div class="column pregnancy-info">
-                            <p>Amount born kids: 9</p>
-                            <p>Amount weaned kids: 7</p>
-                            <p>Total weight of live kids day 1: 300g</p>
-                            <p>Total weight of live kids day 20: 1200g</p>
-                        </div>
-                        <div class="column pregnancy-info">
-                            <p>Lactating aount: 3</p>
-                            <p>Has abort: no</p>
-                            <p>Is false pregnancy: no</p>
-                            <p>Canibalism present: no</p>
-                            <p>Was pregnant: yes</p>
-                        </div>
-                    </div>
-                    <a class="btn profile-btn">
-                        <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M20.8477 1.87868C19.6761 0.707109 17.7766 0.707105 16.605 1.87868L2.44744 16.0363C2.02864 16.4551 1.74317 16.9885 1.62702 17.5692L1.03995 20.5046C0.760062 21.904 1.9939 23.1379 3.39334 22.858L6.32868 22.2709C6.90945 22.1548 7.44285 21.8693 7.86165 21.4505L22.0192 7.29289C23.1908 6.12132 23.1908 4.22183 22.0192 3.05025L20.8477 1.87868ZM18.0192 3.29289C18.4098 2.90237 19.0429 2.90237 19.4335 3.29289L20.605 4.46447C20.9956 4.85499 20.9956 5.48815 20.605 5.87868L17.9334 8.55027L15.3477 5.96448L18.0192 3.29289ZM13.9334 7.3787L3.86165 17.4505C3.72205 17.5901 3.6269 17.7679 3.58818 17.9615L3.00111 20.8968L5.93645 20.3097C6.13004 20.271 6.30784 20.1759 6.44744 20.0363L16.5192 9.96448L13.9334 7.3787Z"
-                                    fill="#0F0F0F"></path>
-                            </g>
-                        </svg></p>
-                    </a>
+                <div class="empty-pregnancy-grid" th:if="${pregnancyReports.isEmpty()}">
+                    <p>No pregnancy reports yet!</p>
                 </div>
             </div>
         </main>

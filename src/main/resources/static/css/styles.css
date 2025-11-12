@@ -856,20 +856,13 @@ select:focus {
     animation: fall linear, sway ease-in-out infinite;
 }
 
-@keyframes fall {
-    to {
-        transform: translateY(110vh) rotate(360deg);
-    }
-}
-
-@keyframes sway {
-
-    0%,
-    100% {
-        margin-left: 0;
-    }
-
-    50% {
-        margin-left: 30px;
-    }
+.empty-pregnancy-grid {
+    background: rgba(11, 106, 43, 0.18);
+    border: 2px solid #1f6f3b;
+    color: #1f2d24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 630px;
+    border-radius: 10px;
 }

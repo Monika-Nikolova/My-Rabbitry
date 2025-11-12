@@ -1,6 +1,7 @@
 package bg.softuni.myrabbitry.pregnancy.model;
 
 import bg.softuni.myrabbitry.rabbit.model.Rabbit;
+import bg.softuni.myrabbitry.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +32,7 @@ public class PregnancyReport {
 
     private LocalDate earliestDueDate; //28-th day
 
-    private LocalDate LatestDueDate; //33-rd day
+    private LocalDate latestDueDate; //33-rd day
 
     private LocalDate dateOfBirth;
 
@@ -58,4 +59,8 @@ public class PregnancyReport {
     private boolean wasPregnant;
 
     private Double lactatingQuantity;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User createdBy;
 }

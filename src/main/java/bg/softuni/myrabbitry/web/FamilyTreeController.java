@@ -40,7 +40,7 @@ public class FamilyTreeController {
             return new ModelAndView("family-tree");
         }
 
-        FamilyTreeDto familyTree = rabbitService.createFamilyTree(rabbitService.findByCode(familyTreeRequest.getCode()));
+        FamilyTreeDto familyTree = rabbitService.createFamilyTree(familyTreeRequest.getCode());
         redirectAttributes.addFlashAttribute("familyTree", familyTree);
 
         return new ModelAndView("redirect:/family-tree");

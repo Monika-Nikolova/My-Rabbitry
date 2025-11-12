@@ -23,63 +23,30 @@
                 <li><a href="/dashboard">Profile</a></li>
                 <li><a href="/my-rabbits">My Rabbits</a></li>
                 <li><a href="/overview">Overview</a></li>
-                <li><a href="./maternity-ward.html" class="active">Maternity Ward</a></li>
-                <li><a href="./pregnancy-details.html">Pregnancy Reports</a></li>
+                <li><a href="/pregnancies" class="active">Maternity Ward</a></li>
+                <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
                 <li><a href="/family-tree">Family Tree</a></li>
                 <li><a href="/subscriptions">Subscription</a></li>
-                <li><a href="./index.html" id="logoutBtn">Log out</a></li>
+                <li><a href="/logout" id="logoutBtn">Log out</a></li>
             </ul>
         </aside>
         <main class="dashboard-content">
             <div class="pregnancy-window">
-                <div class="pregnancy-window-headder">
-                    <p style="width: 20%;">Photo</p>
-                    <p style="width: 28%;">Code</p>
-                    <p style="width: 28%;">Due Date</p>
-                    <p style="width: 24%;">Date of Birth</p>
+                <div class="pregnancy-window-header">
+                    <p style="width: 20%;">Photo of mother</p>
+                    <p style="width: 27%;">Mother code</p>
+                    <p style="width: 27%;">Due date</p>
+                    <p style="width: 26%;">Id</p>
                 </div>
                 <div class="pregnancy-window-main">
-                    <div class="pregnancy-row">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <p>29-lk</p>
-                        <p>30 Feb 2026</p>
-                        <p>3 Mar 2026</p>
-                    </div>
-                    <div class="pregnancy-row">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <p>29-lk</p>
-                        <p>30 Feb 2026</p>
-                        <p>3 Mar 2026</p>
-                    </div>
-                    <div class="pregnancy-row">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <p>29-lk</p>
-                        <p>30 Feb 2026</p>
-                        <p>3 Mar 2026</p>
-                    </div>
-                    <div class="pregnancy-row">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <p>29-lk</p>
-                        <p>30 Feb 2026</p>
-                        <p>3 Mar 2026</p>
-                    </div>
-                    <div class="pregnancy-row">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <p>29-lk</p>
-                        <p>30 Feb 2026</p>
-                        <p>3 Mar 2026</p>
-                    </div>
-                    <div class="pregnancy-row">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <p>29-lk</p>
-                        <p>30 Feb 2026</p>
-                        <p>3 Mar 2026</p>
-                    </div>
-                    <div class="pregnancy-row">
-                        <img src="/images/logo.png" alt="Rabbit Photo">
-                        <p>29-lk</p>
-                        <p>30 Feb 2026</p>
-                        <p>3 Mar 2026</p>
+                    <a class="pregnancy-row" th:each="pregnancy : ${pregnancyReports}" th:href="@{'/pregnancies/details/' + ${pregnancy.id}}">
+                        <img th:src="${#strings.isEmpty(pregnancy.mother.photoUrl) ? '/images/logo.png' : pregnancy.mother.photoUrl}" alt="Rabbit Photo">
+                        <p th:text="${pregnancy.mother.code}">29-lk</p>
+                        <p th:text="${#strings.isEmpty(pregnancy.earliestDueDate) ? 'n/a' : #temporals.format(pregnancy.earliestDueDate, 'dd MMM yyyy')}">30 Feb 2026</p>
+                        <p th:text="${pregnancy.id}"></p>
+                    </a>
+                    <div class="empty-pregnancy-grid" th:if="${pregnancyReports.isEmpty()}">
+                        <p>You currently have no pregnant rabbits!</p>
                     </div>
                 </div>
             </div>

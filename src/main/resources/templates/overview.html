@@ -25,11 +25,11 @@
                 <li><a href="/dashboard">Profile</a></li>
                 <li><a href="/my-rabbits">My Rabbits</a></li>
                 <li><a href="/overview" class="active">Overview</a></li>
-                <li><a href="./maternity-ward.html">Maternity Ward</a></li>
-                <li><a href="./pregnancy-details.html">Pregnancy Reports</a></li>
+                <li><a href="/pregnancies">Maternity Ward</a></li>
+                <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
                 <li><a href="/family-tree">Family Tree</a></li>
                 <li><a href="/subscriptions">Subscription</a></li>
-                <li><a href="./index.html" id="logoutBtn">Log out</a></li>
+                <li><a href="/logout" id="logoutBtn">Log out</a></li>
             </ul>
         </aside>
         <main class="stats-content">
@@ -301,23 +301,23 @@
                         </svg>
 
                         <div class="legend">
-                            <div class="legend-lable">
+                            <div class="legend-label">
                                 <div class="rectangle" style="background-color: #FF7518;"></div>
                                 <strong th:text="'processed ' + ${#numbers.formatDecimal(processed, 1, 1)} + '%'">processed 40%</strong>
                             </div>
-                            <div class="legend-lable">
+                            <div class="legend-label">
                                 <div class="rectangle" style="background-color: #CC5500;"></div>
                                 <strong th:text="'sold ' + ${#numbers.formatDecimal(sold, 1, 1)} + '%'">sold 20%</strong>
                             </div>
-                            <div class="legend-lable">
+                            <div class="legend-label">
                                 <div class="rectangle" style="background-color: #B7410E;"></div>
                                 <strong th:text="'for meat ' + ${#numbers.formatDecimal(forMeat, 1, 1)} + '%'">for meat 15%</strong>
                             </div>
-                            <div class="legend-lable">
+                            <div class="legend-label">
                                 <div class="rectangle" style="background-color: #FFC77D;"></div>
                                 <strong th:text="'inactive ' + ${#numbers.formatDecimal(inactive, 1, 1)} + '%'">inactive 15%</strong>
                             </div>
-                            <div class="legend-lable">
+                            <div class="legend-label">
                                 <div class="rectangle" style="background-color: #F8B88B;"></div>
                                 <strong th:text="'for breeding ' + ${#numbers.formatDecimal(forBreeding, 1, 1)} + '%'">for breeding 10%</strong>
                             </div>
@@ -327,7 +327,7 @@
                         <h3>Rabbits born per year</h3>
                         <div class="year-container" th:each="entry : ${stats.countRabbitsByYear.entrySet()}">
                             <strong th:text="${entry.getKey()}">2025</strong>
-                            <div class="progress-bar" th:style="'width: ' + ${entry.getValue() / stats.mostRabbitsInYear * 100} + '%'"></div>
+                            <div class="progress-bar" th:style="'width: ' + ${entry.getValue() * 1.0 / stats.mostRabbitsInYear * 100} + '%'"></div>
                             <p th:text="${entry.getValue()}">55</p>
                         </div>
                     </div>
