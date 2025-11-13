@@ -1,6 +1,7 @@
 package bg.softuni.myrabbitry.rabbit.service;
 
 import bg.softuni.myrabbitry.rabbit.model.Rabbit;
+import bg.softuni.myrabbitry.rabbit.model.Sex;
 import bg.softuni.myrabbitry.rabbit.repository.RabbitRepository;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.service.UserService;
@@ -43,12 +44,18 @@ public class RabbitService {
 
         Rabbit mother = null;
         if (!rabbitRequest.getMotherCode().isBlank()) {
-            mother = this.findByCode(rabbitRequest.getMotherCode());
+            mother = findByCode(rabbitRequest.getMotherCode());
+            if (mother.getSex() != Sex.FEMALE) {
+                throw new RuntimeException("Mother rabbit must be female");
+            }
         }
 
         Rabbit father = null;
         if (!rabbitRequest.getFatherCode().isBlank()) {
-            father = this.findByCode(rabbitRequest.getFatherCode());
+            father = findByCode(rabbitRequest.getFatherCode());
+            if (father.getSex() != Sex.MALE) {
+                throw new RuntimeException("Father rabbit must be male");
+            }
         }
 
         User owner = userService.getById(id);
