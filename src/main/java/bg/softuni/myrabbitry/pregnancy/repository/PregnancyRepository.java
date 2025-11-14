@@ -23,10 +23,6 @@ public interface PregnancyRepository extends JpaRepository<PregnancyReport, UUID
 
     List<PregnancyReport> getAllByCreatedBy(User user);
 
-    List<PregnancyReport> findAllByFather(Rabbit father);
-
-    List<PregnancyReport> findAllByMother(Rabbit father);
-
     List<PregnancyReport> findAllByOrderByDayOfFertilizationDesc();
 
     List<PregnancyReport> findAllByOrderByDayOfFertilizationAsc();

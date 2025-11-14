@@ -159,3 +159,8 @@ main.stats-content .double-col .first-column {
     width: 90%;
     height: 15px;
 }
+
+.empty-rabbit-box.small {
+    margin-top: 20px;
+    max-height: 250px;
+}

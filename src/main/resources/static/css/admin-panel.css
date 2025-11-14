@@ -1,0 +1,51 @@
+.dashboard-content .panel-container {
+    flex-grow: 2;
+}
+
+.admin-table {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+}
+
+.admin-table thead {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid rgb(22, 155, 22);
+    padding: 10px 0 15px 0;
+    min-width: 100%;
+}
+
+.admin-table thead tr {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 100%;
+}
+
+.admin-table thead tr th:first-child {
+    margin-right: 140px;
+    margin-left: 150px;
+}
+
+.admin-table tbody tr {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+    background: rgba(93, 174, 77, 0.142);
+    border: 2px solid rgb(155, 196, 143);
+    border-radius: 10px;
+    padding: 10px 0;
+}
+
+.change-user {
+    border: none;
+    background: none;;
+}
+
+svg {
+    height: 70px;
+    width: 70px;
+}

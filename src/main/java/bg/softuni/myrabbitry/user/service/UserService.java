@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
                 .username(registerRequest.getUsername())
-                .email(registerRequest.getEmail())
+                .email(registerRequest.getEmail().isBlank() ? null : registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(UserRole.USER)
                 .isActive(true)
@@ -76,5 +76,32 @@ public class UserService implements UserDetailsService {
 
     public User getById(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("User with id %s not found", id)));
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void changeStatus(UUID id) {
+
+        User user = getById(id);
+
+        user.setActive(!user.isActive());
+
+        user.setUpdatedOn(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
+    public void changeRole(UUID id) {
+        User user = getById(id);
+
+        if (user.getRole() == UserRole.USER) {
+            user.setRole(UserRole.ADMIN);
+        } else {
+            user.setRole(UserRole.USER);
+        }
+
+        user.setUpdatedOn(LocalDateTime.now());
+        userRepository.save(user);
     }
 }

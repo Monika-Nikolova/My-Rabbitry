@@ -51,6 +51,9 @@ public class RabbitryUtils {
     }
 
     public static double getStatusPercentage(List<Rabbit> rabbits, String status) {
+        if (rabbits.isEmpty()) {
+            return 0;
+        }
         return (rabbits.stream().filter(rabbit -> rabbit.getStatus().name().equals(status)).toList().size() * 1.0) / rabbits.size() * 100;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
     <meta charset="UTF-8">
@@ -29,6 +29,7 @@
                 <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
                 <li><a href="/family-tree">Family Tree</a></li>
                 <li><a href="/subscriptions">Subscription</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a href="/admin/panel">Admin Panel</a></li>
                 <li><a href="/logout" id="logoutBtn">Log out</a></li>
             </ul>
         </aside>
@@ -329,6 +330,9 @@
                             <strong th:text="${entry.getKey()}">2025</strong>
                             <div class="progress-bar" th:style="'width: ' + ${entry.getValue() * 1.0 / stats.mostRabbitsInYear * 100} + '%'"></div>
                             <p th:text="${entry.getValue()}">55</p>
+                        </div>
+                        <div class="empty-rabbit-box small" th:if="${stats.countRabbitsByYear.isEmpty()}">
+                            <p>You have no kits yet!</p>
                         </div>
                     </div>
                 </div>
