@@ -23,7 +23,7 @@
             </div>
             <ul class="nav-list">
                 <li><a href="/dashboard">Profile</a></li>
-                <li><a href="/my-rabbits">My Rabbits</a></li>
+                <li><a href="/rabbits/me">My Rabbits</a></li>
                 <li><a href="/overview">Overview</a></li>
                 <li><a href="/pregnancies">Maternity Ward</a></li>
                 <li><a href="/pregnancies/details" class="active">Pregnancy Reports</a></li>
@@ -104,7 +104,7 @@
                             <p>Was pregnant: <span th:text="${pregnancy.wasPregnant == true ? 'yes' : 'no'}">yes</span></p>
                         </div>
                     </div>
-                    <a class="btn profile-btn">
+                    <a th:href="@{'/pregnancies/details/' + ${pregnancy.id} + '/report'}" class="btn profile-btn">
                         <p>Edit <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

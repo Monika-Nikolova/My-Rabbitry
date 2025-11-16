@@ -17,7 +17,7 @@ public class BestParent {
     private LocalDate birthDate;
     private int countLiters;
     private int bornKids;
-    private int weanedKids;
+    private Integer weanedKids;
     private double deathPercentage;
     private double lactatingQuantity;
 }

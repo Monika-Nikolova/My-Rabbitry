@@ -1,10 +1,13 @@
 package bg.softuni.myrabbitry.web;
 
+import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.service.UserService;
+import bg.softuni.myrabbitry.web.dto.DtoMapper;
+import bg.softuni.myrabbitry.web.dto.EditProfileRequest;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -35,4 +38,34 @@ public class UserController {
 
         return new ModelAndView("redirect:/admin/panel");
     }
+
+    @GetMapping("/{id}/profile")
+    public ModelAndView getProfilePage(@PathVariable UUID id) {
+
+        User user = userService.getById(id);
+        EditProfileRequest editProfileRequest = DtoMapper.fromUser(user);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("edit-profile");
+        modelAndView.addObject("editProfileRequest", editProfileRequest);
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+
+    @PutMapping("/{id}/profile")
+    public ModelAndView updateProfile(@Valid EditProfileRequest editProfileRequest, BindingResult bindingResult, @PathVariable UUID id) {
+
+        if (bindingResult.hasErrors()) {
+            User user = userService.getById(id);
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("edit-profile");
+            modelAndView.addObject("user", user);
+        }
+
+        userService.editProfile(id, editProfileRequest);
+
+        return new ModelAndView("redirect:/dashboard");
+    }
+
 }

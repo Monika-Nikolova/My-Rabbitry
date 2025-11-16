@@ -866,3 +866,8 @@ select:focus {
     height: 630px;
     border-radius: 10px;
 }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

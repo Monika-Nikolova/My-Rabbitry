@@ -17,7 +17,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "rabbits")
+@Table(name = "rabbits",
+uniqueConstraints = {
+@UniqueConstraint(columnNames = {"code", "owner_id"})
+    }
+)
 public class Rabbit {
 
     @Id
@@ -28,7 +32,7 @@ public class Rabbit {
 
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String code;
 
     private String description;

@@ -23,7 +23,7 @@
                 </div>
                 <ul class="nav-list">
                 <li><a href="/dashboard" class="active">Profile</a></li>
-                <li><a href="/my-rabbits">My Rabbits</a></li>
+                <li><a href="/rabbits/me">My Rabbits</a></li>
                 <li><a href="/overview">Overview</a></li>
                 <li><a href="/pregnancies">Maternity Ward</a></li>
                 <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
@@ -106,7 +106,7 @@
                         <h2>Latest pregnancy report due date:</h2>
                         <strong th:text="${#strings.isEmpty(pregnancyReport.earliestDueDate) ? 'n/a' : #temporals.format(pregnancyReport.earliestDueDate, 'dd MMM yyyy')}">12 NOV 2025</strong>
                     </div>
-                    <a th:href="@{'/pregnancies/details' + ${pregnancyReport.id}}" class="btn view-pregnancy-button">
+                    <a th:href="@{'/pregnancies/details/' + ${pregnancyReport.id}}" class="btn view-pregnancy-button">
                         <p>More Info</p>
                     </a>
                 </div>
@@ -119,9 +119,9 @@
                     </div>
                     <div class="parent-box">
                         <h3>Father: </h3>
-                        <p th:text="'code: ' + ${pregnancyReport.father.code}">code: 28-ed</p>
-                        <p th:text="'name: ' + ${#strings.isEmpty(pregnancyReport.father.name) ? 'n/a' : pregnancyReport.father.name}">name: Max</p>
-                        <p th:text="'id: ' + ${pregnancyReport.father.id}">id: lp235dvss-456hjvbsvfd-3xcf6567vbn56b67n</p>
+                        <p th:text="'code: ' + ${pregnancyReport.father == null ? 'n/a' : pregnancyReport.father.code}">code: 28-ed</p>
+                        <p th:text="'name: ' + ${pregnancyReport.father == null || #strings.isEmpty(pregnancyReport.father.name) ? 'n/a' : pregnancyReport.father.name}">name: Max</p>
+                        <p th:text="'id: ' + ${pregnancyReport.father == null ? 'n/a' : pregnancyReport.father.id}">id: lp235dvss-456hjvbsvfd-3xcf6567vbn56b67n</p>
                     </div>
                 </div>
                 <div class="empty-rabbit-box" th:if="${pregnancyReport == null}">

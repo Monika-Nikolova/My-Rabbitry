@@ -45,73 +45,73 @@
         <main class="form-container">
             <div class="form-card">
                 <div class="form-header">
-                    <h2 style="margin:0;">Add Pregnancy Report</h2>
+                    <h2 style="margin:0;">Edit Pregnancy Report</h2>
                     <a href="/pregnancies/details" class="btn btn-ghost">Cancel</a>
                 </div>
                 <p class="helper">Fields marked with * are mandatory.</p>
-                <form id="rabbitForm" class="form-grid" th:action="@{'/pregnancies/new'}" th:method="POST" th:object="${pregnancyRequest}">
+                <form id="rabbitForm" class="form-grid" th:action="@{'/pregnancies/details/' + ${pregnancyReport.id} + '/report'}" th:method="PUT" th:object="${pregnancyRequest}">
                     <div class="form-row">
                         <label for="mother">Mother code *</label>
-                        <input th:feild="*{mother}" id="mother" name="mother" type="text" placeholder="Mother code">
+                        <input th:feild="*{mother}" id="mother" name="mother" type="text" placeholder="Mother code" th:value="*{mother}">
                     </div>
                     <div class="form-row">
                         <label for="father">Father code</label>
-                        <input th:feild="*{father}" id="father" name="father" type="text" placeholder="Optional">
+                        <input th:feild="*{father}" id="father" name="father" type="text" placeholder="Optional" th:value="*{father}">
                     </div>
                     <div class="form-row">
                         <label for="fertilization">Day of fertilization</label>
-                        <input th:feild="*{dayOfFertilization}" id="fertilization" name="dayOfFertilization" type="date">
+                        <input th:feild="*{dayOfFertilization}" id="fertilization" name="dayOfFertilization" type="date" th:value="*{dayOfFertilization}">
                     </div>
                     <div class="form-row">
                         <label for="birth">Date of birth</label>
-                        <input th:feild="*{dateOfBirth}" id="birth" name="dateOfBirth" type="date">
+                        <input th:feild="*{dateOfBirth}" id="birth" name="dateOfBirth" type="date" th:value="*{dateOfBirth}">
                     </div>
                     <div class="form-row">
                         <label for="bornKids">Number of born kits</label>
-                        <input th:feild="*{countBornKids}" id="bornKids" name="countBornKids" type="number" min="0" max="25" step="1" value="null" placeholder="Optional">
+                        <input th:feild="*{countBornKids}" id="bornKids" name="countBornKids" type="number" min="0" max="25" step="1" value="null" placeholder="Optional" th:value="*{countBornKids}">
                     </div>
                     <div class="form-row">
                         <label for="weanedKids">Number of weaned kits</label>
-                        <input th:feild="*{countWeanedKids}" id="weanedKids" name="countWeanedKids" type="number" min="0" max="25" step="1" value="null" placeholder="Optional">
+                        <input th:feild="*{countWeanedKids}" id="weanedKids" name="countWeanedKids" type="number" min="0" max="25" step="1" value="null" placeholder="Optional" th:value="*{countWeanedKids}">
                     </div>
                     <div class="form-row">
                         <label for="weightDay1">Total weight of live kits on the day of birth in grams</label>
-                        <input th:feild="*{totalWeightKidsDay1}" id="weightDay1" name="totalWeightKidsDay1" type="number" value="null" placeholder="Optional">
+                        <input th:feild="*{totalWeightKidsDay1}" id="weightDay1" name="totalWeightKidsDay1" type="number" value="null" placeholder="Optional" th:value="*{totalWeightKidsDay1}">
                     </div>
                     <div class="form-row">
                         <label for="weightDay20">Total weight of live kits on day 20 in grams</label>
-                        <input th:feild="*{totalWeightKidsDay20}" id="weightDay20" name="totalWeightKidsDay20" type="number" value="null" placeholder="Optional">
+                        <input th:feild="*{totalWeightKidsDay20}" id="weightDay20" name="totalWeightKidsDay20" type="number" value="null" placeholder="Optional" th:value="*{totalWeightKidsDay20}">
                     </div>
                     <div class="form-row">
                         <label for="falsePregnancy">Is it a false pregnancy *</label>
                         <select th:feild="*{falsePregnancy}" id="falsePregnancy" name="isFalsePregnancy">
-                            <option th:value="false" selected>No</option>
-                            <option th:value="true">Yes</option>
+                            <option th:value="false" th:selected="*{falsePregnancy == false}">No</option>
+                            <option th:value="true" th:selected="*{falsePregnancy == true}">Yes</option>
                         </select>
                     </div>
                     <div class="form-row">
                         <label for="cannibalism">Is cannibalism present *</label>
                         <select th:field="*{cannibalismPresent}" id="cannibalism" name="isCannibalismPresent">
-                            <option th:value="false" selected>No</option>
-                            <option th:value="true">Yes</option>
+                            <option th:value="false" th:selected="*{falsePregnancy == false}">No</option>
+                            <option th:value="true" th:selected="*{falsePregnancy == true}">Yes</option>
                         </select>
                     </div>
                     <div class="form-row">
                         <label for="abort">Are there signs of abort *</label>
                         <select th:field="*{hasAbort}" id="abort" name="hasAbort">
-                            <option th:value="false" selected>No</option>
-                            <option th:value="true">Yes</option>
+                            <option th:value="false" th:selected="*{falsePregnancy == false}">No</option>
+                            <option th:value="true" th:selected="*{falsePregnancy == true}">Yes</option>
                         </select>
                     </div>
                     <div class="form-row">
                         <label for="pregnant">Was the doe pregnant *</label>
                         <select th:field="*{wasPregnant}" id="pregnant" name="wasPregnant">
-                            <option th:value="true" selected>Yes</option>
-                            <option th:value="false">No</option>
+                            <option th:value="true" th:selected="*{falsePregnancy == true}">Yes</option>
+                            <option th:value="false" th:selected="*{falsePregnancy == false}">No</option>
                         </select>
                     </div>
                     <div class="actions">
-                        <button type="submit" class="btn btn-primary">Add Pregnancy Report</button>
+                        <button type="submit" class="btn btn-primary">Edit Pregnancy Report</button>
                     </div>
                 </form>
             </div>

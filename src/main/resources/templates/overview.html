@@ -23,7 +23,7 @@
             </div>
             <ul class="nav-list">
                 <li><a href="/dashboard">Profile</a></li>
-                <li><a href="/my-rabbits">My Rabbits</a></li>
+                <li><a href="/rabbits/me">My Rabbits</a></li>
                 <li><a href="/overview" class="active">Overview</a></li>
                 <li><a href="/pregnancies">Maternity Ward</a></li>
                 <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
@@ -186,9 +186,9 @@
                                 <div class="column">
                                     <p th:text="'count of litters: ' + ${bestMother.countLiters}">count of litters: 6</p>
                                     <p th:text="'born kids: ' + ${bestMother.bornKids}">born kids: 43</p>
-                                    <p th:text="'weaned kids: ' + ${bestMother.weanedKids}">weaned kids: 40</p>
+                                    <p th:text="'weaned kids: ' + ${bestMother.weanedKids == null ? 'n/a' : bestMother.weanedKids}">weaned kids: 40</p>
                                     <p th:text="'death percentage: ' + ${#numbers.formatDecimal(bestMother.deathPercentage, 1, 0)} + '%'">death percentage: 7%</p>
-                                    <p th:text="'lactating quantity: ' + ${#numbers.formatDecimal(bestMother.lactatingQuantity, 1, 2)}">lactating quantity: 100</p>
+                                    <p th:text="'lactating quantity: ' + ${bestMother.lactatingQuantity == -1 ? 'n/a' : #numbers.formatDecimal(bestMother.lactatingQuantity, 1, 2)}">lactating quantity: 100</p>
                                 </div>
                             </div>
                         </div>

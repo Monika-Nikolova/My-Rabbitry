@@ -2,17 +2,16 @@ package bg.softuni.myrabbitry.web;
 
 import bg.softuni.myrabbitry.pregnancy.model.PregnancyReport;
 import bg.softuni.myrabbitry.pregnancy.service.PregnancyService;
+import bg.softuni.myrabbitry.rabbit.model.Rabbit;
 import bg.softuni.myrabbitry.security.UserData;
+import bg.softuni.myrabbitry.web.dto.DtoMapper;
 import bg.softuni.myrabbitry.web.dto.PregnancyFilterRequest;
 import bg.softuni.myrabbitry.web.dto.PregnancyRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -63,6 +62,36 @@ public class PregnancyController {
         modelAndView.addObject("pregnancyFilterRequest", new PregnancyFilterRequest());
 
         return modelAndView;
+    }
+
+    @GetMapping("/details/{id}/report")
+    public ModelAndView getEditPregnancyPage(@PathVariable UUID id) {
+
+        PregnancyReport pregnancyReport = pregnancyService.getById(id);
+        PregnancyRequest pregnancyRequest = DtoMapper.fromPregnancyReport(pregnancyReport);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("edit-pregnancy");
+        modelAndView.addObject("pregnancyRequest", pregnancyRequest);
+        modelAndView.addObject("pregnancyReport", pregnancyReport);
+
+        return modelAndView;
+
+    }
+
+    @PutMapping("/details/{id}/report")
+    public ModelAndView editPregnancyReport(@PathVariable UUID id, @Valid PregnancyRequest pregnancyRequest, BindingResult bindingResult, @AuthenticationPrincipal UserData userData) {
+
+        if (bindingResult.hasErrors()) {
+            PregnancyReport pregnancyReport = pregnancyService.getById(id);
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("edit-pregnancy");
+            modelAndView.addObject("rabbit", pregnancyReport);
+        }
+
+        pregnancyService.editPregnancy(id, pregnancyRequest, userData.getId());
+
+        return new ModelAndView("redirect:/pregnancies/details");
     }
 
     @GetMapping("/details/group")

@@ -5,6 +5,7 @@ import bg.softuni.myrabbitry.rabbit.model.Sex;
 import bg.softuni.myrabbitry.rabbit.repository.RabbitRepository;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.service.UserService;
+import bg.softuni.myrabbitry.web.dto.DtoMapper;
 import bg.softuni.myrabbitry.web.dto.FamilyTreeDto;
 import bg.softuni.myrabbitry.web.dto.RabbitRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -36,63 +37,60 @@ public class RabbitService {
 
     public void createNewRabbit(RabbitRequest rabbitRequest, UUID id) {
 
-        Optional<Rabbit> optionalRabbit = rabbitRepository.findByCode(rabbitRequest.getCode());
-
-        if (optionalRabbit.isPresent()) {
-            throw new RuntimeException(String.format("Rabbit with code %s already exists", rabbitRequest.getCode()));
-        }
-
-        Rabbit mother = null;
-        if (!rabbitRequest.getMotherCode().isBlank()) {
-            mother = findByCode(rabbitRequest.getMotherCode());
-            if (mother.getSex() != Sex.FEMALE) {
-                throw new RuntimeException("Mother rabbit must be female");
-            }
-        }
-
-        Rabbit father = null;
-        if (!rabbitRequest.getFatherCode().isBlank()) {
-            father = findByCode(rabbitRequest.getFatherCode());
-            if (father.getSex() != Sex.MALE) {
-                throw new RuntimeException("Father rabbit must be male");
-            }
-        }
-
         User owner = userService.getById(id);
 
-        Rabbit rabbit = Rabbit.builder()
-                .photoUrl(rabbitRequest.getPhotoUrl())
-                .name(rabbitRequest.getName())
-                .code(rabbitRequest.getCode())
-                .description(rabbitRequest.getDescription())
-                .mother(mother)
-                .father(father)
-                .birthDate(rabbitRequest.getBirthDate())
-                .sex(rabbitRequest.getSex())
-                .colour(rabbitRequest.getColour())
-                .pattern(rabbitRequest.getPattern())
-                .eyeColour(rabbitRequest.getEyeColour())
-                .earShape(rabbitRequest.getEarShape())
-                .coatLength(rabbitRequest.getCoatLength())
-                .breed(rabbitRequest.getBreed())
-                .vaccinatedOn(rabbitRequest.getVaccinatedOn())
-                .status(rabbitRequest.getStatus())
-                .createdOn(LocalDateTime.now())
-                .updatedOn(LocalDateTime.now())
-                .owner(owner)
-                .build();
+        checkRabbitIsPresent(rabbitRequest, owner);
+
+        Rabbit mother = checkMotherFemale(rabbitRequest, id);
+
+        Rabbit father = checkFatherMale(rabbitRequest, id);
+
+        Rabbit rabbit = DtoMapper.fromRabbitRequest(rabbitRequest, mother, father, owner);
 
         rabbitRepository.save(rabbit);
 
         log.info(String.format("Rabbit with id [%s] and code [%s] has been created", rabbit.getId(), rabbitRequest.getCode()));
     }
 
-    public Rabbit findByCode(String code) {
-        return rabbitRepository.findByCode(code).orElseThrow(() -> new RuntimeException(String.format("Rabbit with code %s not found", code)));
+    public Rabbit findByCode(String code, UUID ownerId) {
+        return rabbitRepository.findByCodeAndOwner(code, userService.getById(ownerId)).orElseThrow(() -> new RuntimeException(String.format("Rabbit with code %s not found", code)));
     }
 
-    public FamilyTreeDto createFamilyTree(String code) {
-        return buildTree(findByCode(code), 4);
+    public FamilyTreeDto createFamilyTree(String code, UUID id) {
+        return buildTree(findByCode(code, id), 4);
+    }
+
+    public Rabbit getById(UUID id) {
+        return rabbitRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Rabbit with id %s not found", id)));
+    }
+
+    public void editRabbit(UUID id, RabbitRequest rabbitRequest, UUID ownerId) {
+
+        Rabbit mother = checkMotherFemale(rabbitRequest, ownerId);
+
+        Rabbit father = checkFatherMale(rabbitRequest, ownerId);
+
+        Rabbit rabbit = getById(id);
+
+        rabbit.setPhotoUrl(rabbitRequest.getPhotoUrl());
+        rabbit.setName(rabbitRequest.getName());
+        rabbit.setCode(rabbitRequest.getCode());
+        rabbit.setDescription(rabbitRequest.getDescription());
+        rabbit.setMother(mother);
+        rabbit.setFather(father);
+        rabbit.setBirthDate(rabbitRequest.getBirthDate());
+        rabbit.setSex(rabbitRequest.getSex());
+        rabbit.setColour(rabbitRequest.getColour());
+        rabbit.setPattern(rabbitRequest.getPattern());
+        rabbit.setEyeColour(rabbitRequest.getEyeColour());
+        rabbit.setEarShape(rabbitRequest.getEarShape());
+        rabbit.setCoatLength(rabbitRequest.getCoatLength());
+        rabbit.setBreed(rabbitRequest.getBreed());
+        rabbit.setVaccinatedOn(rabbitRequest.getVaccinatedOn());
+        rabbit.setStatus(rabbitRequest.getStatus());
+        rabbit.setUpdatedOn(LocalDateTime.now());
+
+        rabbitRepository.save(rabbit);
     }
 
     private FamilyTreeDto buildTree(Rabbit rabbit, int generations) {
@@ -104,5 +102,35 @@ public class RabbitService {
                 .mother(buildTree(rabbit.getMother(), generations - 1))
                 .father(buildTree(rabbit.getFather(), generations - 1))
                 .build();
+    }
+
+    private Rabbit checkFatherMale(RabbitRequest rabbitRequest, UUID id) {
+        Rabbit father = null;
+        if (!rabbitRequest.getFatherCode().isBlank()) {
+            father = findByCode(rabbitRequest.getFatherCode(), id);
+            if (father.getSex() != Sex.MALE) {
+                throw new RuntimeException("Father rabbit must be male");
+            }
+        }
+        return father;
+    }
+
+    private Rabbit checkMotherFemale(RabbitRequest rabbitRequest, UUID id) {
+        Rabbit mother = null;
+        if (!rabbitRequest.getMotherCode().isBlank()) {
+            mother = findByCode(rabbitRequest.getMotherCode(), id);
+            if (mother.getSex() != Sex.FEMALE) {
+                throw new RuntimeException("Mother rabbit must be female");
+            }
+        }
+        return mother;
+    }
+
+    private void checkRabbitIsPresent(RabbitRequest rabbitRequest, User owner) {
+        Optional<Rabbit> optionalRabbit = rabbitRepository.findByCodeAndOwner(rabbitRequest.getCode(), owner);
+
+        if (optionalRabbit.isPresent()) {
+            throw new RuntimeException(String.format("Rabbit with code %s already exists", rabbitRequest.getCode()));
+        }
     }
 }

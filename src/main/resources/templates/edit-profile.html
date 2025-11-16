@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile — MyRabbitry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/images/logo.png">
+    <style>
+        .page-form {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .form-container {
+            padding: 24px;
+            overflow: auto;
+        }
+
+        .form-card {
+            background: var(--paper);
+            border: 1px solid rgba(47, 143, 78, 0.18);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-form">
+        <main class="form-container">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2 style="margin:0;">Edit Your Profile</h2>
+                    <a href="/dashboard" class="btn btn-ghost">Cancel</a>
+                </div>
+                <form id="rabbitForm" class="form-grid" th:action="@{'/users/' + ${user.id} + '/profile'}" th:method="PUT" th:object="${editProfileRequest}">
+                    <div class="form-row">
+                        <label for="firstName">First name</label>
+                        <input th:feild="*{firstName}" id="firstName" name="firstName" type="text" placeholder="Optional" th:value="*{firstName}">
+                    </div>
+                    <div class="form-row">
+                        <label for="lastName">Last name</label>
+                        <input th:feild="*{lastName}" id="lastName" name="lastName" type="text" placeholder="Optional" th:value="*{lastName}">
+                    </div>
+                    <div class="form-row">
+                        <label for="birthDate">Birth date</label>
+                        <input th:feild="*{birthDate}" id="birthDate" name="birthDate" type="date" th:value="*{birthDate}">
+                    </div>
+                    <div class="form-row">
+                        <label for="profilePicture">URL for profile picture</label>
+                        <input th:feild="*{profilePicture}" id="profilePicture" name="profilePicture" type="text" placeholder="Optional" th:value="*{profilePicture}">
+                    </div>
+                    <div class="form-row">
+                        <label for="email">Email</label>
+                        <input th:feild="*{email}" id="email" name="email" type="text" placeholder="Optional" th:value="*{email}">
+                    </div>
+                    <div class="form-row">
+                        <label for="country">Country</label>
+                        <input th:feild="*{country}" id="country" name="country" type="text" placeholder="Optional" th:value="*{country}">
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary">Edit Profile</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

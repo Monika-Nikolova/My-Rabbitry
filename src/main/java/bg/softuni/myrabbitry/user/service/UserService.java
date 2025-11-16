@@ -6,8 +6,10 @@ import bg.softuni.myrabbitry.subscription.service.SubscriptionService;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.model.UserRole;
 import bg.softuni.myrabbitry.user.repository.UserRepository;
+import bg.softuni.myrabbitry.web.dto.EditProfileRequest;
 import bg.softuni.myrabbitry.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -102,6 +104,20 @@ public class UserService implements UserDetailsService {
         }
 
         user.setUpdatedOn(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
+    public void editProfile(UUID id, EditProfileRequest editProfileRequest) {
+        User user = getById(id);
+
+        user.setFirstName(editProfileRequest.getFirstName());
+        user.setLastName(editProfileRequest.getLastName());
+        user.setBirthDate(editProfileRequest.getBirthDate());
+        user.setProfilePicture(editProfileRequest.getProfilePicture());
+        user.setEmail(editProfileRequest.getEmail());
+        user.setCountry(editProfileRequest.getCountry());
+        user.setUpdatedOn(LocalDateTime.now());
+
         userRepository.save(user);
     }
 }

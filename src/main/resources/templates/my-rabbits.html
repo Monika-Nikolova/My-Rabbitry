@@ -24,7 +24,7 @@
             </div>
             <ul class="nav-list">
                 <li><a href="/dashboard">Profile</a></li>
-                <li><a href="/my-rabbits" class="active">My Rabbits</a></li>
+                <li><a href="/rabbits/me" class="active">My Rabbits</a></li>
                 <li><a href="/overview">Overview</a></li>
                 <li><a href="/pregnancies">Maternity Ward</a></li>
                 <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
@@ -38,11 +38,11 @@
             <div class="info-box">
                 <div class="info-box-header">
                     <h2>My Rabbits</h2>
-                    <a href="/my-rabbits/new" class="btn btn-add-rabbit">＋ Add Rabbit</a>
+                    <a href="/rabbits/new" class="btn btn-add-rabbit">＋ Add Rabbit</a>
                 </div>
 
                 <div th:class="${rabbits.isEmpty()} ? '' : 'rabbits-grid'" id="rabbitsGrid">
-                    <div class="rabbit-card" th:each="rabbit : ${rabbits}">
+                    <a th:href="@{'/rabbits/me/' + ${rabbit.id}}" class="rabbit-card" th:each="rabbit : ${rabbits}">
                         <img th:src="${#strings.isEmpty(rabbit.photoUrl) ? '/images/logo.png' : rabbit.photoUrl}" alt="Rabbit Photo">
                         <div class="rabbit-card-content">
                             <h3 class="rabbit-name" th:text="${#strings.isEmpty(rabbit.name) ? 'n/a' : rabbit.name}">Snowball</h3>
@@ -62,7 +62,7 @@
                                 <span class="rabbit-tag" th:text="${rabbit.status.getDisplayName()}">For Breeding</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     <div th:if="${rabbits.isEmpty()}" class="empty-rabbit-grid">
                         <p>You have no rabbits at the moment. To create one click ＋ Add Rabbit</p>
                     </div>

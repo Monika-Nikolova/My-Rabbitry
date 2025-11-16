@@ -11,10 +11,12 @@ import bg.softuni.myrabbitry.utils.PregnancyUtils;
 import bg.softuni.myrabbitry.web.dto.BestParent;
 import bg.softuni.myrabbitry.web.dto.PregnancyFilterRequest;
 import bg.softuni.myrabbitry.web.dto.PregnancyRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -54,7 +56,7 @@ public class PregnancyService {
         double bestLactatingQuantity = 0;
         int pregnancyCount = 0;
         int bornKids = 0;
-        int weanedKids = 0;
+        Integer weanedKids = 0;
         Rabbit bestMother = null;
         for (Rabbit doe : does) {
             double totalLactatingQuantity = 0;
@@ -64,10 +66,11 @@ public class PregnancyService {
             int totalWeanedKids = 0;
             int nullDeathPercentageCount = 0;
             int nullLactatingQuantityCount = 0;
+            int nullWeanedKidsCount = 0;
 
             List<PregnancyReport> pregnancyReports = pregnancyRepository.getAllByMother(doe);
             for (PregnancyReport pregnancyReport : pregnancyReports) {
-                if (!pregnancyReport.isFalsePregnancy() || !pregnancyReport.isWasPregnant()) {
+                if (!pregnancyReport.isFalsePregnancy() || !pregnancyReport.isCannibalismPresent()) {
 
                     if (pregnancyReport.getDeathPercentage() == null) {
                         nullDeathPercentageCount += 1;
@@ -83,10 +86,19 @@ public class PregnancyService {
 
                     totalPregnancies ++;
                     totalBornKids += pregnancyReport.getCountBornKids() != null ? pregnancyReport.getCountBornKids() : 0;
-                    totalWeanedKids += pregnancyReport.getCountWeanedKids() != null ? pregnancyReport.getCountWeanedKids() : 0;
+
+                    if (pregnancyReport.getCountWeanedKids() == null) {
+                        nullWeanedKidsCount += 1;
+                    } else {
+                        totalWeanedKids += pregnancyReport.getCountWeanedKids();
+                    }
                 }
             }
-            double averageDeathPercentage = totalDeathPercentage / (pregnancyReports.size() - nullDeathPercentageCount);
+
+            double averageDeathPercentage = 0;
+            if (pregnancyReports.size() - nullDeathPercentageCount != 0) {
+                averageDeathPercentage = totalDeathPercentage / (pregnancyReports.size() - nullDeathPercentageCount);
+            }
             double averageLactatingQuantity = totalLactatingQuantity / (pregnancyReports.size() - nullLactatingQuantityCount);
 
             if (averageDeathPercentage < smallestDeathPercentage || averageDeathPercentage == smallestDeathPercentage && averageLactatingQuantity > bestLactatingQuantity) {
@@ -94,7 +106,11 @@ public class PregnancyService {
                 bestLactatingQuantity = averageLactatingQuantity;
                 pregnancyCount = totalPregnancies;
                 bornKids = totalBornKids;
-                weanedKids = totalWeanedKids;
+                if (pregnancyReports.size() == nullWeanedKidsCount) {
+                    weanedKids = null;
+                } else {
+                    weanedKids = totalWeanedKids;
+                }
                 bestMother = doe;
             }
         }
@@ -112,7 +128,7 @@ public class PregnancyService {
                 .bornKids(bornKids)
                 .weanedKids(weanedKids)
                 .deathPercentage(smallestDeathPercentage)
-                .lactatingQuantity(bestLactatingQuantity)
+                .lactatingQuantity(Double.isNaN(bestLactatingQuantity) ? -1 : bestLactatingQuantity)
                 .build();
     }
 
@@ -132,7 +148,7 @@ public class PregnancyService {
 
             List<PregnancyReport> pregnancyReports = pregnancyRepository.getAllByFather(buck);
             for (PregnancyReport pregnancyReport : pregnancyReports) {
-                if (!pregnancyReport.isFalsePregnancy() || !pregnancyReport.isWasPregnant()) {
+                if (!pregnancyReport.isFalsePregnancy() || !pregnancyReport.isCannibalismPresent()) {
                     totalKids += pregnancyReport.getCountBornKids() != null ? pregnancyReport.getCountBornKids() : 0;
                     totalPregnancies ++;
                 }
@@ -161,7 +177,7 @@ public class PregnancyService {
     public List<PregnancyReport> getAllUpComingPregnanciesForUser(UUID id) {
         User user = userService.getById(id);
         List<PregnancyReport> pregnancies = pregnancyRepository.getAllByCreatedByOrderByDayOfFertilization(user);
-        return pregnancies.stream().filter(pregnancy -> LocalDate.now().isBefore(pregnancy.getLatestDueDate())).toList();
+        return pregnancies.stream().filter(pregnancy -> pregnancy.getDateOfBirth() == null || LocalDate.now().isBefore(pregnancy.getLatestDueDate())).toList();
     }
 
     public List<PregnancyReport> getAllPregnanciesForUser(UUID id) {
@@ -171,44 +187,31 @@ public class PregnancyService {
 
     public void createPregnancyReport(PregnancyRequest pregnancyRequest, UUID id) {
 
-        Rabbit father = null;
-        if (!pregnancyRequest.getFather().isBlank()) {
-            father = rabbitService.findByCode(pregnancyRequest.getFather());
-            if (father.getSex() != Sex.MALE) {
-                throw new RuntimeException("Father rabbit must be male");
-            }
-        }
+        Rabbit father = checkFatherMale(pregnancyRequest, id);
 
-        Rabbit mother = rabbitService.findByCode(pregnancyRequest.getMother());
-        if (mother.getSex() != Sex.FEMALE) {
-            throw new RuntimeException("Mother rabbit must be female");
-        }
+        Rabbit mother = checkMotherFemale(pregnancyRequest, id);
 
-        LocalDate earliestDueDate = PregnancyUtils.calculateEarliestDueDate(pregnancyRequest.getDayOfFertilization());
-        LocalDate latestDueDate = PregnancyUtils.calculateLatestDueDate(pregnancyRequest.getDayOfFertilization());
-        Double deathPercentage = PregnancyUtils.calculateDeathPercentage(pregnancyRequest.getCountBornKids(), pregnancyRequest.getCountWeanedKids());
-        Double lactatingQuantity = PregnancyUtils.calculateLactatingQuantity(pregnancyRequest.getTotalWeightKidsDay1(), pregnancyRequest.getTotalWeightKidsDay20());
         User user = userService.getById(id);
 
         PregnancyReport pregnancyReport = PregnancyReport.builder()
                 .mother(mother)
                 .father(father)
                 .dayOfFertilization(pregnancyRequest.getDayOfFertilization())
-                .earliestDueDate(earliestDueDate)
-                .latestDueDate(latestDueDate)
                 .dateOfBirth(pregnancyRequest.getDateOfBirth())
                 .countBornKids(pregnancyRequest.getCountBornKids())
                 .countWeanedKids(pregnancyRequest.getCountWeanedKids())
-                .deathPercentage(deathPercentage)
                 .totalWeightKidsDay1(pregnancyRequest.getTotalWeightKidsDay1())
                 .totalWeightKidsDay20(pregnancyRequest.getTotalWeightKidsDay20())
                 .isFalsePregnancy(pregnancyRequest.isFalsePregnancy())
                 .isCannibalismPresent(pregnancyRequest.isCannibalismPresent())
                 .hasAbort(pregnancyRequest.isHasAbort())
                 .wasPregnant(pregnancyRequest.isWasPregnant())
-                .lactatingQuantity(lactatingQuantity)
+                .createdOn(LocalDateTime.now())
+                .updatedOn(LocalDateTime.now())
                 .createdBy(user)
                 .build();
+
+        setCalculatedFields(pregnancyRequest, pregnancyReport);
 
         pregnancyRepository.save(pregnancyReport);
     }
@@ -222,15 +225,15 @@ public class PregnancyService {
         List<PregnancyReport> pregnancyReports = sortPregnancies(pregnancyFilterRequest.getSortCriteria());
 
         if (!pregnancyFilterRequest.getFather().isBlank()) {
-            Rabbit father = rabbitService.findByCode(pregnancyFilterRequest.getFather());
+            Rabbit father = rabbitService.findByCode(pregnancyFilterRequest.getFather(), id);
             pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getFather().equals(father)).toList();
 
             if (!pregnancyFilterRequest.getMother().isBlank()) {
-                Rabbit mother = rabbitService.findByCode(pregnancyFilterRequest.getMother());
+                Rabbit mother = rabbitService.findByCode(pregnancyFilterRequest.getMother(), id);
                 pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getMother().equals(mother)).toList();
             }
         } else if (!pregnancyFilterRequest.getMother().isBlank()) {
-            Rabbit mother = rabbitService.findByCode(pregnancyFilterRequest.getMother());
+            Rabbit mother = rabbitService.findByCode(pregnancyFilterRequest.getMother(), id);
             pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getMother().equals(mother)).toList();
         }
 
@@ -245,5 +248,63 @@ public class PregnancyService {
             case "BKA"-> pregnancyRepository.findAllByOrderByCountBornKidsAsc();
             default -> pregnancyRepository.findAll();
         };
+    }
+
+    public void editPregnancy(UUID id, @Valid PregnancyRequest pregnancyRequest, UUID userId) {
+
+        Rabbit father = checkFatherMale(pregnancyRequest, userId);
+
+        Rabbit mother = checkMotherFemale(pregnancyRequest, userId);
+
+        PregnancyReport pregnancyReport = getById(id);
+
+        pregnancyReport.setMother(mother);
+        pregnancyReport.setFather(father);
+        pregnancyReport.setDayOfFertilization(pregnancyRequest.getDayOfFertilization());
+        pregnancyReport.setDateOfBirth(pregnancyRequest.getDateOfBirth());
+        pregnancyReport.setCountBornKids(pregnancyRequest.getCountBornKids());
+        pregnancyReport.setCountWeanedKids(pregnancyRequest.getCountWeanedKids());
+        pregnancyReport.setTotalWeightKidsDay1(pregnancyRequest.getTotalWeightKidsDay1());
+        pregnancyReport.setTotalWeightKidsDay20(pregnancyRequest.getTotalWeightKidsDay20());
+        pregnancyReport.setFalsePregnancy(pregnancyRequest.isFalsePregnancy());
+        pregnancyReport.setCannibalismPresent(pregnancyRequest.isCannibalismPresent());
+        pregnancyReport.setHasAbort(pregnancyRequest.isHasAbort());
+        pregnancyReport.setWasPregnant(pregnancyRequest.isWasPregnant());
+        pregnancyReport.setUpdatedOn(LocalDateTime.now());
+
+        setCalculatedFields(pregnancyRequest, pregnancyReport);
+
+        pregnancyRepository.save(pregnancyReport);
+    }
+
+    private void setCalculatedFields(PregnancyRequest pregnancyRequest, PregnancyReport pregnancyReport) {
+        LocalDate earliestDueDate = PregnancyUtils.calculateEarliestDueDate(pregnancyRequest.getDayOfFertilization());
+        LocalDate latestDueDate = PregnancyUtils.calculateLatestDueDate(pregnancyRequest.getDayOfFertilization());
+        Double deathPercentage = PregnancyUtils.calculateDeathPercentage(pregnancyRequest.getCountBornKids(), pregnancyRequest.getCountWeanedKids());
+        Double lactatingQuantity = PregnancyUtils.calculateLactatingQuantity(pregnancyRequest.getTotalWeightKidsDay1(), pregnancyRequest.getTotalWeightKidsDay20());
+
+        pregnancyReport.setEarliestDueDate(earliestDueDate);
+        pregnancyReport.setLatestDueDate(latestDueDate);
+        pregnancyReport.setDeathPercentage(deathPercentage);
+        pregnancyReport.setLactatingQuantity(lactatingQuantity);
+    }
+
+    private Rabbit checkFatherMale(PregnancyRequest pregnancyRequest, UUID userId) {
+        Rabbit father = null;
+        if (!pregnancyRequest.getFather().isBlank()) {
+            father = rabbitService.findByCode(pregnancyRequest.getFather(), userId);
+            if (father.getSex() != Sex.MALE) {
+                throw new RuntimeException("Father rabbit must be male");
+            }
+        }
+        return father;
+    }
+
+    private Rabbit checkMotherFemale(PregnancyRequest pregnancyRequest, UUID id) {
+        Rabbit mother = rabbitService.findByCode(pregnancyRequest.getMother(), id);
+        if (mother.getSex() != Sex.FEMALE) {
+            throw new RuntimeException("Mother rabbit must be female");
+        }
+        return mother;
     }
 }

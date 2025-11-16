@@ -1,9 +1,11 @@
 package bg.softuni.myrabbitry.web;
 
 import bg.softuni.myrabbitry.rabbit.service.RabbitService;
+import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.web.dto.FamilyTreeDto;
 import bg.softuni.myrabbitry.web.dto.FamilyTreeRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +36,13 @@ public class FamilyTreeController {
     }
 
     @PostMapping
-    public ModelAndView makeFamilyTree(@Valid FamilyTreeRequest familyTreeRequest, RedirectAttributes redirectAttributes,  BindingResult bindingResult) {
+    public ModelAndView makeFamilyTree(@Valid FamilyTreeRequest familyTreeRequest, RedirectAttributes redirectAttributes, BindingResult bindingResult, @AuthenticationPrincipal UserData  userData) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("family-tree");
         }
 
-        FamilyTreeDto familyTree = rabbitService.createFamilyTree(familyTreeRequest.getCode());
+        FamilyTreeDto familyTree = rabbitService.createFamilyTree(familyTreeRequest.getCode(), userData.getId());
         redirectAttributes.addFlashAttribute("familyTree", familyTree);
 
         return new ModelAndView("redirect:/family-tree");

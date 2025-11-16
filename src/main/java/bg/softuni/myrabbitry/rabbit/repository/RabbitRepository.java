@@ -12,7 +12,8 @@ import java.util.UUID;
 
 @Repository
 public interface RabbitRepository extends JpaRepository<Rabbit, UUID> {
+
     List<Rabbit> getByOwnerOrderByCreatedOnDesc(User owner);
 
-    Optional<Rabbit> findByCode(String code);
+    Optional<Rabbit> findByCodeAndOwner(String code, User byId);
 }
