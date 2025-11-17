@@ -6,6 +6,7 @@ import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.web.dto.DtoMapper;
 import bg.softuni.myrabbitry.web.dto.RabbitRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class RabbitController {
         this.rabbitService = rabbitService;
     }
 
+    @PreAuthorize("hasAuthority('view_my_rabbits')")
     @GetMapping("/me")
     public ModelAndView getMyRabbitsPage(@AuthenticationPrincipal UserData userData) {
 
@@ -38,6 +40,7 @@ public class RabbitController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('create_rabbits')")
     @GetMapping("/new")
     public ModelAndView getAddRabbitPage(@AuthenticationPrincipal UserData userData) {
 
@@ -48,6 +51,7 @@ public class RabbitController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('create_rabbits')")
     @PostMapping("/new")
     public ModelAndView createNewRabbit(@AuthenticationPrincipal UserData userData, @Valid RabbitRequest rabbitRequest, BindingResult bindingResult) {
 
@@ -60,6 +64,7 @@ public class RabbitController {
         return new ModelAndView("redirect:/rabbits/me");
     }
 
+    @PreAuthorize("hasAuthority('edit_rabbits')")
     @GetMapping("/me/{id}")
     public ModelAndView getEditRabbitPage(@PathVariable UUID id) {
 
@@ -74,6 +79,7 @@ public class RabbitController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('edit_rabbits')")
     @PutMapping("/me/{id}")
     public ModelAndView editRabbit(@PathVariable UUID id, @Valid RabbitRequest rabbitRequest, BindingResult bindingResult, @AuthenticationPrincipal UserData userData) {
 

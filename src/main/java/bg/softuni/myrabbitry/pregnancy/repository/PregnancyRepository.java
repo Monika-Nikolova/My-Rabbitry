@@ -19,9 +19,9 @@ public interface PregnancyRepository extends JpaRepository<PregnancyReport, UUID
 
     List<PregnancyReport> getAllByFather(Rabbit buck);
 
-    List<PregnancyReport> getAllByCreatedByOrderByDayOfFertilization(User user);
-
-    List<PregnancyReport> getAllByCreatedBy(User user);
+//    List<PregnancyReport> getAllByCreatedByOrderByDayOfFertilization(User user);
+//
+//    List<PregnancyReport> getAllByCreatedBy(User user);
 
     List<PregnancyReport> findAllByOrderByDayOfFertilizationDesc();
 
@@ -30,4 +30,6 @@ public interface PregnancyRepository extends JpaRepository<PregnancyReport, UUID
     List<PregnancyReport> findAllByOrderByCountBornKidsDesc();
 
     List<PregnancyReport> findAllByOrderByCountBornKidsAsc();
+
+    List<PregnancyReport> getAllByMotherInOrFatherIn(Collection<Rabbit> mothers, Collection<Rabbit> fathers);
 }

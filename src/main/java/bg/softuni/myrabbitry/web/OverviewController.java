@@ -7,6 +7,7 @@ import bg.softuni.myrabbitry.user.service.UserService;
 import bg.softuni.myrabbitry.utils.RabbitryUtils;
 import bg.softuni.myrabbitry.web.dto.BestParent;
 import bg.softuni.myrabbitry.web.dto.RabbitryStats;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/overview")
+@PreAuthorize("hasAuthority('view_overview')")
 public class OverviewController {
 
 

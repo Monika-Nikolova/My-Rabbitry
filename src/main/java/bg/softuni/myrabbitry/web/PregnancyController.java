@@ -2,12 +2,12 @@ package bg.softuni.myrabbitry.web;
 
 import bg.softuni.myrabbitry.pregnancy.model.PregnancyReport;
 import bg.softuni.myrabbitry.pregnancy.service.PregnancyService;
-import bg.softuni.myrabbitry.rabbit.model.Rabbit;
 import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.web.dto.DtoMapper;
 import bg.softuni.myrabbitry.web.dto.PregnancyFilterRequest;
 import bg.softuni.myrabbitry.web.dto.PregnancyRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,10 +24,12 @@ public class PregnancyController {
 
     private final PregnancyService pregnancyService;
 
+
     public PregnancyController(PregnancyService pregnancyService) {
         this.pregnancyService = pregnancyService;
     }
 
+    @PreAuthorize("hasAuthority('view_maternity_ward')")
     @GetMapping
     public ModelAndView getMaternityWardPage(@AuthenticationPrincipal UserData userData) {
 
@@ -40,6 +42,7 @@ public class PregnancyController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('view_pregnancy_details')")
     @GetMapping("/details")
     public ModelAndView getPregnancyDetailsPage(@AuthenticationPrincipal UserData userData) {
 
@@ -53,6 +56,7 @@ public class PregnancyController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('view_pregnancy_details')")
     @GetMapping("/details/{id}")
     public ModelAndView getSpecificPregnancyReport(@PathVariable UUID id) {
 
@@ -64,6 +68,7 @@ public class PregnancyController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('edit_pregnancy_details')")
     @GetMapping("/details/{id}/report")
     public ModelAndView getEditPregnancyPage(@PathVariable UUID id) {
 
@@ -79,6 +84,7 @@ public class PregnancyController {
 
     }
 
+    @PreAuthorize("hasAuthority('edit_pregnancy_details')")
     @PutMapping("/details/{id}/report")
     public ModelAndView editPregnancyReport(@PathVariable UUID id, @Valid PregnancyRequest pregnancyRequest, BindingResult bindingResult, @AuthenticationPrincipal UserData userData) {
 
@@ -94,6 +100,7 @@ public class PregnancyController {
         return new ModelAndView("redirect:/pregnancies/details");
     }
 
+    @PreAuthorize("hasAuthority('view_pregnancy_details')")
     @GetMapping("/details/group")
     public ModelAndView getPregnancyReportsWithFilter(@AuthenticationPrincipal UserData userData, PregnancyFilterRequest pregnancyFilterRequest) {
 
@@ -107,6 +114,7 @@ public class PregnancyController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('create_pregnancy_details')")
     @GetMapping("/new")
     public ModelAndView getAddPregnancyPage() {
 
@@ -117,6 +125,7 @@ public class PregnancyController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('create_pregnancy_details')")
     @PostMapping("/new")
     public ModelAndView createPregnancyReport(@Valid PregnancyRequest pregnancyRequest, @AuthenticationPrincipal UserData userData, BindingResult bindingResult) {
 

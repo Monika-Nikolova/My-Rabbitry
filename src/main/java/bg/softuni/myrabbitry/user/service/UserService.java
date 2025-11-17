@@ -1,5 +1,6 @@
 package bg.softuni.myrabbitry.user.service;
 
+import bg.softuni.myrabbitry.Event.ChangedSubscriptionEvent;
 import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.subscription.model.Subscription;
 import bg.softuni.myrabbitry.subscription.service.SubscriptionService;
@@ -9,9 +10,12 @@ import bg.softuni.myrabbitry.user.repository.UserRepository;
 import bg.softuni.myrabbitry.web.dto.EditProfileRequest;
 import bg.softuni.myrabbitry.web.dto.RegisterRequest;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +30,9 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class UserService implements UserDetailsService {
+
+    private final String PREGNANCY_DETAILS_PERMISSION = "view_pregnancy_details";
+    private final String MY_RABBITS_PERMISSION = "view_my_rabbits";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -54,6 +61,7 @@ public class UserService implements UserDetailsService {
                 .email(registerRequest.getEmail().isBlank() ? null : registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(UserRole.USER)
+                .permissions(List.of(PREGNANCY_DETAILS_PERMISSION, MY_RABBITS_PERMISSION))
                 .isActive(true)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
@@ -73,7 +81,7 @@ public class UserService implements UserDetailsService {
 
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException(String.format("User with username %s not found", username)));
 
-        return  new UserData(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.isActive());
+        return new UserData(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.getPermissions(), user.isActive());
     }
 
     public User getById(UUID id) {
@@ -119,5 +127,30 @@ public class UserService implements UserDetailsService {
         user.setUpdatedOn(LocalDateTime.now());
 
         userRepository.save(user);
+    }
+
+    @EventListener
+    public void editPermissionsOnChangedSubscription(ChangedSubscriptionEvent changedSubscriptionEvent) {
+        User user = changedSubscriptionEvent.getUser();
+        user.setPermissions(changedSubscriptionEvent.getPermissions());
+        user.setUpdatedOn(LocalDateTime.now());
+        userRepository.save(user);
+
+        refreshUserAuthentication(user.getUsername());
+    }
+
+    private void refreshUserAuthentication(String username) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.getName().equals(username)) {
+            UserDetails userDetails = loadUserByUsername(username);
+            Authentication newAuth = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    auth.getCredentials(),
+                    userDetails.getAuthorities()
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
+        }
     }
 }

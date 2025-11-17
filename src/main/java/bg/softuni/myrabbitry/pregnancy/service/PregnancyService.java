@@ -6,7 +6,6 @@ import bg.softuni.myrabbitry.rabbit.model.Rabbit;
 import bg.softuni.myrabbitry.rabbit.model.Sex;
 import bg.softuni.myrabbitry.rabbit.service.RabbitService;
 import bg.softuni.myrabbitry.user.model.User;
-import bg.softuni.myrabbitry.user.service.UserService;
 import bg.softuni.myrabbitry.utils.PregnancyUtils;
 import bg.softuni.myrabbitry.web.dto.BestParent;
 import bg.softuni.myrabbitry.web.dto.PregnancyFilterRequest;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,13 +23,11 @@ import java.util.UUID;
 public class PregnancyService {
 
     private final PregnancyRepository pregnancyRepository;
-    private final UserService userService;
     private final RabbitService rabbitService;
 
     @Autowired
-    public PregnancyService(PregnancyRepository pregnancyRepository, UserService userService, RabbitService rabbitService) {
+    public PregnancyService(PregnancyRepository pregnancyRepository, RabbitService rabbitService) {
         this.pregnancyRepository = pregnancyRepository;
-        this.userService = userService;
         this.rabbitService = rabbitService;
     }
 
@@ -175,14 +171,13 @@ public class PregnancyService {
     }
 
     public List<PregnancyReport> getAllUpComingPregnanciesForUser(UUID id) {
-        User user = userService.getById(id);
-        List<PregnancyReport> pregnancies = pregnancyRepository.getAllByCreatedByOrderByDayOfFertilization(user);
+        List<PregnancyReport> pregnancies = getAllPregnanciesForUser(id);
         return pregnancies.stream().filter(pregnancy -> pregnancy.getDateOfBirth() == null || LocalDate.now().isBefore(pregnancy.getLatestDueDate())).toList();
     }
 
     public List<PregnancyReport> getAllPregnanciesForUser(UUID id) {
-        User user = userService.getById(id);
-        return pregnancyRepository.getAllByCreatedBy(user);
+        List<Rabbit> rabbits = rabbitService.getByOwnerId(id);
+        return pregnancyRepository.getAllByMotherInOrFatherIn(rabbits, rabbits);
     }
 
     public void createPregnancyReport(PregnancyRequest pregnancyRequest, UUID id) {
@@ -190,8 +185,6 @@ public class PregnancyService {
         Rabbit father = checkFatherMale(pregnancyRequest, id);
 
         Rabbit mother = checkMotherFemale(pregnancyRequest, id);
-
-        User user = userService.getById(id);
 
         PregnancyReport pregnancyReport = PregnancyReport.builder()
                 .mother(mother)
@@ -208,7 +201,6 @@ public class PregnancyService {
                 .wasPregnant(pregnancyRequest.isWasPregnant())
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
-                .createdBy(user)
                 .build();
 
         setCalculatedFields(pregnancyRequest, pregnancyReport);

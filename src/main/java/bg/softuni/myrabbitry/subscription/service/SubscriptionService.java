@@ -1,28 +1,45 @@
 package bg.softuni.myrabbitry.subscription.service;
 
+import bg.softuni.myrabbitry.Event.ChangedSubscriptionEvent;
 import bg.softuni.myrabbitry.subscription.model.Subscription;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionStatus;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionType;
 import bg.softuni.myrabbitry.subscription.repository.SubscriptionRepository;
 import bg.softuni.myrabbitry.user.model.User;
+import bg.softuni.myrabbitry.user.service.UserService;
 import bg.softuni.myrabbitry.web.dto.SubscriptionRequest;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SubscriptionService {
 
+    private final String PREGNANCY_DETAILS_PERMISSION = "view_pregnancy_details";
+    private final String CREATE_PREGNANCY_DETAILS_PERMISSION = "create_pregnancy_details";
+    private final String EDIT_PREGNANCY_DETAILS_PERMISSION = "edit_pregnancy_details";
+    private final String MY_RABBITS_PERMISSION = "view_my_rabbits";
+    private final String CREATE_RABBIT_PERMISSION = "create_rabbits";
+    private final String EDIT_RABBIT_PERMISSION = "edit_rabbits";
+    private final String FAMILY_TREE_PERMISSION = "view_family_tree";
+    private final String OVERVIEW_PERMISSION = "view_overview";
+    private final String MATERNITY_WARD_PERMISSION = "view_maternity_ward";
+
     private final SubscriptionRepository subscriptionRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
+
 
     @Autowired
-    public SubscriptionService(SubscriptionRepository subscriptionRepository) {
+    public SubscriptionService(SubscriptionRepository subscriptionRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.subscriptionRepository = subscriptionRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public Subscription creatDefaultSubscription(User user) {
@@ -64,12 +81,28 @@ public class SubscriptionService {
             newSubscription.setPaymentMethod(subscriptionRequest.getPaymentMethod());
         }
 
+        List<String> permissions = getPermissions(subscriptionType);
+
+        applicationEventPublisher.publishEvent(new ChangedSubscriptionEvent(permissions, user));
+
         Subscription currentSubscription = user.getSubscriptions().get(0);
         currentSubscription.setStatus(SubscriptionStatus.EXPIRED);
         currentSubscription.setExpirationOn(now);
 
         subscriptionRepository.save(currentSubscription);
         subscriptionRepository.save(newSubscription);
+    }
+
+    private List<String> getPermissions(SubscriptionType subscriptionType) {
+        List<String> permissions;
+        if (subscriptionType == SubscriptionType.FAMILY_HOBBY_FARM) {
+            permissions = List.of(PREGNANCY_DETAILS_PERMISSION, MY_RABBITS_PERMISSION, CREATE_PREGNANCY_DETAILS_PERMISSION, EDIT_PREGNANCY_DETAILS_PERMISSION, CREATE_RABBIT_PERMISSION, EDIT_RABBIT_PERMISSION);
+        } else if (subscriptionType == SubscriptionType.LARGE_FARM) {
+            permissions = List.of(PREGNANCY_DETAILS_PERMISSION, MY_RABBITS_PERMISSION, CREATE_PREGNANCY_DETAILS_PERMISSION, EDIT_PREGNANCY_DETAILS_PERMISSION, CREATE_RABBIT_PERMISSION, EDIT_RABBIT_PERMISSION, FAMILY_TREE_PERMISSION);
+        } else {
+            permissions = List.of(PREGNANCY_DETAILS_PERMISSION, MY_RABBITS_PERMISSION, CREATE_PREGNANCY_DETAILS_PERMISSION, EDIT_PREGNANCY_DETAILS_PERMISSION, CREATE_RABBIT_PERMISSION, EDIT_RABBIT_PERMISSION, FAMILY_TREE_PERMISSION, OVERVIEW_PERMISSION,  MATERNITY_WARD_PERMISSION);
+        }
+        return permissions;
     }
 
     private BigDecimal getSubscriptionPrice(SubscriptionType type, SubscriptionPeriod period) {

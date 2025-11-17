@@ -5,6 +5,7 @@ import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.web.dto.FamilyTreeDto;
 import bg.softuni.myrabbitry.web.dto.FamilyTreeRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/family-tree")
+@PreAuthorize("hasAuthority('view_family_tree')")
 public class FamilyTreeController {
 
 

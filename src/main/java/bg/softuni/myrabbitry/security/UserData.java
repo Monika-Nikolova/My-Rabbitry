@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -19,15 +20,18 @@ public class UserData implements UserDetails {
     private String username;
     private String password;
     private UserRole role;
-    //    private List<String> permissions;
+    private List<String> permissions;
     private boolean isAccountActive;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.name());
+        List<SimpleGrantedAuthority> list = permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
-        return List.of(simpleGrantedAuthority);
+        list.add(simpleGrantedAuthority);
+
+        return list;
     }
 
     @Override

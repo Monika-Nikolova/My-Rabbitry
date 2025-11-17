@@ -45,6 +45,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private List<String> permissions =new ArrayList<>();
+
     private String country;
 
     private boolean isActive;

@@ -66,8 +66,4 @@ public class PregnancyReport {
 
     @Column(nullable = false)
     private LocalDateTime updatedOn;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private User createdBy;
 }
