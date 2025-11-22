@@ -1,6 +1,7 @@
 package bg.softuni.myrabbitry.web;
 
 import bg.softuni.myrabbitry.security.UserData;
+import bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionType;
 import bg.softuni.myrabbitry.subscription.service.SubscriptionService;
 import bg.softuni.myrabbitry.user.model.User;
@@ -43,18 +44,11 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    public ModelAndView changeSubscription(@AuthenticationPrincipal UserData userData, @Valid SubscriptionRequest subscriptionRequest, BindingResult bindingResult, @RequestParam("subscriptionType") SubscriptionType subscriptionType) {
+    public ModelAndView changeSubscription(@AuthenticationPrincipal UserData userData, @RequestParam("period") SubscriptionPeriod period, @RequestParam("subscriptionType") SubscriptionType subscriptionType) {
 
         User user = userService.getById(userData.getId());
 
-        if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("subscription");
-            modelAndView.addObject("currentSubscription", user.getSubscriptions().get(0));
-            return modelAndView;
-        }
-
-        subscriptionService.createNewSubscription(user, subscriptionRequest, subscriptionType);
+        subscriptionService.createNewSubscription(user, period, subscriptionType);
 
         return new ModelAndView("redirect:/subscriptions");
     }

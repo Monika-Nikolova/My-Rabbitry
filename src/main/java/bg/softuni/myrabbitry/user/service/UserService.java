@@ -32,7 +32,11 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     private final String PREGNANCY_DETAILS_PERMISSION = "view_pregnancy_details";
+    private final String CREATE_PREGNANCY_DETAILS_PERMISSION = "create_pregnancy_details";
+    private final String EDIT_PREGNANCY_DETAILS_PERMISSION = "edit_pregnancy_details";
     private final String MY_RABBITS_PERMISSION = "view_my_rabbits";
+    private final String CREATE_RABBIT_PERMISSION = "create_rabbits";
+    private final String EDIT_RABBIT_PERMISSION = "edit_rabbits";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -61,7 +65,7 @@ public class UserService implements UserDetailsService {
                 .email(registerRequest.getEmail().isBlank() ? null : registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(UserRole.USER)
-                .permissions(List.of(PREGNANCY_DETAILS_PERMISSION, MY_RABBITS_PERMISSION))
+                .permissions(List.of(PREGNANCY_DETAILS_PERMISSION, MY_RABBITS_PERMISSION, CREATE_PREGNANCY_DETAILS_PERMISSION, EDIT_PREGNANCY_DETAILS_PERMISSION, CREATE_RABBIT_PERMISSION, EDIT_RABBIT_PERMISSION))
                 .isActive(true)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())

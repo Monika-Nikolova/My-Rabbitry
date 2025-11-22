@@ -7,7 +7,6 @@ import bg.softuni.myrabbitry.subscription.model.SubscriptionStatus;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionType;
 import bg.softuni.myrabbitry.subscription.repository.SubscriptionRepository;
 import bg.softuni.myrabbitry.user.model.User;
-import bg.softuni.myrabbitry.user.service.UserService;
 import bg.softuni.myrabbitry.web.dto.SubscriptionRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,11 +55,11 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public void createNewSubscription(User user, SubscriptionRequest subscriptionRequest, SubscriptionType subscriptionType) {
+    public void createNewSubscription(User user, SubscriptionPeriod period, SubscriptionType subscriptionType) {
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expirationOn;
-        if (subscriptionRequest.getPeriod() == SubscriptionPeriod.MONTHLY) {
+        if (period == SubscriptionPeriod.MONTHLY) {
             expirationOn = now.plusMonths(1);
         } else {
             expirationOn = now.plusYears(1);
@@ -69,17 +67,13 @@ public class SubscriptionService {
 
         Subscription newSubscription = Subscription.builder()
                 .status(SubscriptionStatus.ACTIVE)
-                .period(subscriptionRequest.getPeriod())
+                .period(period)
                 .type(subscriptionType)
-                .price(getSubscriptionPrice(subscriptionType, subscriptionRequest.getPeriod()))
+                .price(getSubscriptionPrice(subscriptionType, period))
                 .createdOn(LocalDateTime.now())
                 .expirationOn(expirationOn)
                 .owner(user)
                 .build();
-
-        if (subscriptionType == SubscriptionType.INDUSTRIAL_FARM || subscriptionType == SubscriptionType.LARGE_FARM) {
-            newSubscription.setPaymentMethod(subscriptionRequest.getPaymentMethod());
-        }
 
         List<String> permissions = getPermissions(subscriptionType);
 
@@ -105,7 +99,7 @@ public class SubscriptionService {
         return permissions;
     }
 
-    private BigDecimal getSubscriptionPrice(SubscriptionType type, SubscriptionPeriod period) {
+    public BigDecimal getSubscriptionPrice(SubscriptionType type, SubscriptionPeriod period) {
 
         if (type == SubscriptionType.FAMILY_HOBBY_FARM) {
             return BigDecimal.ZERO;

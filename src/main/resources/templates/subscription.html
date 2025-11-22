@@ -61,15 +61,15 @@
                     <p>0.00</p>
                     <p>yearly price</p>
                 </div>
-                <form class="subscription-form" th:action="@{'/subscriptions?subscriptionType=FAMILY_HOBBY_FARM'}" th:method="POST" th:object="${subscriptionRequest}">
+                <form class="subscription-form" th:action="@{'/payments/new'}" th:method="GET" th:object="${subscriptionRequest}">
                     <label>Period</label>
-                    <select name="period" th:feild="*{period}">
+                    <select name="period" th:field="*{period}">
                         <option th:value="${T(bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod).YEARLY}" th:text="${T(bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod).YEARLY.getDisplayName()}" selected>Yearly</option>
                     </select>
                     <div class="current-sub-label" th:if="${currentSubscription.getType().name().equals('FAMILY_HOBBY_FARM')}">
                         <p>Your current subscription</p>
                     </div>
-                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" th:unless="${currentSubscription.getType().name().equals('FAMILY_HOBBY_FARM')}">
+                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" value="FAMILY_HOBBY_FARM" th:unless="${currentSubscription.getType().name().equals('FAMILY_HOBBY_FARM')}">
                         <strong>Get Now</strong>
                     </button>
                 </form>
@@ -102,21 +102,21 @@
                     <p>55.00</p>
                     <p>yearly price</p>
                 </div>
-                <form class="subscription-form" th:action="@{'/subscriptions?subscriptionType=LARGE_FARM'}" th:method="POST" th:object="${subscriptionRequest}">
+                <form class="subscription-form" th:action="@{'/payments/new'}" th:method="GET" th:object="${subscriptionRequest}">
                     <label class="large-label">Choose period</label>
-                    <select name="period" th:feild="*{period}">
+                    <select name="period" th:field="*{period}">
                         <option value="" selected>Select</option>
                         <option th:each="period : ${T(bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod).values()}" th:value="${period}" th:text="${period.getDisplayName()}">Monthly</option>
                     </select>
                     <label class="large-label">Choose payment method</label>
-                    <select name="paymentMethod" th:field="*{paymentMethod}">
+                    <select name="paymentMethod" th:field="*{cardTier}">
                         <option value="" selected>Select</option>
-                        <option th:each="paymentMethod : ${T(bg.softuni.myrabbitry.subscription.model.PaymentMethod).values()}" th:value="${paymentMethod}" th:text="${paymentMethod.getDisplayName()}">Debit Card</option>
+                        <option th:each="cardTier : ${T(bg.softuni.myrabbitry.subscription.model.CardTier).values()}" th:value="${cardTier}" th:text="${cardTier.getDisplayName()}">mastercard</option>
                     </select>
                     <div class="current-sub-label" th:if="${currentSubscription.getType().name().equals('LARGE_FARM')}">
                         <p>Your current subscription</p>
                     </div>
-                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" th:unless="${currentSubscription.getType().name().equals('LARGE_FARM')}">
+                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" value="LARGE_FARM" th:unless="${currentSubscription.getType().name().equals('LARGE_FARM')}">
                         <strong>Buy</strong>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -155,21 +155,21 @@
                     <p>450.00</p>
                     <p>yearly price</p>
                 </div>
-                <form class="subscription-form" th:action="@{'/subscriptions?subscriptionType=INDUSTRIAL_FARM'}" th:method="POST" th:object="${subscriptionRequest}">
+                <form class="subscription-form" th:action="@{'/payments/new'}" th:method="GET" th:object="${subscriptionRequest}">
                     <label class="industrial-label">Choose period</label>
-                    <select name="period" th:feild="*{period}">
+                    <select name="period" th:field="*{period}">
                         <option value="" selected>Select</option>
                         <option th:each="period : ${T(bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod).values()}" th:value="${period}" th:text="${period.getDisplayName()}">Monthly</option>
                     </select>
                     <label class="industrial-label">Choose payment method</label>
-                    <select name="paymentMethod" th:field="*{paymentMethod}">
+                    <select name="paymentMethod" th:field="*{cardTier}">
                         <option value="" selected>Select</option>
-                        <option th:each="paymentMethod : ${T(bg.softuni.myrabbitry.subscription.model.PaymentMethod).values()}" th:value="${paymentMethod}" th:text="${paymentMethod.getDisplayName()}">Debit Card</option>
+                        <option th:each="cardTier : ${T(bg.softuni.myrabbitry.subscription.model.CardTier).values()}" th:value="${cardTier}" th:text="${cardTier.getDisplayName()}">mastercard</option>
                     </select>
                     <div class="current-sub-label" th:if="${currentSubscription.getType().name().equals('INDUSTRIAL_FARM')}">
                         <p>Your current subscription</p>
                     </div>
-                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" th:unless="${currentSubscription.getType().name().equals('INDUSTRIAL_FARM')}">
+                    <button class="btn subscription-buy-button" type="submit" name="subscriptionType" value="INDUSTRIAL_FARM" th:unless="${currentSubscription.getType().name().equals('INDUSTRIAL_FARM')}">
                         <strong>Buy</strong>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path

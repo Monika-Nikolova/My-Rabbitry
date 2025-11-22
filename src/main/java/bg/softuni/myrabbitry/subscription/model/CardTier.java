@@ -3,13 +3,14 @@ package bg.softuni.myrabbitry.subscription.model;
 import lombok.Getter;
 
 @Getter
-public enum PaymentMethod {
-    CREDIT_CARD("Debit Card"),
-    DEBIT_CARD("Credit Card");
+public enum CardTier {
+    VISA("Visa"),
+    MASTERCARD("Mastercard"),
+    AMERICAN_EXPRESS("American Express");
 
     private final String displayName;
 
-    PaymentMethod(String displayName) {
+    CardTier(String displayName) {
         this.displayName = displayName;
     }
 }

@@ -40,9 +40,6 @@ public class Subscription {
     @Column(nullable = false)
     private LocalDateTime expirationOn;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
-
     @ManyToOne
     @JoinColumn(nullable = false)
     private User owner;

@@ -2,7 +2,9 @@ package bg.softuni.myrabbitry.web.dto;
 
 import bg.softuni.myrabbitry.pregnancy.model.PregnancyReport;
 import bg.softuni.myrabbitry.rabbit.model.Rabbit;
+import bg.softuni.myrabbitry.subscription.model.SubscriptionType;
 import bg.softuni.myrabbitry.user.model.User;
+import jakarta.validation.Valid;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
@@ -85,5 +87,13 @@ public class DtoMapper {
                 .hasAbort(pregnancyReport.isHasAbort())
                 .wasPregnant(pregnancyReport.isWasPregnant())
                 .build();
+    }
+
+    public static PaymentRequest fromSubscriptionRequestToPaymentRequest(SubscriptionType subscriptionType, SubscriptionRequest subscriptionRequest) {
+        PaymentRequest paymentRequest = new PaymentRequest();
+        paymentRequest.setSubscriptionType(subscriptionType);
+        paymentRequest.setCardTier(subscriptionRequest.getCardTier());
+        paymentRequest.setPeriod(subscriptionRequest.getPeriod());
+        return paymentRequest;
     }
 }
