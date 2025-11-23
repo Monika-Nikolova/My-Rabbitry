@@ -10,6 +10,8 @@ import bg.softuni.myrabbitry.web.dto.FamilyTreeDto;
 import bg.softuni.myrabbitry.web.dto.RabbitRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,11 +32,13 @@ public class RabbitService {
         this.userService = userService;
     }
 
+    @Cacheable("rabbits")
     public List<Rabbit> getByOwnerId(UUID id) {
         User owner = userService.getById(id);
         return rabbitRepository.getByOwnerOrderByCreatedOnDesc(owner);
     }
 
+    @CacheEvict(value = {"rabbits", "bestMother", "bestFather"}, allEntries = true)
     public void createNewRabbit(RabbitRequest rabbitRequest, UUID id) {
 
         User owner = userService.getById(id);
@@ -64,6 +68,7 @@ public class RabbitService {
         return rabbitRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Rabbit with id %s not found", id)));
     }
 
+    @CacheEvict(value = {"rabbits", "bestMother", "bestFather"}, allEntries = true)
     public void editRabbit(UUID id, RabbitRequest rabbitRequest, UUID ownerId) {
 
         Rabbit mother = checkMotherFemale(rabbitRequest, ownerId);

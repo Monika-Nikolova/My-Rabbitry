@@ -12,6 +12,8 @@ import bg.softuni.myrabbitry.web.dto.PregnancyFilterRequest;
 import bg.softuni.myrabbitry.web.dto.PregnancyRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,6 +33,7 @@ public class PregnancyService {
         this.rabbitService = rabbitService;
     }
 
+    @Cacheable("latestPregnancy")
     public PregnancyReport getLatest(List<Rabbit> rabbits, UUID id) {
         List<PregnancyReport> pregnancyReports = pregnancyRepository.getAllByMotherInOrderByDayOfFertilizationDesc(rabbits);
 
@@ -41,6 +44,7 @@ public class PregnancyService {
         return pregnancyReports.get(0);
     }
 
+    @Cacheable("bestMother")
     public BestParent getBestMother(User user) {
         List<Rabbit> does = user.getRabbits().stream().filter(rabbit -> rabbit.getStatus().name().equals("FOR_BREEDING") && rabbit.getSex().name().equals("FEMALE")).toList();
 
@@ -128,6 +132,7 @@ public class PregnancyService {
                 .build();
     }
 
+    @Cacheable("bestFather")
     public BestParent getBestFather(User user) {
         List<Rabbit> bucks = user.getRabbits().stream().filter(rabbit -> rabbit.getStatus().name().equals("FOR_BREEDING") && rabbit.getSex().name().equals("MALE")).toList();
 
@@ -170,16 +175,19 @@ public class PregnancyService {
                 .build();
     }
 
+    @Cacheable("upComingPregnancies")
     public List<PregnancyReport> getAllUpComingPregnanciesForUser(UUID id) {
         List<PregnancyReport> pregnancies = getAllPregnanciesForUser(id);
         return pregnancies.stream().filter(pregnancy -> pregnancy.getDateOfBirth() == null || LocalDate.now().isBefore(pregnancy.getLatestDueDate())).toList();
     }
 
+    @Cacheable("pregnancies")
     public List<PregnancyReport> getAllPregnanciesForUser(UUID id) {
         List<Rabbit> rabbits = rabbitService.getByOwnerId(id);
         return pregnancyRepository.getAllByMotherInOrFatherIn(rabbits, rabbits);
     }
 
+    @CacheEvict(value = {"latestPregnancy", "pregnancies", "upComingPregnancies", "bestMother", "bestFather"}, allEntries = true)
     public void createPregnancyReport(PregnancyRequest pregnancyRequest, UUID id) {
 
         Rabbit father = checkFatherMale(pregnancyRequest, id);
@@ -242,6 +250,7 @@ public class PregnancyService {
         };
     }
 
+    @CacheEvict(value = {"latestPregnancy", "pregnancies", "upComingPregnancies", "bestMother", "bestFather"}, allEntries = true)
     public void editPregnancy(UUID id, @Valid PregnancyRequest pregnancyRequest, UUID userId) {
 
         Rabbit father = checkFatherMale(pregnancyRequest, userId);
