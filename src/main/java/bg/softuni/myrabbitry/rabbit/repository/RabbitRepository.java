@@ -2,7 +2,6 @@ package bg.softuni.myrabbitry.rabbit.repository;
 
 import bg.softuni.myrabbitry.rabbit.model.Rabbit;
 import bg.softuni.myrabbitry.user.model.User;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

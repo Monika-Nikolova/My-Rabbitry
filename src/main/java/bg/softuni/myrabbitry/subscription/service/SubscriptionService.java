@@ -115,4 +115,12 @@ public class SubscriptionService {
 
         throw new RuntimeException(String.format("Price not found for type [%s] and period [%s]", type, period));
     }
+
+    public List<Subscription> getAllExpired() {
+        return subscriptionRepository.findAllByExpirationOnAfter(LocalDateTime.now());
+    }
+
+    public void upsert(Subscription subscription) {
+        subscriptionRepository.save(subscription);
+    }
 }
