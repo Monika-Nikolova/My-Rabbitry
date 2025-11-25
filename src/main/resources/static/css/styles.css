@@ -886,3 +886,28 @@ a {
 .center-items svg {
     height: 100px;
 }
+
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: rgba(31, 111, 59, 0.27);
+    border: 2px solid var(--green-700);
+    border-radius: 10px;
+    padding: 0.5rem;
+    gap: 180px;
+}
+
+.profit-report-stats {
+    flex-grow: 1;
+}
+
+.profit-report-stats h1 {
+    text-align: center;
+}
+
+.profit-report-stats .box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

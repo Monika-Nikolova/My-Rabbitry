@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Rabbits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/admin-panel.css">
+    <link rel="icon" href="/images/logo.png">
+</head>
+
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="/images/logo.png" alt="MyRabbitry logo" class="logo">
+                <span class="brand-name">MyRabbitry</span>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/dashboard">Profile</a></li>
+                <li><a href="/rabbits/me">My Rabbits</a></li>
+                <li><a href="/overview">Overview</a></li>
+                <li><a href="/pregnancies">Maternity Ward</a></li>
+                <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
+                <li><a href="/family-tree">Family Tree</a></li>
+                <li><a href="/subscriptions">Subscription</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a href="/admin/panel">Admin Panel</a></li>
+                <li sec:authorize="hasRole('ADMIN')"><a href="/admin/reports/profit" class="active">Profit Reports</a></li>
+                <li><a href="/logout" id="logoutBtn">Log out</a></li>
+            </ul>
+        </aside>
+        <main class="dashboard-content">
+            <div class="panel-container">
+                <div class="stats-container">
+                    <div class="profit-report-stats">
+                        <h1>This Week's Profit Report</h1>
+                        <div class="box">
+                            <h3>Profit</h3>
+                            <p th:text="${newProfitReport.amount} + 'lv'">200lv</p>
+                        </div>
+                        <div class="box">
+                            <h3>Transactions Made</h3>
+                            <p th:text="${newProfitReport.numberOfTransactions}">8</p>
+                        </div>
+                    </div>
+                    <div class="profit-report-stats">
+                        <h1>Profit Statistics</h1>
+                        <div class="box">
+                            <h3>Total Profit</h3>
+                            <p th:text="${totalProfit} + 'lv'">2800lv</p>
+                        </div>
+                        <div class="box">
+                            <h3>Total Transactions Made</h3>
+                            <p th:text="${totalTransactions}">34</p>
+                        </div>
+                    </div>
+                </div>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Amount</th>
+                            <th>Number of Transactions</th>
+                            <th>Created on</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="profitReport : ${oldProfitReports}">
+                            <td th:text="${profitReport.id}">ns479asdc-sli2345d0-4a42a-bkfs3ecb8d85453b</td>
+                            <td th:text="${profitReport.amount}">200</td>
+                            <td th:text="${profitReport.numberOfTransactions}">8</td>
+                            <td th:text="${#temporals.format(profitReport.createdOn, 'dd MMM YYYY HH:mm')}">11 Dec 2024 21:09</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
