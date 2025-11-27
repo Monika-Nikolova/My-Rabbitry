@@ -117,7 +117,7 @@ public class SubscriptionService {
     }
 
     public List<Subscription> getAllExpired() {
-        return subscriptionRepository.findAllByExpirationOnAfter(LocalDateTime.now());
+        return subscriptionRepository.findAllByExpirationOnBefore(LocalDateTime.now());
     }
 
     public void upsert(Subscription subscription) {

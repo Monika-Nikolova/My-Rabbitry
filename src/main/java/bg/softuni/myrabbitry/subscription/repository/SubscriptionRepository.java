@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, UUID> {
 
-    List<Subscription> findAllByExpirationOnAfter(LocalDateTime now);
+    List<Subscription> findAllByExpirationOnBefore(LocalDateTime now);
 }
