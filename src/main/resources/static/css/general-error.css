@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: linear-gradient(#dff7e6, #bfeccd);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.error-container {
+    text-align: center;
+    position: relative;
+    max-width: 500px;
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin-top: 20px;
+    color: #355e3b;
+}
+
+p {
+    margin: 10px 0 20px;
+    color: #4a7a58;
+    font-size: 1rem;
+}
+
+.btn {
+    background: #5c9b72;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.btn:hover {
+    background: #4f8763;
+}
+
+/* ----- Rabbit ----- */
+.rabbit {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.ear {
+    width: 35px;
+    height: 90px;
+    background: #fff;
+    border-radius: 50px;
+    position: absolute;
+    top: -60px;
+}
+
+.ear.left {
+    left: 25px;
+    transform: rotate(-10deg);
+}
+
+.ear.right {
+    right: 25px;
+    transform: rotate(10deg);
+}
+
+.face {
+    width: 150px;
+    height: 150px;
+    background: #fff;
+    border-radius: 50%;
+    position: relative;
+    border: 4px solid #e6e6e6;
+}
+
+.eye {
+    width: 18px;
+    height: 18px;
+    background: #333;
+    border-radius: 50%;
+    position: absolute;
+    top: 50px;
+}
+
+.eye.left {
+    left: 40px;
+}
+
+.eye.right {
+    right: 40px;
+}
+
+.nose {
+    width: 16px;
+    height: 12px;
+    background: pink;
+    border-radius: 50%;
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ----- Grass + Flowers ----- */
+.grass {
+    width: 100%;
+    height: 50px;
+    background: #7acb7f;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+.flowers {
+    position: absolute;
+    bottom: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 260px;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.flower {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.petal {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ff97c2;
+    border-radius: 50%;
+}
+
+.petal:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+.petal:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+.petal:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+.petal:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
+
+.center {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #ffd86b;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.rabbit.confused .ear.left {
+    transform: rotate(-25deg);
+    top: -55px;
+}
+
+.rabbit.confused .ear.right {
+    transform: rotate(35deg);
+    top: -65px;
+}
+
+/* Eyebrows */
+.brow {
+    position: absolute;
+    width: 25px;
+    height: 6px;
+    background: #444;
+    border-radius: 3px;
+    top: 35px;
+}
+
+.brow.left {
+    left: 30px;
+    transform: rotate(-20deg);
+}
+
+.brow.right {
+    right: 30px;
+    transform: rotate(20deg);
+}
+
+/* Confused mouth */
+.mouth {
+    position: absolute;
+    width: 25px;
+    height: 20px;
+    border: 3px solid #333;
+    border-top: none;
+    border-left: none;
+    border-right-color: transparent;
+    border-radius: 50%;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%) rotate(15deg);
+}
+
+.question {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    color: #5a5a5a;
+    animation: float 3s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+@keyframes float {
+    0% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-30px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}

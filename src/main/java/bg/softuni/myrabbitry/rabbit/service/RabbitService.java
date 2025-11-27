@@ -1,5 +1,8 @@
 package bg.softuni.myrabbitry.rabbit.service;
 
+import bg.softuni.myrabbitry.exception.RabbitAlreadyExistsException;
+import bg.softuni.myrabbitry.exception.RabbitNotFoundException;
+import bg.softuni.myrabbitry.exception.RabbitWrongSexException;
 import bg.softuni.myrabbitry.rabbit.model.Rabbit;
 import bg.softuni.myrabbitry.rabbit.model.Sex;
 import bg.softuni.myrabbitry.rabbit.repository.RabbitRepository;
@@ -53,11 +56,11 @@ public class RabbitService {
 
         rabbitRepository.save(rabbit);
 
-        log.info(String.format("Rabbit with id [%s] and code [%s] has been created", rabbit.getId(), rabbitRequest.getCode()));
+        log.info("Rabbit with id [{}] and code [{}] has been created", rabbit.getId(), rabbitRequest.getCode());
     }
 
     public Rabbit findByCode(String code, UUID ownerId) {
-        return rabbitRepository.findByCodeAndOwner(code, userService.getById(ownerId)).orElseThrow(() -> new RuntimeException(String.format("Rabbit with code %s not found", code)));
+        return rabbitRepository.findByCodeAndOwner(code, userService.getById(ownerId)).orElseThrow(() -> new RabbitNotFoundException(String.format("Rabbit with code %s not found", code)));
     }
 
     public FamilyTreeDto createFamilyTree(String code, UUID id) {
@@ -65,7 +68,7 @@ public class RabbitService {
     }
 
     public Rabbit getById(UUID id) {
-        return rabbitRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Rabbit with id %s not found", id)));
+        return rabbitRepository.findById(id).orElseThrow(() -> new RabbitNotFoundException(String.format("Rabbit with id %s not found", id)));
     }
 
     @CacheEvict(value = {"rabbits", "bestMother", "bestFather"}, allEntries = true)
@@ -114,7 +117,7 @@ public class RabbitService {
         if (!rabbitRequest.getFatherCode().isBlank()) {
             father = findByCode(rabbitRequest.getFatherCode(), id);
             if (father.getSex() != Sex.MALE) {
-                throw new RuntimeException("Father rabbit must be male");
+                throw new RabbitWrongSexException("Father rabbit must be male");
             }
         }
         return father;
@@ -125,7 +128,7 @@ public class RabbitService {
         if (!rabbitRequest.getMotherCode().isBlank()) {
             mother = findByCode(rabbitRequest.getMotherCode(), id);
             if (mother.getSex() != Sex.FEMALE) {
-                throw new RuntimeException("Mother rabbit must be female");
+                throw new RabbitWrongSexException("Mother rabbit must be female");
             }
         }
         return mother;
@@ -135,7 +138,7 @@ public class RabbitService {
         Optional<Rabbit> optionalRabbit = rabbitRepository.findByCodeAndOwner(rabbitRequest.getCode(), owner);
 
         if (optionalRabbit.isPresent()) {
-            throw new RuntimeException(String.format("Rabbit with code %s already exists", rabbitRequest.getCode()));
+            throw new RabbitAlreadyExistsException(String.format("Rabbit with code %s already exists", rabbitRequest.getCode()));
         }
     }
 }

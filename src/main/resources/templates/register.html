@@ -29,6 +29,7 @@
                     <input id="lastName" name="lastName" type="text" placeholder="LastName" th:field="*{lastName}">
                 </div>
                 <div class="form-row">
+                    <p class="red-text" th:unless="${#strings.isEmpty(errorMessage)}" th:text="${errorMessage}"></p>
                     <p class="red-text" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error message</p>
                     <label for="username">Username <span aria-hidden="true" style="color:#b63;">*</span></label>
                     <input id="username" name="username" type="text" placeholder="Username" th:field="*{username}">

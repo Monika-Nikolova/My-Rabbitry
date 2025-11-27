@@ -61,6 +61,7 @@
                     <div class="form-row">
                         <label for="code">Code *</label>
                         <input th:field="*{code}" id="code" name="code" type="text" placeholder="Unique identifier">
+                        <p class="red-text" th:unless="${#strings.isEmpty(errorMessage)}" th:text="${errorMessage}"></p>
                     </div>
                     <div class="form-row">
                         <label for="desc">Short description</label>

@@ -2,7 +2,6 @@ package bg.softuni.myrabbitry.web;
 
 import bg.softuni.myrabbitry.pregnancy.model.PregnancyReport;
 import bg.softuni.myrabbitry.pregnancy.service.PregnancyService;
-import bg.softuni.myrabbitry.rabbit.model.Rabbit;
 import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.service.UserService;
@@ -70,7 +69,7 @@ public class IndexController {
     public ModelAndView getDashboardPage(@AuthenticationPrincipal UserData userData) {
 
         User user = userService.getById(userData.getId());
-        PregnancyReport pregnancyReport = pregnancyService.getLatest(user.getRabbits(), userData.getId());
+        PregnancyReport pregnancyReport = pregnancyService.getLatest(user.getRabbits());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("dashboard");

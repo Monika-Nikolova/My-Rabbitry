@@ -1,6 +1,8 @@
 package bg.softuni.myrabbitry.user.service;
 
 import bg.softuni.myrabbitry.Event.ChangedSubscriptionEvent;
+import bg.softuni.myrabbitry.exception.UserAlreadyExistsException;
+import bg.softuni.myrabbitry.exception.UserNotFoundException;
 import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.subscription.model.Subscription;
 import bg.softuni.myrabbitry.subscription.service.SubscriptionService;
@@ -58,7 +60,7 @@ public class UserService implements UserDetailsService {
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
 
         if (optionalUser.isPresent()) {
-            throw new RuntimeException(String.format("User with username %s already exists", registerRequest.getUsername()));
+            throw new UserAlreadyExistsException(String.format("User with username %s already exists", registerRequest.getUsername()));
         }
 
         User user = User.builder()
@@ -90,13 +92,13 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException(String.format("User with username %s not found", username)));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(String.format("User with username %s not found", username)));
 
         return new UserData(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.getPermissions(), user.isActive());
     }
 
     public User getById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("User with id %s not found", id)));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("User with id %s not found", id)));
     }
 
     @Cacheable("users")

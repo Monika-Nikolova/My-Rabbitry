@@ -642,13 +642,13 @@ select:focus {
     min-width: 500px;
 }
 
-.pregnancy-box .pregnancy-headder {
+.pregnancy-box .pregnancy-header {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.pregnancy-box .pregnancy-headder .view-pregnancy-button {
+.pregnancy-box .pregnancy-header .view-pregnancy-button {
     position: absolute;
     right: 370px;
     background-color: white;
@@ -665,7 +665,7 @@ select:focus {
         color 0.3s ease;
 }
 
-.dashboard-content .pregnancy-box .pregnancy-headder .view-pregnancy-button:hover {
+.dashboard-content .pregnancy-box .pregnancy-header .view-pregnancy-button:hover {
     background-color: #f4f4f4;
     box-shadow:
         inset 4px 4px 8px rgba(0, 0, 0, 0.371),

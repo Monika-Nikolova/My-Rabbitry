@@ -1,5 +1,7 @@
 package bg.softuni.myrabbitry.pregnancy.service;
 
+import bg.softuni.myrabbitry.exception.PregnancyNotFoundException;
+import bg.softuni.myrabbitry.exception.RabbitWrongSexException;
 import bg.softuni.myrabbitry.pregnancy.model.PregnancyReport;
 import bg.softuni.myrabbitry.pregnancy.repository.PregnancyRepository;
 import bg.softuni.myrabbitry.rabbit.model.Rabbit;
@@ -10,7 +12,6 @@ import bg.softuni.myrabbitry.utils.PregnancyUtils;
 import bg.softuni.myrabbitry.web.dto.BestParent;
 import bg.softuni.myrabbitry.web.dto.PregnancyFilterRequest;
 import bg.softuni.myrabbitry.web.dto.PregnancyRequest;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -34,7 +35,7 @@ public class PregnancyService {
     }
 
     @Cacheable("latestPregnancy")
-    public PregnancyReport getLatest(List<Rabbit> rabbits, UUID id) {
+    public PregnancyReport getLatest(List<Rabbit> rabbits) {
         List<PregnancyReport> pregnancyReports = pregnancyRepository.getAllByMotherInOrderByDayOfFertilizationDesc(rabbits);
 
         if (pregnancyReports.isEmpty()) {
@@ -217,7 +218,7 @@ public class PregnancyService {
     }
 
     public PregnancyReport getById(UUID id) {
-        return pregnancyRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Pregnancy with id [%s] not found", id)));
+        return pregnancyRepository.findById(id).orElseThrow(() -> new PregnancyNotFoundException(String.format("Pregnancy with id [%s] not found", id)));
     }
 
     public List<PregnancyReport> getFilteredAndSortedPregnanciesForUser(UUID id, PregnancyFilterRequest pregnancyFilterRequest) {
@@ -251,7 +252,7 @@ public class PregnancyService {
     }
 
     @CacheEvict(value = {"latestPregnancy", "pregnancies", "upComingPregnancies", "bestMother", "bestFather"}, allEntries = true)
-    public void editPregnancy(UUID id, @Valid PregnancyRequest pregnancyRequest, UUID userId) {
+    public void editPregnancy(UUID id, PregnancyRequest pregnancyRequest, UUID userId) {
 
         Rabbit father = checkFatherMale(pregnancyRequest, userId);
 
@@ -295,7 +296,7 @@ public class PregnancyService {
         if (!pregnancyRequest.getFather().isBlank()) {
             father = rabbitService.findByCode(pregnancyRequest.getFather(), userId);
             if (father.getSex() != Sex.MALE) {
-                throw new RuntimeException("Father rabbit must be male");
+                throw new RabbitWrongSexException("Father rabbit must be male");
             }
         }
         return father;
@@ -304,7 +305,7 @@ public class PregnancyService {
     private Rabbit checkMotherFemale(PregnancyRequest pregnancyRequest, UUID id) {
         Rabbit mother = rabbitService.findByCode(pregnancyRequest.getMother(), id);
         if (mother.getSex() != Sex.FEMALE) {
-            throw new RuntimeException("Mother rabbit must be female");
+            throw new RabbitWrongSexException("Mother rabbit must be female");
         }
         return mother;
     }

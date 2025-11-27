@@ -7,7 +7,6 @@ import bg.softuni.myrabbitry.subscription.model.SubscriptionStatus;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionType;
 import bg.softuni.myrabbitry.subscription.repository.SubscriptionRepository;
 import bg.softuni.myrabbitry.user.model.User;
-import bg.softuni.myrabbitry.web.dto.SubscriptionRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -113,7 +112,7 @@ public class SubscriptionService {
             return new BigDecimal("450");
         }
 
-        throw new RuntimeException(String.format("Price not found for type [%s] and period [%s]", type, period));
+        throw new IllegalArgumentException(String.format("Price not found for type [%s] and period [%s]", type, period));
     }
 
     public List<Subscription> getAllExpired() {

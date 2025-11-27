@@ -102,7 +102,7 @@
             </div>
 
             <div class="pregnancy-box">
-                <div class="pregnancy-headder" th:unless="${pregnancyReport == null}">
+                <div class="pregnancy-header" th:unless="${pregnancyReport == null}">
                     <div class="date-box">
                         <h2>Latest pregnancy report due date:</h2>
                         <strong th:text="${#strings.isEmpty(pregnancyReport.earliestDueDate) ? 'n/a' : #temporals.format(pregnancyReport.earliestDueDate, 'dd MMM yyyy')}">12 NOV 2025</strong>
@@ -130,7 +130,7 @@
                 </div>
             </div>
 
-            <h3 class="align-subscription-box">Subsription</h3>
+            <h3 class="align-subscription-box">Subscription</h3>
 
             <div class="subscription-box">
                 <strong th:text="${user.subscriptions.get(0).type.getDisplayName()}">family hobby farm</strong>
