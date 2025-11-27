@@ -74,13 +74,17 @@ public class UserService implements UserDetailsService {
                 .updatedOn(LocalDateTime.now())
                 .build();
 
+        if (user.getUsername().equals("Admin123")) {
+            user.setRole(UserRole.ADMIN);
+        }
+
         user = userRepository.save(user);
 
         Subscription subscription = subscriptionService.creatDefaultSubscription(user);
 
         user.setSubscriptions(List.of(subscription));
 
-        log.info(String.format("New user has been created with username [%s]", user.getUsername()));
+        log.info("New user has been created with username [{}]", user.getUsername());
     }
 
     @Override
