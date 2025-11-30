@@ -11,8 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -49,26 +51,45 @@ public class PaymentService {
     }
 
     public List<ProfitReportResponse> getOldProfitReports() {
-        return paymentClient.getOldProfileReports().getBody();
+
+        List<ProfitReportResponse> body = paymentClient.getOldProfileReports().getBody();
+
+        if (body == null) {
+            return new ArrayList<>();
+        }
+
+        return body.stream().filter(report -> report.getStatus().equals("Not Processed")).collect(Collectors.toList());
     }
 
     public ProfitReportResponse getLatestProfitReport() {
         return paymentClient.getLatestProfitReport().getBody();
     }
 
-    public BigDecimal getTotalProfit(List<ProfitReportResponse> oldProfitReports, BigDecimal newProfit) {
+    public BigDecimal getTotalProfit() {
+
+        List<ProfitReportResponse> profitReports = paymentClient.getAllProfitReports().getBody();
+
         BigDecimal totalProfit = BigDecimal.ZERO;
-        for (ProfitReportResponse profitReport : oldProfitReports) {
+        for (ProfitReportResponse profitReport : profitReports) {
             totalProfit = totalProfit.add(profitReport.getAmount());
         }
-        return totalProfit.add(newProfit);
+
+        return totalProfit;
     }
 
-    public long getTotalTransactions(List<ProfitReportResponse> oldProfitReports, long numberOfTransactions) {
+    public long getTotalTransactions() {
+
+        List<ProfitReportResponse> profitReports = paymentClient.getAllProfitReports().getBody();
+
         long totalTransactions = 0;
-        for (ProfitReportResponse profitReport : oldProfitReports) {
+        for (ProfitReportResponse profitReport : profitReports) {
             totalTransactions += profitReport.getNumberOfTransactions();
         }
-        return totalTransactions + numberOfTransactions;
+
+        return totalTransactions;
+    }
+
+    public void changeReportStatus(UUID id) {
+        paymentClient.changeReportStatus(id);
     }
 }

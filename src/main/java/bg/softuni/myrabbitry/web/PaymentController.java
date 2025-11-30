@@ -79,4 +79,12 @@ public class PaymentController {
 
         return modelAndView;
     }
+
+    @PatchMapping("/reports/{id}/status")
+    public ModelAndView updateReportStatus(@PathVariable UUID id) {
+
+        paymentService.changeReportStatus(id);
+
+        return new ModelAndView("redirect:/admin/reports/profit");
+    }
 }

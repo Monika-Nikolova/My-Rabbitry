@@ -872,21 +872,6 @@ a {
     color: inherit;
 }
 
-.two-col-no-wrap {
-    display: flex;
-    justify-content: space-between;
-}
-
-.center-items {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.center-items svg {
-    height: 100px;
-}
-
 .stats-container {
     display: flex;
     justify-content: space-between;
@@ -910,4 +895,16 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.empty-profit-reports {
+    display: flex;
+    min-width: 300px;
+    min-height: 620px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(31, 111, 59, 0.22);
+    border-radius: 10px;
+    border: 2px solid var(--green-900);
+    margin-top: 20px;
 }

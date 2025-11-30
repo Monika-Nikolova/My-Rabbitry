@@ -181,7 +181,7 @@
                     </button>
                 </form>
             </div>
-
+            <p class="red-text" th:if="${#strings.isEmpty(errorMessage)}" th:text="${errorMessage}"></p>
         </main>
     </div>
 </body>

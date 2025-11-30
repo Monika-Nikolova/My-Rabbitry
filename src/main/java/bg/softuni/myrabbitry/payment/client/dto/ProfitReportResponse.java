@@ -18,4 +18,6 @@ public class ProfitReportResponse {
     private LocalDateTime createdOn;
 
     private long numberOfTransactions;
+
+    private String status;
 }

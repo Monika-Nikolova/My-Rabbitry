@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head>
     <meta charset="UTF-8">
@@ -8,79 +9,98 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/admin-panel.css">
     <link rel="icon" href="/images/logo.png">
 </head>
 
 <body>
-    <div class="dashboard">
-        <aside class="sidebar">
-            <div class="brand">
-                <img src="/images/logo.png" alt="MyRabbitry logo" class="logo">
-                <span class="brand-name">MyRabbitry</span>
-            </div>
-            <ul class="nav-list">
-                <li><a href="/dashboard">Profile</a></li>
-                <li><a href="/rabbits/me">My Rabbits</a></li>
-                <li><a href="/overview">Overview</a></li>
-                <li><a href="/pregnancies">Maternity Ward</a></li>
-                <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
-                <li><a href="/family-tree">Family Tree</a></li>
-                <li><a href="/subscriptions">Subscription</a></li>
-                <li sec:authorize="hasRole('ADMIN')"><a href="/admin/panel">Admin Panel</a></li>
-                <li sec:authorize="hasRole('ADMIN')"><a href="/admin/reports/profit" class="active">Profit Reports</a></li>
-                <li><a href="/logout" id="logoutBtn">Log out</a></li>
-            </ul>
-        </aside>
-        <main class="dashboard-content">
-            <div class="panel-container">
-                <div class="stats-container">
-                    <div class="profit-report-stats">
-                        <h1>This Week's Profit Report</h1>
-                        <div class="box">
-                            <h3>Profit</h3>
-                            <p th:text="${newProfitReport.amount} + 'lv'">200lv</p>
-                        </div>
-                        <div class="box">
-                            <h3>Transactions Made</h3>
-                            <p th:text="${newProfitReport.numberOfTransactions}">8</p>
-                        </div>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="/images/logo.png" alt="MyRabbitry logo" class="logo">
+            <span class="brand-name">MyRabbitry</span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="/dashboard">Profile</a></li>
+            <li><a href="/rabbits/me">My Rabbits</a></li>
+            <li><a href="/overview">Overview</a></li>
+            <li><a href="/pregnancies">Maternity Ward</a></li>
+            <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
+            <li><a href="/family-tree">Family Tree</a></li>
+            <li><a href="/subscriptions">Subscription</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/panel">Admin Panel</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/reports/profit" class="active">Profit Reports</a></li>
+            <li><a href="/logout" id="logoutBtn">Log out</a></li>
+        </ul>
+    </aside>
+    <main class="dashboard-content">
+        <div class="panel-container">
+            <div class="stats-container" th:unless="${newProfitReport == null}">
+                <div class="profit-report-stats">
+                    <h1>This Week's Profit Report</h1>
+                    <div class="box">
+                        <h3>Profit</h3>
+                        <p th:text="${newProfitReport.amount} + 'lv'">200lv</p>
                     </div>
-                    <div class="profit-report-stats">
-                        <h1>Profit Statistics</h1>
-                        <div class="box">
-                            <h3>Total Profit</h3>
-                            <p th:text="${totalProfit} + 'lv'">2800lv</p>
-                        </div>
-                        <div class="box">
-                            <h3>Total Transactions Made</h3>
-                            <p th:text="${totalTransactions}">34</p>
-                        </div>
+                    <div class="box">
+                        <h3>Transactions Made</h3>
+                        <p th:text="${newProfitReport.numberOfTransactions}">8</p>
                     </div>
                 </div>
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Amount</th>
-                            <th>Number of Transactions</th>
-                            <th>Created on</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="profitReport : ${oldProfitReports}">
-                            <td th:text="${profitReport.id}">ns479asdc-sli2345d0-4a42a-bkfs3ecb8d85453b</td>
-                            <td th:text="${profitReport.amount}">200</td>
-                            <td th:text="${profitReport.numberOfTransactions}">8</td>
-                            <td th:text="${#temporals.format(profitReport.createdOn, 'dd MMM YYYY HH:mm')}">11 Dec 2024 21:09</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="profit-report-stats">
+                    <h1>Profit Statistics</h1>
+                    <div class="box">
+                        <h3>Total Profit</h3>
+                        <p th:text="${totalProfit} + 'lv'">2800lv</p>
+                    </div>
+                    <div class="box">
+                        <h3>Total Transactions Made</h3>
+                        <p th:text="${totalTransactions}">34</p>
+                    </div>
+                </div>
             </div>
-        </main>
-    </div>
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Amount</th>
+                    <th>Number of Transactions</th>
+                    <th>Created on</th>
+                    <th>Process</th>
+                </tr>
+                </thead>
+                <tbody th:class="${oldProfitReports.isEmpty()} ? 'empty-profit-reports' : ''">
+                <tr th:each="profitReport : ${oldProfitReports}">
+                    <td style="margin-left: -50px" th:text="${profitReport.id}">ns479asdc-sli2345d0-4a42a-bkfs3ecb8d85453b</td>
+                    <td th:text="${profitReport.amount}">200</td>
+                    <td th:text="${profitReport.numberOfTransactions}">8</td>
+                    <td style="margin-right: -50px" th:text="${#temporals.format(profitReport.createdOn, 'dd MMM YYYY HH:mm')}">11 Dec 2024 21:09
+                    </td>
+                    <td style="padding: 0">
+                        <form th:action="@{'/payments/reports/' + ${profitReport.id} + '/status'}" th:method="PATCH">
+                            <button class="change-user" type="submit">
+                                <svg style="height: 50px; margin-right: -50px" fill="#20c557" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+                                     enable-background="new 0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier"> <path
+                                            d="M256,0C114.609,0,0,114.609,0,256s114.609,256,256,256s256-114.609,256-256S397.391,0,256,0z M256,472 c-119.297,0-216-96.703-216-216S136.703,40,256,40s216,96.703,216,216S375.297,472,256,472z"></path>
+                                        <path d="M256,128c-70.688,0-128,57.312-128,128s57.312,128,128,128s128-57.312,128-128S326.688,128,256,128z M240,320l-48-48 l22.398-25.594L240,272l72-80l24,25.594L240,320z"></path> </g></svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr style="margin-top: 0; border: none; background: none; font-size: 18px"
+                    th:if="${oldProfitReports.isEmpty()}">
+                    <td>No profit reports yet!</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
 </body>
 
 </html>

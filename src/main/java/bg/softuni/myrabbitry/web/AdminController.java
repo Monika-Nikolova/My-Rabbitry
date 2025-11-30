@@ -41,13 +41,13 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("reports/profit")
+    @GetMapping("/reports/profit")
     public ModelAndView getProfitReportsPage() {
 
         List<ProfitReportResponse> oldProfitReports = paymentService.getOldProfitReports();
         ProfitReportResponse newProfitReport = paymentService.getLatestProfitReport();
-        BigDecimal totalProfit = paymentService.getTotalProfit(oldProfitReports, newProfitReport.getAmount());
-        long totalTransactions = paymentService.getTotalTransactions(oldProfitReports, newProfitReport.getNumberOfTransactions());
+        BigDecimal totalProfit = paymentService.getTotalProfit();
+        long totalTransactions = paymentService.getTotalTransactions();
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profit-reports");
@@ -55,7 +55,6 @@ public class AdminController {
         modelAndView.addObject("newProfitReport", newProfitReport);
         modelAndView.addObject("totalProfit", totalProfit);
         modelAndView.addObject("totalTransactions", totalTransactions);
-
 
         return modelAndView;
     }

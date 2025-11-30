@@ -1,5 +1,7 @@
 .dashboard-content .panel-container {
     flex-grow: 2;
+    overflow-y: auto;
+    max-height: 720px;
 }
 
 .admin-table {
