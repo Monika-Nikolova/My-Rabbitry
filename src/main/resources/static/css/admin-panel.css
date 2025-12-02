@@ -51,3 +51,8 @@ svg {
     height: 70px;
     width: 70px;
 }
+
+.admin-table thead tr th:first-child.normal-row {
+    margin-right: 0;
+    margin-left: 0;
+}

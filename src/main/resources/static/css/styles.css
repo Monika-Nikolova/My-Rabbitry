@@ -908,3 +908,18 @@ a {
     border: 2px solid var(--green-900);
     margin-top: 20px;
 }
+
+.two-col-no-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.center-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.center-items svg {
+    height: 100px;
+}

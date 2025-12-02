@@ -1,6 +1,8 @@
 package bg.softuni.myrabbitry.subscription.service;
 
 import bg.softuni.myrabbitry.event.ChangedSubscriptionEvent;
+import bg.softuni.myrabbitry.exception.DeleteSubscriptionNotAllowedException;
+import bg.softuni.myrabbitry.exception.SubscriptionNotFoundException;
 import bg.softuni.myrabbitry.subscription.model.Subscription;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionStatus;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -49,6 +52,7 @@ public class SubscriptionService {
                 .price(BigDecimal.ZERO)
                 .createdOn(LocalDateTime.now())
                 .expirationOn(LocalDateTime.now().plusYears(1))
+                .isDeleted(false)
                 .owner(user)
                 .build();
 
@@ -77,6 +81,7 @@ public class SubscriptionService {
                 .price(getSubscriptionPrice(subscriptionType, period))
                 .createdOn(LocalDateTime.now())
                 .expirationOn(expirationOn)
+                .isDeleted(false)
                 .owner(user)
                 .build();
 
@@ -131,5 +136,24 @@ public class SubscriptionService {
 
     public void upsert(Subscription subscription) {
         subscriptionRepository.save(subscription);
+    }
+
+    public void deleteSubscription(UUID id) {
+
+        Subscription subscription = getById(id);
+
+        if (subscription.getStatus() == SubscriptionStatus.ACTIVE) {
+            throw new DeleteSubscriptionNotAllowedException("Cannot delete subscription with active status");
+        }
+
+        subscription.setDeleted(true);
+
+        subscriptionRepository.save(subscription);
+
+        log.info("Subscription with id [{}] has been deleted", id);
+    }
+
+    private Subscription getById(UUID id) {
+        return subscriptionRepository.findById(id).orElseThrow(() -> new SubscriptionNotFoundException(String.format("Subscription with id %s not found", id)));
     }
 }

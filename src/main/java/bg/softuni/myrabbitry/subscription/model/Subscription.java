@@ -41,6 +41,9 @@ public class Subscription {
     @Column(nullable = false)
     private LocalDateTime expirationOn;
 
+    @Column(nullable = false)
+    private boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private User owner;

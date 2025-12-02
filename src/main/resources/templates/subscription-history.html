@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Rabbits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Nunito:wght@400;600;700;800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/admin-panel.css">
+    <link rel="icon" href="/images/logo.png">
+</head>
+
+<body>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="/images/logo.png" alt="MyRabbitry logo" class="logo">
+            <span class="brand-name">MyRabbitry</span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="/dashboard">Profile</a></li>
+            <li><a href="/rabbits/me">My Rabbits</a></li>
+            <li><a href="/overview">Overview</a></li>
+            <li><a href="/pregnancies">Maternity Ward</a></li>
+            <li><a href="/pregnancies/details">Pregnancy Reports</a></li>
+            <li><a href="/family-tree">Family Tree</a></li>
+            <li><a href="/subscriptions">Subscription</a></li>
+            <li><a href="/subscriptions/history" class="active">Subscription History</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/panel">Admin Panel</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin/reports/profit">Profit Reports</a></li>
+            <li><a href="/logout" id="logoutBtn">Log out</a></li>
+        </ul>
+    </aside>
+    <main class="dashboard-content">
+        <div class="panel-container">
+            <p class="red-text" th:unless="${#strings.isEmpty(errorMessage)}" th:text="${errorMessage}"></p>
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th class="normal-row">Type</th>
+                    <th>Price</th>
+                    <th>Period</th>
+                    <th>Created on</th>
+                    <th>Expiry date</th>
+                    <th>Status</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="subscription : ${subscriptions}">
+                    <td th:text="${subscription.type.getDisplayName()}">Industrial Farm</td>
+                    <td th:text="${subscription.price} + 'lv'">45lv</td>
+                    <td th:text="${subscription.period.getDisplayName()}">Monthly</td>
+                    <td th:text="${#temporals.format(subscription.createdOn, 'dd MMM YYYY HH:mm')}">11 Nov 2025 20:09
+                    </td>
+                    <td th:text="${#temporals.format(subscription.expirationOn, 'dd MMM YYYY HH:mm')}">11 Dec 2025
+                        20:09
+                    </td>
+                    <td th:if="${subscription.status.name() == 'ACTIVE'}" class="profile-status-active">Active</td>
+                    <td th:if="${subscription.status.name() == 'EXPIRED'}" class="profile-status-inactive">Expired</td>
+                    <td>
+                        <form th:action="@{'/subscriptions/' + ${subscription.id}}" th:method="DELETE">
+                            <button class="change-user">
+                                <svg style="height: 50px;" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#db1a1a"
+                                     stroke="#db1a1a">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier"><title>cross-circle</title>
+                                        <desc>Created with Sketch Beta.</desc>
+                                        <defs></defs>
+                                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                                           sketch:type="MSPage">
+                                            <g id="Icon-Set-Filled" sketch:type="MSLayerGroup"
+                                               transform="translate(-570.000000, -1089.000000)" fill="#db1a1a">
+                                                <path d="M591.657,1109.24 C592.048,1109.63 592.048,1110.27 591.657,1110.66 C591.267,1111.05 590.633,1111.05 590.242,1110.66 L586.006,1106.42 L581.74,1110.69 C581.346,1111.08 580.708,1111.08 580.314,1110.69 C579.921,1110.29 579.921,1109.65 580.314,1109.26 L584.58,1104.99 L580.344,1100.76 C579.953,1100.37 579.953,1099.73 580.344,1099.34 C580.733,1098.95 581.367,1098.95 581.758,1099.34 L585.994,1103.58 L590.292,1099.28 C590.686,1098.89 591.323,1098.89 591.717,1099.28 C592.11,1099.68 592.11,1100.31 591.717,1100.71 L587.42,1105.01 L591.657,1109.24 L591.657,1109.24 Z M586,1089 C577.163,1089 570,1096.16 570,1105 C570,1113.84 577.163,1121 586,1121 C594.837,1121 602,1113.84 602,1105 C602,1096.16 594.837,1089 586,1089 L586,1089 Z"
+                                                      id="cross-circle" sketch:type="MSShapeGroup"></path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+
+</html>

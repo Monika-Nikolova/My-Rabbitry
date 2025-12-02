@@ -26,6 +26,13 @@ public class GlobalControllerAdvice {
         return "redirect:/register";
     }
 
+    @ExceptionHandler(DeleteSubscriptionNotAllowedException.class)
+    public String handleDeleteSubscriptionNotAllowedException(DeleteSubscriptionNotAllowedException e, RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        return "redirect:/subscriptions/history";
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RabbitWrongSexException.class)
     public String handleRabbitWrongSexException() {
@@ -36,7 +43,8 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({NoResourceFoundException.class,
             PregnancyNotFoundException.class,
             RabbitNotFoundException.class,
-            UserNotFoundException.class})
+            UserNotFoundException.class,
+            SubscriptionNotFoundException.class})
     public String handleNotFoundException() {
         return "not-found";
     }

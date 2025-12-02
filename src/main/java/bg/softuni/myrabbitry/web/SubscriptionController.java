@@ -6,16 +6,14 @@ import bg.softuni.myrabbitry.subscription.model.SubscriptionType;
 import bg.softuni.myrabbitry.subscription.service.SubscriptionService;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.service.UserService;
+import bg.softuni.myrabbitry.utils.SubscriptionUtils;
 import bg.softuni.myrabbitry.web.dto.SubscriptionRequest;
-import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/subscriptions")
@@ -51,5 +49,25 @@ public class SubscriptionController {
         subscriptionService.createNewSubscription(user, period, subscriptionType);
 
         return new ModelAndView("redirect:/subscriptions");
+    }
+
+    @GetMapping("/history")
+    public ModelAndView getSubscriptionHistoryPage(@AuthenticationPrincipal UserData userData) {
+
+        User user = userService.getById(userData.getId());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("subscription-history");
+        modelAndView.addObject("subscriptions", SubscriptionUtils.getNotDeletedSubscriptions(user.getSubscriptions()));
+
+        return modelAndView;
+    }
+
+    @DeleteMapping("/{id}")
+    public ModelAndView deleteSubscription(@PathVariable UUID id) {
+
+        subscriptionService.deleteSubscription(id);
+
+        return new ModelAndView("redirect:/subscriptions/history");
     }
 }
