@@ -1,4 +1,4 @@
-package bg.softuni.myrabbitry.Event;
+package bg.softuni.myrabbitry.event;
 
 import bg.softuni.myrabbitry.user.model.User;
 import lombok.*;

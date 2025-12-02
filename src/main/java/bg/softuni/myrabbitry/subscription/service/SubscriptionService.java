@@ -1,6 +1,6 @@
 package bg.softuni.myrabbitry.subscription.service;
 
-import bg.softuni.myrabbitry.Event.ChangedSubscriptionEvent;
+import bg.softuni.myrabbitry.event.ChangedSubscriptionEvent;
 import bg.softuni.myrabbitry.subscription.model.Subscription;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionStatus;
@@ -81,6 +81,8 @@ public class SubscriptionService {
         Subscription currentSubscription = user.getSubscriptions().get(0);
         currentSubscription.setStatus(SubscriptionStatus.EXPIRED);
         currentSubscription.setExpirationOn(now);
+
+        user.setSubscriptions(List.of(newSubscription, currentSubscription));
 
         subscriptionRepository.save(currentSubscription);
         subscriptionRepository.save(newSubscription);

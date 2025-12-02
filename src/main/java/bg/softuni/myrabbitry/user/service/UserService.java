@@ -1,6 +1,6 @@
 package bg.softuni.myrabbitry.user.service;
 
-import bg.softuni.myrabbitry.Event.ChangedSubscriptionEvent;
+import bg.softuni.myrabbitry.event.ChangedSubscriptionEvent;
 import bg.softuni.myrabbitry.exception.UserAlreadyExistsException;
 import bg.softuni.myrabbitry.exception.UserNotFoundException;
 import bg.softuni.myrabbitry.security.UserData;
