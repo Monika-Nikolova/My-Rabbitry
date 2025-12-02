@@ -64,7 +64,12 @@ public class RabbitService {
     }
 
     public FamilyTreeDto createFamilyTree(String code, UUID id) {
-        return buildTree(findByCode(code, id), 4);
+
+        FamilyTreeDto familyTreeDto = buildTree(findByCode(code, id), 4);
+
+        log.info("Family tree created for rabbit [{}] with owner [{}]", code, id);
+
+        return familyTreeDto;
     }
 
     public Rabbit getById(UUID id) {
@@ -99,6 +104,8 @@ public class RabbitService {
         rabbit.setUpdatedOn(LocalDateTime.now());
 
         rabbitRepository.save(rabbit);
+
+        log.info("Rabbit with id [{}] and code [{}] has been edited", id, rabbitRequest.getCode());
     }
 
     private FamilyTreeDto buildTree(Rabbit rabbit, int generations) {

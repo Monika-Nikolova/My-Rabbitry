@@ -8,6 +8,7 @@ import bg.softuni.myrabbitry.subscription.model.SubscriptionType;
 import bg.softuni.myrabbitry.subscription.repository.SubscriptionRepository;
 import bg.softuni.myrabbitry.user.model.User;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 public class SubscriptionService {
 
@@ -50,7 +52,11 @@ public class SubscriptionService {
                 .owner(user)
                 .build();
 
-        return subscriptionRepository.save(subscription);
+        Subscription savedSubscription = subscriptionRepository.save(subscription);
+
+        log.info("Default subscription with id [{}] has been created for user [{}]", savedSubscription.getId(), user.getId());
+
+        return savedSubscription;
     }
 
     @Transactional
@@ -86,6 +92,8 @@ public class SubscriptionService {
 
         subscriptionRepository.save(currentSubscription);
         subscriptionRepository.save(newSubscription);
+
+        log.info("User [{}] changed their subscription to {} {}", user.getId(), period, subscriptionType);
     }
 
     private List<String> getPermissions(SubscriptionType subscriptionType) {

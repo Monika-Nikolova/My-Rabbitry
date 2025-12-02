@@ -43,7 +43,11 @@ public class PaymentService {
                 .period(paymentRequest.getPeriod().name())
                 .build();
 
-        return paymentClient.makePayment(payment).getBody();
+        PaymentResponse body = paymentClient.makePayment(payment).getBody();
+
+        log.info("Payment made for user [{}] for a {} {} subscription", id, paymentRequest.getPeriod(), paymentRequest.getSubscriptionType());
+
+        return body;
     }
 
     public PaymentResponse getTransactionById(UUID id) {

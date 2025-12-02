@@ -12,6 +12,7 @@ import bg.softuni.myrabbitry.utils.PregnancyUtils;
 import bg.softuni.myrabbitry.web.dto.BestParent;
 import bg.softuni.myrabbitry.web.dto.PregnancyFilterRequest;
 import bg.softuni.myrabbitry.web.dto.PregnancyRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class PregnancyService {
 
@@ -214,7 +216,9 @@ public class PregnancyService {
 
         setCalculatedFields(pregnancyRequest, pregnancyReport);
 
-        pregnancyRepository.save(pregnancyReport);
+        pregnancyReport = pregnancyRepository.save(pregnancyReport);
+
+        log.info("Pregnancy report created with id [{}]", pregnancyReport.getId());
     }
 
     public PregnancyReport getById(UUID id) {
@@ -277,6 +281,8 @@ public class PregnancyService {
         setCalculatedFields(pregnancyRequest, pregnancyReport);
 
         pregnancyRepository.save(pregnancyReport);
+
+        log.info("Pregnancy Report with id [{}] updated", id);
     }
 
     private void setCalculatedFields(PregnancyRequest pregnancyRequest, PregnancyReport pregnancyReport) {
