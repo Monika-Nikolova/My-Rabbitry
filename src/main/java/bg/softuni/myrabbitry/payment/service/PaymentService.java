@@ -1,5 +1,6 @@
 package bg.softuni.myrabbitry.payment.service;
 
+import bg.softuni.myrabbitry.exception.ReportStatusChangeFailedException;
 import bg.softuni.myrabbitry.payment.client.PaymentClient;
 import bg.softuni.myrabbitry.payment.client.dto.Payment;
 import bg.softuni.myrabbitry.payment.client.dto.PaymentResponse;
@@ -8,6 +9,7 @@ import bg.softuni.myrabbitry.subscription.service.SubscriptionService;
 import bg.softuni.myrabbitry.web.dto.PaymentRequest;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -43,7 +45,13 @@ public class PaymentService {
                 .period(paymentRequest.getPeriod().name())
                 .build();
 
-        PaymentResponse body = paymentClient.makePayment(payment).getBody();
+        PaymentResponse body;
+        try {
+            body = paymentClient.makePayment(payment).getBody();
+        } catch (FeignException ex) {
+            logError(ex);
+            throw new RuntimeException("payment-svc is down");
+        }
 
         log.info("Payment made for user [{}] for a {} {} subscription", id, paymentRequest.getPeriod(), paymentRequest.getSubscriptionType());
 
@@ -94,6 +102,20 @@ public class PaymentService {
     }
 
     public void changeReportStatus(UUID id) {
-        paymentClient.changeReportStatus(id);
+
+        try {
+            paymentClient.changeReportStatus(id);
+        } catch (FeignException ex) {
+            logError(ex);
+            if (ex.status() == HttpStatus.NOT_FOUND.value()) {
+                throw new ReportStatusChangeFailedException("Failed to change report status.");
+            } else {
+                throw new RuntimeException("notification-svc is down");
+            }
+        }
+    }
+
+    private static void logError(FeignException ex) {
+        log.error("[S2S Call]: Failed due to {}.", ex.getMessage());
     }
 }

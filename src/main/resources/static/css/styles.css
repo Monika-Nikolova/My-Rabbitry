@@ -900,7 +900,7 @@ a {
 .empty-profit-reports {
     display: flex;
     min-width: 300px;
-    min-height: 620px;
+    min-height: 610px;
     align-items: center;
     justify-content: center;
     background: rgba(31, 111, 59, 0.22);

@@ -33,6 +33,13 @@ public class GlobalControllerAdvice {
         return "redirect:/subscriptions/history";
     }
 
+    @ExceptionHandler(ReportStatusChangeFailedException.class)
+    public String handleReportStatusChangeFailedException(ReportStatusChangeFailedException e, RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        return "redirect:/admin/reports/profit";
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RabbitWrongSexException.class)
     public String handleRabbitWrongSexException() {
