@@ -2,7 +2,6 @@ package bg.softuni.myrabbitry.web;
 
 import bg.softuni.myrabbitry.payment.client.dto.ProfitReportResponse;
 import bg.softuni.myrabbitry.payment.service.PaymentService;
-import bg.softuni.myrabbitry.pregnancy.model.PregnancyReport;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;

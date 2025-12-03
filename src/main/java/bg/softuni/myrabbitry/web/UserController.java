@@ -5,6 +5,7 @@ import bg.softuni.myrabbitry.user.service.UserService;
 import bg.softuni.myrabbitry.web.dto.DtoMapper;
 import bg.softuni.myrabbitry.web.dto.EditProfileRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView updateStatus(@PathVariable UUID id) {
 
         userService.changeStatus(id);
@@ -32,6 +34,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView changeUserRole(@PathVariable UUID id) {
 
         userService.changeRole(id);
