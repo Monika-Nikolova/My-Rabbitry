@@ -4,7 +4,6 @@ import bg.softuni.myrabbitry.pregnancy.model.PregnancyReport;
 import bg.softuni.myrabbitry.pregnancy.service.PregnancyService;
 import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.user.model.UserRole;
-import bg.softuni.myrabbitry.web.dto.PregnancyRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
