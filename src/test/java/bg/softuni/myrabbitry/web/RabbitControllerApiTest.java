@@ -4,7 +4,6 @@ import bg.softuni.myrabbitry.rabbit.model.*;
 import bg.softuni.myrabbitry.rabbit.service.RabbitService;
 import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.user.model.UserRole;
-import bg.softuni.myrabbitry.user.service.UserService;
 import bg.softuni.myrabbitry.web.dto.RabbitRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -199,6 +198,7 @@ public class RabbitControllerApiTest {
     }
 
     private static Rabbit randomRabbit() {
+
         return Rabbit.builder()
                 .code("12-qw")
                 .sex(Sex.FEMALE)
@@ -212,6 +212,7 @@ public class RabbitControllerApiTest {
     }
 
     private static List<String> getDefaultPermissions() {
+
         return List.of("view_pregnancy_details",
                 "create_pregnancy_details",
                 "edit_pregnancy_details",

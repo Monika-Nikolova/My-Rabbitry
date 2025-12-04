@@ -63,6 +63,7 @@ public class FamilyTreeControllerApiTest {
     }
 
     private static List<String> getDefaultPermissions() {
+
         return List.of("view_pregnancy_details",
                 "create_pregnancy_details",
                 "edit_pregnancy_details",

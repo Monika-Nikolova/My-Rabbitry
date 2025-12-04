@@ -3,10 +3,7 @@ package bg.softuni.myrabbitry.web;
 import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.user.model.UserRole;
 import bg.softuni.myrabbitry.user.service.UserService;
-import bg.softuni.myrabbitry.web.dto.RabbitRequest;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -62,6 +59,7 @@ public class UserControllerApiTest {
     }
 
     private static List<String> getDefaultPermissions() {
+
         return List.of("view_pregnancy_details",
                 "create_pregnancy_details",
                 "edit_pregnancy_details",

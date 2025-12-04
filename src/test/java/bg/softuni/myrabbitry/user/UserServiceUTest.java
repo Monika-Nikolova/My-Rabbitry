@@ -173,7 +173,6 @@ public class UserServiceUTest {
 
         when(userRepository.findByUsername(any())).thenReturn(Optional.of(User.builder().build()));
 
-
         assertThrows(UserAlreadyExistsException.class, () -> userService.register(new RegisterRequest()));
     }
 }

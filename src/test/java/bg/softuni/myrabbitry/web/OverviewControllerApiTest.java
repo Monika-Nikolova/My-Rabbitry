@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -98,6 +97,7 @@ public class OverviewControllerApiTest {
     }
 
     private static List<String> getLargeFarmPermissions() {
+
         return List.of("view_pregnancy_details",
                 "create_pregnancy_details",
                 "edit_pregnancy_details",

@@ -1,11 +1,9 @@
 package bg.softuni.myrabbitry.web;
 
 import bg.softuni.myrabbitry.exception.UserAlreadyExistsException;
-import bg.softuni.myrabbitry.pregnancy.model.PregnancyReport;
 import bg.softuni.myrabbitry.pregnancy.service.PregnancyService;
 import bg.softuni.myrabbitry.security.UserData;
 import bg.softuni.myrabbitry.subscription.model.Subscription;
-import bg.softuni.myrabbitry.subscription.model.SubscriptionPeriod;
 import bg.softuni.myrabbitry.subscription.model.SubscriptionType;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.model.UserRole;
@@ -161,6 +159,7 @@ public class IndexControllerApiTest {
     }
 
     private static List<String> getDefaultPermissions() {
+
         return List.of("view_pregnancy_details",
                 "create_pregnancy_details",
                 "edit_pregnancy_details",

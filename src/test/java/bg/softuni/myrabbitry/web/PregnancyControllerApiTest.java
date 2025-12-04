@@ -187,6 +187,7 @@ public class PregnancyControllerApiTest {
     }
 
     private static List<String> getLargeFarmPermissions() {
+
         return List.of("view_pregnancy_details",
                 "create_pregnancy_details",
                 "edit_pregnancy_details",
