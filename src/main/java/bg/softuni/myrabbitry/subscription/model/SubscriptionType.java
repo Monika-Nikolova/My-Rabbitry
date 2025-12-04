@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum SubscriptionType {
+
     FAMILY_HOBBY_FARM("family hobby farm"),
     LARGE_FARM("large farm"),
     INDUSTRIAL_FARM("industrial farm");

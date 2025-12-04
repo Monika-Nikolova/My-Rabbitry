@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum EarShape {
+
     UPRIGHT("Upright"),
     LOP("Lop"),
     HALF_LOP("Half lop");

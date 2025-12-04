@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Sex {
+
     FEMALE("Female"),
     MALE("Male");
 

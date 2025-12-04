@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PregnancyFilterRequest {
+
     private String mother;
 
     private String father;

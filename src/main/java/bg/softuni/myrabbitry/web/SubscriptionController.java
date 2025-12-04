@@ -19,7 +19,6 @@ import java.util.UUID;
 @RequestMapping("/subscriptions")
 public class SubscriptionController {
 
-
     private final UserService userService;
     private final SubscriptionService subscriptionService;
 

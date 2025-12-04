@@ -20,7 +20,6 @@ import java.util.UUID;
 @RequestMapping("/rabbits")
 public class RabbitController {
 
-
     private final RabbitService rabbitService;
 
     public RabbitController(RabbitService rabbitService) {

@@ -1,7 +1,6 @@
 package bg.softuni.myrabbitry.pregnancy.model;
 
 import bg.softuni.myrabbitry.rabbit.model.Rabbit;
-import bg.softuni.myrabbitry.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 

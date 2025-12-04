@@ -1,7 +1,6 @@
 package bg.softuni.myrabbitry.user.service;
 
 import bg.softuni.myrabbitry.user.model.User;
-import bg.softuni.myrabbitry.user.model.UserRole;
 import bg.softuni.myrabbitry.user.property.UserProperties;
 import bg.softuni.myrabbitry.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class UserInit implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args){
+    public void run(ApplicationArguments args) {
 
         List<User> users = userService.getAllUsers();
 

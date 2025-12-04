@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 @PreAuthorize("hasAuthority('view_overview')")
 public class OverviewController {
 
-
     private final UserService userService;
     private final PregnancyService pregnancyService;
 

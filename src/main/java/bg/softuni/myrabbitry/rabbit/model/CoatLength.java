@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum CoatLength {
+
     SHORT("Short"),
     MEDIUM("Medium"),
-    LONG("Long"),
-    ;
+    LONG("Long");
 
     private final String displayName;
 

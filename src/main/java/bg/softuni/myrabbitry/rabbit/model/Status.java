@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Status {
+
     FOR_BREEDING("For Breeding"),
     FOR_MEAT("For Meat"),
     PROCESSED("Processed"),

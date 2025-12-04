@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RabbitRequest {
+
     @URL
     private String photoUrl;
 

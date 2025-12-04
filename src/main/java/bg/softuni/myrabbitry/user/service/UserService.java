@@ -121,6 +121,7 @@ public class UserService implements UserDetailsService {
 
     @CacheEvict(value = "users", allEntries = true)
     public void changeRole(UUID id) {
+
         User user = getById(id);
 
         if (user.getRole() == UserRole.USER) {
@@ -135,6 +136,7 @@ public class UserService implements UserDetailsService {
 
     @CacheEvict(value = "users", allEntries = true)
     public void editProfile(UUID id, EditProfileRequest editProfileRequest) {
+
         User user = getById(id);
 
         user.setFirstName(editProfileRequest.getFirstName());
@@ -150,6 +152,7 @@ public class UserService implements UserDetailsService {
 
     @EventListener
     public void editPermissionsOnChangedSubscription(ChangedSubscriptionEvent changedSubscriptionEvent) {
+
         User user = changedSubscriptionEvent.getUser();
         user.setPermissions(changedSubscriptionEvent.getPermissions());
         user.setUpdatedOn(LocalDateTime.now());
@@ -159,6 +162,7 @@ public class UserService implements UserDetailsService {
     }
 
     private void refreshUserAuthentication(String username) {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null && auth.getName().equals(username)) {

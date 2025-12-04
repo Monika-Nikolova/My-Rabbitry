@@ -13,7 +13,6 @@ import java.util.List;
 @Component
 public class SubscriptionExpiryScheduler {
 
-
     private final SubscriptionService subscriptionService;
 
     public SubscriptionExpiryScheduler(SubscriptionService subscriptionService) {

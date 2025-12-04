@@ -23,7 +23,6 @@ import java.util.UUID;
 @RequestMapping("/payments")
 public class PaymentController {
 
-
     private final UserService userService;
     private final PaymentService paymentService;
 

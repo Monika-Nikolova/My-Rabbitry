@@ -22,10 +22,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PaymentService {
 
-
     private final PaymentClient paymentClient;
     private final SubscriptionService subscriptionService;
-
 
     public PaymentService(PaymentClient paymentClient, SubscriptionService subscriptionService) {
         this.paymentClient = paymentClient;

@@ -7,7 +7,6 @@ import bg.softuni.myrabbitry.pregnancy.repository.PregnancyRepository;
 import bg.softuni.myrabbitry.rabbit.model.Rabbit;
 import bg.softuni.myrabbitry.rabbit.model.Sex;
 import bg.softuni.myrabbitry.rabbit.service.RabbitService;
-import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.utils.PregnancyUtils;
 import bg.softuni.myrabbitry.web.dto.BestParent;
 import bg.softuni.myrabbitry.web.dto.PregnancyFilterRequest;
@@ -38,6 +37,7 @@ public class PregnancyService {
 
     @Cacheable("latestPregnancy")
     public PregnancyReport getLatest(List<Rabbit> rabbits) {
+
         List<PregnancyReport> pregnancyReports = pregnancyRepository.getAllByMotherInOrderByDayOfFertilizationDesc(rabbits);
 
         if (pregnancyReports.isEmpty()) {
@@ -187,12 +187,14 @@ public class PregnancyService {
 
     @Cacheable("upComingPregnancies")
     public List<PregnancyReport> getAllUpComingPregnanciesForUser(UUID id) {
+
         List<PregnancyReport> pregnancies = getAllPregnanciesForUser(id);
         return pregnancies.stream().filter(pregnancy -> pregnancy.getDateOfBirth() == null || LocalDate.now().isBefore(pregnancy.getLatestDueDate())).toList();
     }
 
     @Cacheable("pregnancies")
     public List<PregnancyReport> getAllPregnanciesForUser(UUID id) {
+
         List<Rabbit> rabbits = rabbitService.getByOwnerId(id);
         return pregnancyRepository.getAllByMotherInOrFatherIn(rabbits, rabbits);
     }
@@ -239,7 +241,6 @@ public class PregnancyService {
         if (pregnancyFilterRequest.getFather() != null && !pregnancyFilterRequest.getFather().isBlank()) {
             Rabbit father = rabbitService.findByCode(pregnancyFilterRequest.getFather(), id);
             pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getFather() != null && pregnancy.getFather().getCode().equals(father.getCode()) && pregnancy.getFather().getOwner().getUsername().equals(father.getOwner().getUsername())).toList();
-
         }
 
         if (pregnancyFilterRequest.getMother() != null && !pregnancyFilterRequest.getMother().isBlank()) {
@@ -291,6 +292,7 @@ public class PregnancyService {
     }
 
     private void setCalculatedFields(PregnancyRequest pregnancyRequest, PregnancyReport pregnancyReport) {
+
         LocalDate earliestDueDate = PregnancyUtils.calculateEarliestDueDate(pregnancyRequest.getDayOfFertilization());
         LocalDate latestDueDate = PregnancyUtils.calculateLatestDueDate(pregnancyRequest.getDayOfFertilization());
         Double deathPercentage = PregnancyUtils.calculateDeathPercentage(pregnancyRequest.getCountBornKids(), pregnancyRequest.getCountWeanedKids());
@@ -303,6 +305,7 @@ public class PregnancyService {
     }
 
     private Rabbit checkFatherMale(PregnancyRequest pregnancyRequest, UUID userId) {
+
         Rabbit father = null;
         if (pregnancyRequest.getFather() != null && !pregnancyRequest.getFather().isBlank()) {
             father = rabbitService.findByCode(pregnancyRequest.getFather(), userId);
@@ -314,6 +317,7 @@ public class PregnancyService {
     }
 
     private Rabbit checkMotherFemale(PregnancyRequest pregnancyRequest, UUID id) {
+
         Rabbit mother = rabbitService.findByCode(pregnancyRequest.getMother(), id);
         if (mother.getSex() != Sex.FEMALE) {
             throw new RabbitWrongSexException("Mother rabbit must be female");

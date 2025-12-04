@@ -10,11 +10,18 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RabbitryStats {
+
     private int rabbitsInRabbitry;
+
     private int totalRabbits;
+
     private int does;
+
     private int bucks;
+
     private int bornInRabbitry;
+
     private int mostRabbitsInYear;
+
     private Map<Integer, Integer> countRabbitsByYear;
 }

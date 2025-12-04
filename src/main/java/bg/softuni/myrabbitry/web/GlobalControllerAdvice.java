@@ -65,7 +65,6 @@ public class GlobalControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public String handleException() {
-
         return "general-error";
     }
 }

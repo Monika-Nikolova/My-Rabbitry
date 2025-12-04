@@ -16,6 +16,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "subscriptions")
 public class Subscription {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

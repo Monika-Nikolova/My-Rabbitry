@@ -79,7 +79,6 @@ public class PregnancyController {
         modelAndView.addObject("pregnancyReport", pregnancyReport);
 
         return modelAndView;
-
     }
 
     @PreAuthorize("hasAuthority('edit_pregnancy_details')")

@@ -10,9 +10,8 @@ import java.util.*;
 @UtilityClass
 public class RabbitryUtils {
 
-
-
     public static RabbitryStats getRabbitryStats(List<Rabbit> rabbits) {
+
         List<Rabbit> forBreeding = rabbits.stream().filter(rabbit -> rabbit.getStatus().name().equals("FOR_BREEDING")).toList();
         List<Rabbit> forMeat = rabbits.stream().filter(rabbit -> rabbit.getStatus().name().equals("FOR_MEAT")).toList();
 
@@ -51,6 +50,7 @@ public class RabbitryUtils {
     }
 
     public static double getStatusPercentage(List<Rabbit> rabbits, String status) {
+
         if (rabbits.isEmpty()) {
             return 0;
         }

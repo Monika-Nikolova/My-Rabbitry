@@ -18,10 +18,8 @@ import java.util.List;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
-
     private final UserService userService;
     private final PaymentService paymentService;
-
 
     public AdminController(UserService userService, PaymentService paymentService) {
         this.userService = userService;

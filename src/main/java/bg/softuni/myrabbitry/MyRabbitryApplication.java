@@ -15,5 +15,4 @@ public class MyRabbitryApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MyRabbitryApplication.class, args);
 	}
-
 }

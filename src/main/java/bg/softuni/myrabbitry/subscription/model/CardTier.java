@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum CardTier {
+
     VISA("Visa"),
     MASTERCARD("Mastercard"),
     AMERICAN_EXPRESS("American Express");

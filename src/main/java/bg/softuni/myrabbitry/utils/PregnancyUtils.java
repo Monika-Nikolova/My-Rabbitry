@@ -8,6 +8,7 @@ import java.time.LocalDate;
 public class PregnancyUtils {
 
     public Double calculateDeathPercentage(Integer bornKids, Integer weanedKids) {
+
         if (bornKids != null && weanedKids != null) {
             return ((bornKids - weanedKids) * 1.0 / bornKids) * 100;
         }

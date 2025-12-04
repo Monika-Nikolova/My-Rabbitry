@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum SubscriptionPeriod {
+
     MONTHLY("Monthly"),
     YEARLY("Yearly");
 

@@ -37,6 +37,7 @@ public class RabbitService {
 
     @Cacheable("rabbits")
     public List<Rabbit> getByOwnerId(UUID id) {
+
         User owner = userService.getById(id);
         return rabbitRepository.getByOwnerOrderByCreatedOnDesc(owner);
     }
@@ -109,9 +110,11 @@ public class RabbitService {
     }
 
     private FamilyTreeDto buildTree(Rabbit rabbit, int generations) {
+
         if (rabbit == null || generations == 0) {
             return null;
         }
+
         return FamilyTreeDto.builder()
                 .child(rabbit)
                 .mother(buildTree(rabbit.getMother(), generations - 1))
@@ -120,6 +123,7 @@ public class RabbitService {
     }
 
     private Rabbit checkFatherMale(RabbitRequest rabbitRequest, UUID id) {
+
         Rabbit father = null;
         if (rabbitRequest.getFatherCode() != null && !rabbitRequest.getFatherCode().isBlank()) {
             father = findByCode(rabbitRequest.getFatherCode(), id);
@@ -131,6 +135,7 @@ public class RabbitService {
     }
 
     private Rabbit checkMotherFemale(RabbitRequest rabbitRequest, UUID id) {
+
         Rabbit mother = null;
         if (rabbitRequest.getMotherCode() != null && !rabbitRequest.getMotherCode().isBlank()) {
             mother = findByCode(rabbitRequest.getMotherCode(), id);
@@ -142,6 +147,7 @@ public class RabbitService {
     }
 
     private void checkRabbitIsPresent(RabbitRequest rabbitRequest, User owner) {
+
         Optional<Rabbit> optionalRabbit = rabbitRepository.findByCodeAndOwner(rabbitRequest.getCode(), owner);
 
         if (optionalRabbit.isPresent()) {

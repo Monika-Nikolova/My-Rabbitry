@@ -9,7 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FamilyTreeDto {
+
     private Rabbit child;
+
     private FamilyTreeDto mother;
+
     private FamilyTreeDto father;
 }

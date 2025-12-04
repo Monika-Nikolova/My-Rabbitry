@@ -4,11 +4,12 @@ import lombok.Getter;
 
 @Getter
 public enum EyeColour {
+
     BROWN("Brown"),
     BLUE("Blue"),
     RED("Red"),
-    MARBLED("Marbled"),//brown and blue in one eye
-    COMBINATION("Combination");//one brown one blue eye
+    MARBLED("Marbled"),
+    COMBINATION("Combination");
 
     private final String displayName;
 

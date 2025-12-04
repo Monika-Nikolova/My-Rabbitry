@@ -37,7 +37,6 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
 
-
     @Autowired
     public SubscriptionService(SubscriptionRepository subscriptionRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.subscriptionRepository = subscriptionRepository;
@@ -45,6 +44,7 @@ public class SubscriptionService {
     }
 
     public Subscription creatDefaultSubscription(User user) {
+
         Subscription subscription = Subscription.builder()
                 .status(SubscriptionStatus.ACTIVE)
                 .period(SubscriptionPeriod.YEARLY)
@@ -102,6 +102,7 @@ public class SubscriptionService {
     }
 
     private List<String> getPermissions(SubscriptionType subscriptionType) {
+
         List<String> permissions;
         if (subscriptionType == SubscriptionType.FAMILY_HOBBY_FARM) {
             permissions = List.of(PREGNANCY_DETAILS_PERMISSION, MY_RABBITS_PERMISSION, CREATE_PREGNANCY_DETAILS_PERMISSION, EDIT_PREGNANCY_DETAILS_PERMISSION, CREATE_RABBIT_PERMISSION, EDIT_RABBIT_PERMISSION);
