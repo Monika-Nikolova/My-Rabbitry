@@ -7,7 +7,6 @@ import bg.softuni.myrabbitry.rabbit.repository.RabbitRepository;
 import bg.softuni.myrabbitry.rabbit.service.RabbitService;
 import bg.softuni.myrabbitry.user.model.User;
 import bg.softuni.myrabbitry.user.service.UserService;
-import bg.softuni.myrabbitry.web.dto.EditProfileRequest;
 import bg.softuni.myrabbitry.web.dto.RabbitRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @PreAuthorize("hasAuthority('view_family_tree')")
 public class FamilyTreeController {
 
-
     private final RabbitService rabbitService;
 
     public FamilyTreeController(RabbitService rabbitService) {

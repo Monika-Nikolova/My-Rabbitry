@@ -33,8 +33,8 @@ public class OverviewController {
 
         User user = userService.getById(userData.getId());
         RabbitryStats stats = RabbitryUtils.getRabbitryStats(user.getRabbits());
-        BestParent bestMother = pregnancyService.getBestMother(user);
-        BestParent bestFather = pregnancyService.getBestFather(user);
+        BestParent bestMother = pregnancyService.getBestMother(userData.getId());
+        BestParent bestFather = pregnancyService.getBestFather(userData.getId());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("overview");

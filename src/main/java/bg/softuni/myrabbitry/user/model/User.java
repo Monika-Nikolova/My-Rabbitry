@@ -45,10 +45,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    private List<String> permissions =new ArrayList<>();
+    private List<String> permissions = new ArrayList<>();
 
     private String country;
 
+    @Column(nullable = false)
     private boolean isActive;
 
     @Column(nullable = false)

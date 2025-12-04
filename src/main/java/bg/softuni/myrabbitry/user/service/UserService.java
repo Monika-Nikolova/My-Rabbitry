@@ -55,7 +55,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     @CacheEvict(value = "users", allEntries = true)
-    public void register(RegisterRequest registerRequest) {
+    public User register(RegisterRequest registerRequest) {
 
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
 
@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService {
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
                 .username(registerRequest.getUsername())
-                .email(registerRequest.getEmail().isBlank() ? null : registerRequest.getEmail())
+                .email(registerRequest.getEmail() == null || registerRequest.getEmail().isBlank() ? null : registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(UserRole.USER)
                 .permissions(List.of(PREGNANCY_DETAILS_PERMISSION, MY_RABBITS_PERMISSION, CREATE_PREGNANCY_DETAILS_PERMISSION, EDIT_PREGNANCY_DETAILS_PERMISSION, CREATE_RABBIT_PERMISSION, EDIT_RABBIT_PERMISSION))
@@ -87,6 +87,8 @@ public class UserService implements UserDetailsService {
         user.setSubscriptions(List.of(subscription));
 
         log.info("New user has been created with username [{}]", user.getUsername());
+
+        return user;
     }
 
     @Override

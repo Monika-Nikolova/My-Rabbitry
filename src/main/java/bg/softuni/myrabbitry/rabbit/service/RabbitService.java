@@ -121,7 +121,7 @@ public class RabbitService {
 
     private Rabbit checkFatherMale(RabbitRequest rabbitRequest, UUID id) {
         Rabbit father = null;
-        if (!rabbitRequest.getFatherCode().isBlank()) {
+        if (rabbitRequest.getFatherCode() != null && !rabbitRequest.getFatherCode().isBlank()) {
             father = findByCode(rabbitRequest.getFatherCode(), id);
             if (father.getSex() != Sex.MALE) {
                 throw new RabbitWrongSexException("Father rabbit must be male");
@@ -132,7 +132,7 @@ public class RabbitService {
 
     private Rabbit checkMotherFemale(RabbitRequest rabbitRequest, UUID id) {
         Rabbit mother = null;
-        if (!rabbitRequest.getMotherCode().isBlank()) {
+        if (rabbitRequest.getMotherCode() != null && !rabbitRequest.getMotherCode().isBlank()) {
             mother = findByCode(rabbitRequest.getMotherCode(), id);
             if (mother.getSex() != Sex.FEMALE) {
                 throw new RabbitWrongSexException("Mother rabbit must be female");

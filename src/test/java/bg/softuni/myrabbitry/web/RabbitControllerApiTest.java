@@ -15,6 +15,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(RabbitController.class)
@@ -122,6 +122,80 @@ public class RabbitControllerApiTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("add-rabbit"));
         verifyNoInteractions(rabbitService);
+    }
+
+    @Test
+    void getEditRabbitPage_shouldReturnEditRabbitView_andStatusOk_andModelRabbitRequest() throws Exception {
+
+        Rabbit rabbit = Rabbit.builder()
+                .id(UUID.randomUUID())
+                .code("14-qw")
+                .sex(Sex.FEMALE)
+                .colour("Brown")
+                .pattern("Aguti")
+                .eyeColour(EyeColour.BROWN)
+                .earShape(EarShape.LOP)
+                .coatLength(CoatLength.LONG)
+                .status(Status.FOR_MEAT)
+                .createdOn(LocalDateTime.now())
+                .updatedOn(LocalDateTime.now())
+                .build();
+
+        when(rabbitService.getById(any())).thenReturn(rabbit);
+
+        UserData authentication = new UserData(UUID.randomUUID(), "Bolt", "123456", UserRole.USER, getDefaultPermissions(), true);
+        MockHttpServletRequestBuilder request = get("/rabbits/me/" + UUID.randomUUID())
+                .with(user(authentication));
+
+        mockMvc.perform(request)
+                .andExpect(view().name("edit-rabbit"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("rabbitRequest"))
+                .andExpect(model().attributeExists("rabbit"));
+        verify(rabbitService).getById(any());
+    }
+
+    @Test
+    void editRabbit_shouldReturnStatus302AndRedirect() throws Exception {
+
+        UserData authentication = new UserData(UUID.randomUUID(), "Bolt", "123456", UserRole.USER, getDefaultPermissions(), true);
+        MockHttpServletRequestBuilder request = put("/rabbits/me/" + UUID.randomUUID())
+                .with(user(authentication))
+                .formField("code", "14-qw")
+                .formField("sex", "FEMALE")
+                .formField("colour", "Brown")
+                .formField("pattern", "Aguti")
+                .formField("eyeColour", "BROWN")
+                .formField("earShape", "LOP")
+                .formField("coatLength", "LONG")
+                .formField("status", "FOR_MEAT")
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(redirectedUrl("/rabbits/me"))
+                .andExpect(status().is3xxRedirection());
+        verify(rabbitService).editRabbit(any(), any(), any());
+    }
+
+    @Test
+    void editRabbit_andBindingResultHasErrors_shouldReturnStatusOk_andReturnViewEditRabbit_andModelRabbit() throws Exception {
+
+        UserData authentication = new UserData(UUID.randomUUID(), "Bolt", "123456", UserRole.USER, getDefaultPermissions(), true);
+        MockHttpServletRequestBuilder request = put("/rabbits/me/" + UUID.randomUUID())
+                .with(user(authentication))
+                .formField("code", "14-qw")
+                .formField("colour", "   ")
+                .formField("pattern", "Aguti")
+                .formField("eyeColour", "BROWN")
+                .formField("earShape", "LOP")
+                .formField("coatLength", "LONG")
+                .formField("status", "FOR_MEAT")
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(redirectedUrl("/rabbits/me"))
+                .andExpect(status().is3xxRedirection());
+        verify(rabbitService).editRabbit(any(), any(), any());
     }
 
     private static Rabbit randomRabbit() {

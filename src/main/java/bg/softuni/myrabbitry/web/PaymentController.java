@@ -57,7 +57,7 @@ public class PaymentController {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("payment-form");
-            modelAndView.addObject(paymentRequest);
+            modelAndView.addObject("paymentRequest" , paymentRequest);
             return modelAndView;
         }
 
@@ -69,7 +69,7 @@ public class PaymentController {
     }
 
     @GetMapping("/transactions/{id}")
-    public ModelAndView getSuccessPage(@PathVariable UUID id, @RequestParam("subscriptionType") SubscriptionType subscriptionType, @RequestParam("period")SubscriptionPeriod period) {
+    public ModelAndView getPaymentAnswerPage(@PathVariable UUID id, @RequestParam("subscriptionType") SubscriptionType subscriptionType, @RequestParam("period")SubscriptionPeriod period) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("payment-answer");

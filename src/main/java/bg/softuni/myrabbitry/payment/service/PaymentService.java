@@ -81,6 +81,10 @@ public class PaymentService {
 
         List<ProfitReportResponse> profitReports = paymentClient.getAllProfitReports().getBody();
 
+        if (profitReports == null) {
+            return BigDecimal.ZERO;
+        }
+
         BigDecimal totalProfit = BigDecimal.ZERO;
         for (ProfitReportResponse profitReport : profitReports) {
             totalProfit = totalProfit.add(profitReport.getAmount());
@@ -92,6 +96,10 @@ public class PaymentService {
     public long getTotalTransactions() {
 
         List<ProfitReportResponse> profitReports = paymentClient.getAllProfitReports().getBody();
+
+        if (profitReports == null) {
+            return 0;
+        }
 
         long totalTransactions = 0;
         for (ProfitReportResponse profitReport : profitReports) {

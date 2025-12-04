@@ -48,8 +48,11 @@ public class PregnancyService {
     }
 
     @Cacheable("bestMother")
-    public BestParent getBestMother(User user) {
-        List<Rabbit> does = user.getRabbits().stream().filter(rabbit -> rabbit.getStatus().name().equals("FOR_BREEDING") && rabbit.getSex().name().equals("FEMALE")).toList();
+    public BestParent getBestMother(UUID id) {
+
+        List<Rabbit> rabbits = rabbitService.getByOwnerId(id);
+
+        List<Rabbit> does = rabbits.stream().filter(rabbit -> rabbit.getStatus().name().equals("FOR_BREEDING") && rabbit.getSex().name().equals("FEMALE")).toList();
 
         if (does.isEmpty()) {
             return null;
@@ -136,8 +139,11 @@ public class PregnancyService {
     }
 
     @Cacheable("bestFather")
-    public BestParent getBestFather(User user) {
-        List<Rabbit> bucks = user.getRabbits().stream().filter(rabbit -> rabbit.getStatus().name().equals("FOR_BREEDING") && rabbit.getSex().name().equals("MALE")).toList();
+    public BestParent getBestFather(UUID id) {
+
+        List<Rabbit> rabbits = rabbitService.getByOwnerId(id);
+
+        List<Rabbit> bucks = rabbits.stream().filter(rabbit -> rabbit.getStatus().name().equals("FOR_BREEDING") && rabbit.getSex().name().equals("MALE")).toList();
 
         if (bucks.isEmpty()) {
             return null;
@@ -175,6 +181,7 @@ public class PregnancyService {
                 .id(bestFather.getId())
                 .birthDate(bestFather.getBirthDate())
                 .bornKids(mostKids)
+                .countLiters(mostPregnancies)
                 .build();
     }
 
@@ -229,17 +236,15 @@ public class PregnancyService {
 
         List<PregnancyReport> pregnancyReports = sortPregnancies(pregnancyFilterRequest.getSortCriteria());
 
-        if (!pregnancyFilterRequest.getFather().isBlank()) {
+        if (pregnancyFilterRequest.getFather() != null && !pregnancyFilterRequest.getFather().isBlank()) {
             Rabbit father = rabbitService.findByCode(pregnancyFilterRequest.getFather(), id);
-            pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getFather().equals(father)).toList();
+            pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getFather() != null && pregnancy.getFather().getCode().equals(father.getCode()) && pregnancy.getFather().getOwner().getUsername().equals(father.getOwner().getUsername())).toList();
 
-            if (!pregnancyFilterRequest.getMother().isBlank()) {
-                Rabbit mother = rabbitService.findByCode(pregnancyFilterRequest.getMother(), id);
-                pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getMother().equals(mother)).toList();
-            }
-        } else if (!pregnancyFilterRequest.getMother().isBlank()) {
+        }
+
+        if (pregnancyFilterRequest.getMother() != null && !pregnancyFilterRequest.getMother().isBlank()) {
             Rabbit mother = rabbitService.findByCode(pregnancyFilterRequest.getMother(), id);
-            pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getMother().equals(mother)).toList();
+            pregnancyReports = pregnancyReports.stream().filter(pregnancy -> pregnancy.getMother().getCode().equals(mother.getCode()) && pregnancy.getMother().getOwner().getUsername().equals(mother.getOwner().getUsername())).toList();
         }
 
         return pregnancyReports;
@@ -299,7 +304,7 @@ public class PregnancyService {
 
     private Rabbit checkFatherMale(PregnancyRequest pregnancyRequest, UUID userId) {
         Rabbit father = null;
-        if (!pregnancyRequest.getFather().isBlank()) {
+        if (pregnancyRequest.getFather() != null && !pregnancyRequest.getFather().isBlank()) {
             father = rabbitService.findByCode(pregnancyRequest.getFather(), userId);
             if (father.getSex() != Sex.MALE) {
                 throw new RabbitWrongSexException("Father rabbit must be male");

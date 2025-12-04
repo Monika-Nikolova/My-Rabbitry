@@ -21,9 +21,7 @@ import java.util.UUID;
 @RequestMapping("/pregnancies")
 public class PregnancyController {
 
-
     private final PregnancyService pregnancyService;
-
 
     public PregnancyController(PregnancyService pregnancyService) {
         this.pregnancyService = pregnancyService;
@@ -92,7 +90,7 @@ public class PregnancyController {
             PregnancyReport pregnancyReport = pregnancyService.getById(id);
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("edit-pregnancy");
-            modelAndView.addObject("rabbit", pregnancyReport);
+            modelAndView.addObject("pregnancyReport", pregnancyReport);
         }
 
         pregnancyService.editPregnancy(id, pregnancyRequest, userData.getId());
