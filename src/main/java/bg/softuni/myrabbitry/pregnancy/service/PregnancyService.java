@@ -75,6 +75,11 @@ public class PregnancyService {
             int nullWeanedKidsCount = 0;
 
             List<PregnancyReport> pregnancyReports = pregnancyRepository.getAllByMother(doe);
+
+            if (pregnancyReports.isEmpty()) {
+                continue;
+            }
+
             for (PregnancyReport pregnancyReport : pregnancyReports) {
                 if (!pregnancyReport.isFalsePregnancy() || !pregnancyReport.isCannibalismPresent()) {
 
